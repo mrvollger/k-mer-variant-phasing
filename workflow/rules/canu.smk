@@ -12,3 +12,30 @@ rule hifi_fasta:
         """
         samtools fasta -@ {threads} {input} | bgzip -@ {threads} > {output.fasta}
         """
+
+rule canu_phase:
+    input:
+        HIFI_BAM,
+    output:
+        pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
+        mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
+        unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unk.fasta.gz"),
+        odir=temp(directory("temp/{sm}/canu_phase")),
+    conda:
+        CONDA
+    resources:
+        mem_mb=64 * 1024,
+    threads: 64
+    shell:
+        """
+        canu -haplotype \
+            maxThreads={threads} \
+            useGrid=false \
+            -p asm -d {output.dir} \
+            -genomeSize={params.genomeSize} \
+            -haplotypemat {input.mat} \
+            -haplotypepat {input.pat} \
+            -pacbio-raw {input.fasta}
+        """
+
+
