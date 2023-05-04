@@ -15,7 +15,7 @@ rule hifi_fasta:
 
 rule canu_phase:
     input:
-        HIFI_BAM,
+        fasta=rules.hifi_fasta.output.fasta,
     output:
         pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
         mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
