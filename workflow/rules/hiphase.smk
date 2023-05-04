@@ -25,4 +25,4 @@ rule hiphase:
             --summary-file {output.summary} \
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
-        """ 
+        """

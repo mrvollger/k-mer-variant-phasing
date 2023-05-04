@@ -18,6 +18,7 @@ wildcard_constraints:
     sm="|".join([SAMPLE]),
     hap="pat|mat",
 
+
 include: "rules/common.smk"
 include: "rules/canu.smk"
 include: "rules/hiphase.smk"
