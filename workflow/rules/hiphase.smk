@@ -1,7 +1,7 @@
 rule hiphase:
     input:
         vcf=VCF,
-        bam=HIFI_BAM
+        bam=HIFI_BAM,
         ref=REFERENCE,
     output:
         vcf="results/{sm}/{sm}.hiphase.vcf.gz",

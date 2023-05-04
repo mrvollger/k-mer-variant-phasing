@@ -1,6 +1,6 @@
 rule hifi_fasta:
     input:
-        HIFI_BAM,
+        bam=HIFI_BAM,
     output:
         fasta=temp("temp/{sm}/hifi.fa.gz"),
     conda:
@@ -12,6 +12,7 @@ rule hifi_fasta:
         """
         samtools fasta -@ {threads} {input} | bgzip -@ {threads} > {output.fasta}
         """
+
 
 rule collect_reads:
     input:
@@ -57,5 +58,3 @@ rule canu_phase:
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
         """
-
-
