@@ -3,6 +3,7 @@ rule clean_bam:
         bam=HIFI_BAM,
     output:
         bam=temp("temp/{sm}/{sm}.hiphase.bam"),
+        bai=temp("temp/{sm}/{sm}.hiphase.bam.bai"),
     conda:
         CONDA
     resources:
