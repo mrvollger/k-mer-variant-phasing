@@ -9,9 +9,11 @@ rule clean_bam:
     resources:
         mem_mb=8 * 1024,
     threads: 16
+    params:
+        script=workflow.source_path("../scripts/reset-bam-read-groups.py")
     shell:
         """
-        reset-bam-read-groups.py \
+        {params.script} \
             -t {threads} -r {wildcards.sm} \
             -i {input.bam} \
             -o {output.bam} 
