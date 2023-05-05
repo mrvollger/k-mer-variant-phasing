@@ -121,7 +121,9 @@ def main():
 
     # make final outputs
     out = kmer_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]], on=READ_COL, how="left"
+        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
+        on=READ_COL,
+        how="left",
     )
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
 
@@ -136,10 +138,10 @@ def main():
             f"{disagreements.sum()/out.shape[0]:.2%} of total reads changed to unknown due to variant and kmer disagreements"
         )
 
-    #logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
-    #logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
-    #logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
-    
+    # logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
+    # logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
+    # logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
+
     z = (out.variant_hap.notna()).sum()
     logging.info(f"Variant based phasing rate: {z/len(out):.2%}")
     z = (out.kmer_hap != UNKNOWN).sum()
@@ -147,7 +149,9 @@ def main():
     z = (out.hap != UNKNOWN).sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
-    out.to_csv(args.output, index=False, sep="\t")
+    out[READ_COL, "hap", "kmer_hap", "variant_hap"].to_csv(
+        args.output, index=False, sep="\t"
+    )
 
 
 if __name__ == "__main__":
