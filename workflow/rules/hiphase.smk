@@ -13,7 +13,7 @@ rule clean_bam:
         script=workflow.source_path("../scripts/reset-bam-read-groups.py")
     shell:
         """
-        python {params.script} \
+        python {params.script} -v \
             -t {threads} 
             -r {wildcards.sm} \
             -s {wildcards.sm} \
