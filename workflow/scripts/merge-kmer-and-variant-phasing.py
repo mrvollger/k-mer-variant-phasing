@@ -35,7 +35,7 @@ def read_variant(file):
     df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from variant based phasing")
     logging.info(
-        f"Read {len(df.phaseblock.unique()):,} phase blocks from variant based phasing"
+        f"Read {len(df.phase_block.unique()):,} phase blocks from variant based phasing"
     )
     logging.info(f"variant based hap counts:\n{df.variant_hap.value_counts()}")
     return df
