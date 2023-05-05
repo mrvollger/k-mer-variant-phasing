@@ -69,12 +69,10 @@ def main():
     reads.set_index("read", inplace=True)
 
     for rec in tqdm(bam.fetch(until_eof=True), total=reads.shape[0]):
+        if rec.is_secondary or rec.is_supplementary:
+            continue
         tag_info = reads[rec.query_name]
-        if (
-            tag_info.HP is not None
-            and not rec.is_secondary
-            and not rec.is_supplementary
-        ):
+        if tag_info.HP is not None:
             rec.set_tag("HP", tag_info.HP)
             rec.set_tag("PS", 1)
         else:
