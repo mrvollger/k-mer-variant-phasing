@@ -22,10 +22,28 @@ rule clean_bam:
         samtools index -@ {threads} {output.bam}
         """
 
+rule clean_vcf:
+    input:
+        vcf=VCF,
+    output:
+        vcf=temp("temp/{sm}/{sm}.hiphase.vcf.gz"),
+        tbi=temp("temp/{sm}/{sm}.hiphase.vcf.gz.tbi"),
+    conda:
+        CONDA
+    resources:
+        mem_mb=8 * 1024,
+    threads: 16
+    shell:
+        """
+        bcftools reheader -s {wildcards.sm} {input.vcf} | \
+            bcftools view -Oz -o {output.vcf}
+        tabix {output.vcf}
+        """
+
 
 rule hiphase:
     input:
-        vcf=VCF,
+        vcf=get_vcf,
         bam=get_hifi_bam,
         ref=REFERENCE,
     output:

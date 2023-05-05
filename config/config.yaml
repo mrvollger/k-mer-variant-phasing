@@ -1,5 +1,6 @@
 sample: "GM12878"
 vcf: test_data/chr20.vcf.gz
+clean_vcf: true # if true, will replace all read groups in the bam with the sample name
 hifi_bam: test_data/GM12878.hifi.chr20.bam
 clean_bam: true # if true, will replace all read groups in the bam with the sample name
 paternal: test_data/NA12891.chr20.bam
