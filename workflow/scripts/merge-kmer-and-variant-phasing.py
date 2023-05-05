@@ -120,7 +120,7 @@ def main():
 
     # make final outputs
     out = kmer_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap"]], on=READ_COL, how="left"
+        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]], on=READ_COL, how="left"
     )
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
 
