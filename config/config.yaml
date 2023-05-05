@@ -1,8 +1,16 @@
-sample: "GM12878" # sample name that with prefix your results
-hifi_bam: test_data/GM12878.hifi.chr20.bam # must be indexed (.bai)
-clean_bam: true # replace all read groups in the bam with the sample name
-vcf: test_data/chr20.vcf.gz # must be indexed (.tbi)
-clean_vcf: true # replace the first sample name in the VCF with the pipeline sample name
-paternal: test_data/NA12891.chr20.bam # paternal sequencing data, can be sam, bam, cram, fa, or fq
-maternal: test_data/NA12892.chr20.bam # maternal sequencing data, can be sam, bam, cram, fa, or fq
-reference: test_data/chr20.fa # reference that the hifi bam and vcf correspond to
+# sample name that with prefix your results
+sample: "GM12878" 
+# Hifi bam to phase, must be indexed (.bai)
+hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/GM12878.hifi.chr20.bam 
+# replace all read groups in the bam with the sample name
+clean_bam: true
+# Deep variant vcf file of the hifi bam against the reference. Must be indexed (.tbi)
+vcf: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.vcf.gz
+# replace the first sample name in the VCF with the pipeline sample name
+clean_vcf: true 
+# paternal sequencing data, can be sam, bam, cram, fa, or fq
+paternal: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/NA12891.chr20.bam 
+# maternal sequencing data, can be sam, bam, cram, fa, or fq
+maternal: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/NA12892.chr20.bam 
+# reference that the hifi bam and vcf correspond to, must be indexed (.fai)
+reference: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.fa 
