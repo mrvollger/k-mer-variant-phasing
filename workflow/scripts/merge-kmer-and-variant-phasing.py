@@ -120,7 +120,7 @@ def main():
     merged_df.loc[merged_df.hap == UNKNOWN, "hap"] = merged_df.merged_hap[merged_df.hap == UNKNOWN]
 
     # make final outputs
-    out = variant_df.merge(
+    out = kmer_df.merge(
         merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
         on=READ_COL,
         how="left",
