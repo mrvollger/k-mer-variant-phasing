@@ -149,7 +149,7 @@ def main():
     z = (out.hap != UNKNOWN).sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
-    out[READ_COL, "hap", "kmer_hap", "variant_hap"].to_csv(
+    out[[READ_COL, "hap", "kmer_hap", "variant_hap"]].to_csv(
         args.output, index=False, sep="\t"
     )
 
