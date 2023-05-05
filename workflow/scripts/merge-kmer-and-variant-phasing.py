@@ -121,7 +121,7 @@ def main():
 
     # make final outputs
     out = variant_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "kmer_hap"]],
+        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
         on=READ_COL,
         how="left",
     )
