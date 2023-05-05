@@ -67,19 +67,30 @@ def main():
     reads.loc[reads.hap == "pat", "HP"] = 1
     reads.loc[reads.hap == "mat", "HP"] = 2
     reads.set_index("read", inplace=True)
-
+    
+    maternal_reads = 0
+    paternal_reads = 0
+    unknown_reads = 0
     for rec in tqdm(bam.fetch(until_eof=True), total=reads.shape[0]):
-        if rec.is_secondary or rec.is_supplementary:
-            continue
-        tag_info = reads.loc[rec.query_name]
-        if tag_info.HP is not None:
-            rec.set_tag("HP", tag_info.HP)
-            rec.set_tag("PS", 1)
+        rec.set_tag("HP", None)
+        rec.set_tag("PS", None)
+        if rec.query_name in reads.index: 
+            tag_info = reads.loc[rec.query_name]
+            if tag_info.HP is not None:
+                rec.set_tag("HP", tag_info.HP)
+                rec.set_tag("PS", 1)
+                if tag_info.HP == 1:
+                    paternal_reads += 1
+                else:
+                    maternal_reads += 1
+            else:
+                unknown_reads += 1
         else:
-            rec.set_tag("HP", None)
-            rec.set_tag("PS", None)
+            unknown_reads += 1
         out_bam.write(rec)
-
+    logging.info(f"Assigned {paternal_reads:,} paternal reads")
+    logging.info(f"Assigned {maternal_reads:,} maternal reads")
+    logging.info(f"Assigned {unknown_reads:,} unknown reads")
     logging.info("Done")
 
 
