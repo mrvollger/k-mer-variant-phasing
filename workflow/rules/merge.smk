@@ -27,7 +27,7 @@ rule haplotaged_bam:
         bam="results/{sm}/{sm}.haplotagged.bam",
     conda:
         CONDA
-    threads: 16
+    threads: 8
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
     shell:
