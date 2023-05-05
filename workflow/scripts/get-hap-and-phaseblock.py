@@ -54,7 +54,7 @@ def main():
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
     out = sys.stdout if args.out == "-" else open(args.out, "w")
 
-    out.write("read\tphase_block\tvariant_hap\n")    
+    out.write("read\tphase_block\tvariant_hap\n")
     for rec in tqdm(bam.fetch(until_eof=True)):
         if rec.has_tag("HP"):
             phase_block = rec.get_tag("PS")
@@ -63,7 +63,7 @@ def main():
             phase_block = "unk"
             haplotype = "unk"
         out.write(f"{rec.query_name}\t{phase_block}\t{haplotype}\n")
-        
+
     logging.info("Done")
 
 
