@@ -46,6 +46,8 @@ rule canu_phase:
         CONDA
     resources:
         mem_mb=64 * 1024,
+    params:
+        genomeSize="3.1G",
     threads: 64
     shell:
         """
