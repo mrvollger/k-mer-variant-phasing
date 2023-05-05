@@ -125,6 +125,7 @@ def main():
         on=READ_COL,
         how="left",
     )
+    logging.info(f"is na {out.hap.isna().sum()}")
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
 
     # drop ambiguous reads from phasing
