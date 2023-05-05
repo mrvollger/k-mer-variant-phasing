@@ -121,8 +121,8 @@ def main():
     merged_df.loc[can_reassign_kmer, "hap"] = merged_df.merged_hap[can_reassign_kmer]
 
     # make final outputs
-    out = kmer_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
+    out = variant_df.merge(
+        merged_df[[READ_COL, "merged_hap", "hap", "kmer_hap"]],
         on=READ_COL,
         how="outer",
     )
