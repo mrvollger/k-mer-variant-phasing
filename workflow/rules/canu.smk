@@ -60,3 +60,32 @@ rule canu_phase:
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
         """
+
+rule canu_read_list:
+    input:
+        pat=rules.canu_phase.output.pat,
+        mat=rules.canu_phase.output.mat,
+        unk=rules.canu_phase.output.unk,
+    output:
+        txt="results/{sm}/canu/read-haplotypes.tsv",
+    conda:
+        CONDA
+    resources:
+        mem_mb=8 * 1024,
+    threads: 8
+    shell:
+        """
+        printf "read\\thap\\n" > {output.txt}
+
+        bgzip -cd@8 {input.pat} \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/pat/' \
+            >> {output.txt}
+
+        bgzip -cd@8 {input.mat} \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/mat/' \
+            >> {output.txt}
+
+        bgzip -cd@8 {input.unk} \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/unk/' \
+            >> {output.txt}
+        """

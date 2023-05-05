@@ -28,6 +28,5 @@ include: "rules/merge.smk"
 
 rule all:
     input:
-        expand(rules.hiphase.output, sm=SAMPLE),
         expand(rules.hiphase_read_list.output, sm=SAMPLE),
-        expand(rules.canu_phase.output, sm=SAMPLE),
+        expand(rules.canu_read_list.output, sm=SAMPLE),
