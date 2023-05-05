@@ -96,7 +96,7 @@ def main():
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df = (
-        merged_df[merged_df.kmer_hap != UNKNOWN]
+        merged_df[merged_df.variant_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
         .apply(assign_based_on_kmer)
     )
@@ -117,7 +117,7 @@ def main():
 
     # assign final haplotype
     merged_df["hap"] = merged_df.kmer_hap
-    merged_df.loc[~has_kmer, "hap"] = merged_df.merged_hap[~has_kmer]
+    merged_df.loc[merged_df.hap == UNKNOWN, "hap"] = merged_df.merged_hap[merged_df.hap == UNKNOWN]
 
     # make final outputs
     out = variant_df.merge(
