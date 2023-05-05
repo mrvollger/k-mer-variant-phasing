@@ -135,9 +135,12 @@ def main():
             f"{disagreements.sum()/out.shape[0]:.2%} of total reads changed to unknown due to variant and kmer disagreements"
         )
 
-    logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
-    logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
-    logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
+    #logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
+    #logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
+    #logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
+    
+    z = (~out.variant_hap.is_na()).sum()
+    logging.info(f"variant based phasing rate: {z/len(out):.2%}")
     z = (out.kmer_hap != UNKNOWN).sum()
     logging.info(f"kmer phasing rate: {z/len(out):.2%}")
     z = (out.hap != UNKNOWN).sum()
