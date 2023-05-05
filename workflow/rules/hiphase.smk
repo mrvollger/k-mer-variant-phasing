@@ -47,6 +47,7 @@ rule clean_vcf:
 rule hiphase:
     input:
         vcf=get_vcf,
+        tbi=get_tbi,
         bam=get_hifi_bam,
         ref=REFERENCE,
     output:
