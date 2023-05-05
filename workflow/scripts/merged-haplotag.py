@@ -61,12 +61,21 @@ def main():
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
     out = sys.stdout if args.out == "-" else open(args.out, "w")
     out_bam = pysam.AlignmentFile(out, "wb", template=bam, threads=args.threads)
+    # read in the haplotags for each read
     reads = pd.read_csv(args.read_list, sep="\t")
     reads["HP"] = None
-    reads["HP"]
+    reads.loc[reads.hap == "pat", "HP"] = 1
+    reads.loc[reads.hap == "mat", "HP"] = 2
+    reads.set_index("read", inplace=True)
 
     for rec in tqdm(bam.fetch(until_eof=True)):
-        rec.set_tag("PS", 1)
+        tag_info = reads[rec.query_name]
+        if tag_info.HP is not None:
+            rec.set_tag("HP", tag_info.HP)
+            rec.set_tag("PS", 1)
+        else:
+            rec.set_tag("HP", None)
+            rec.set_tag("PS", None)
         out_bam.write(rec)
 
     logging.info("Done")
