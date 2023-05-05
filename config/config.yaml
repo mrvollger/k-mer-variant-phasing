@@ -1,1 +1,6 @@
-sample: "a"
+sample: "GM12878"
+vcf: test_data/chr20.vcf.gz
+hifi_bam: test_data/GM12878.hifi.chr20.bam
+pat: test_data/NA12891.chr20.bam
+mat: test_data/NA12892.chr20.bam
+reference: test_data/chr20.fa.gz 
