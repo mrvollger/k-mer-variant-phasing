@@ -6,6 +6,7 @@ from snakemake.utils import min_version
 min_version("7.20")
 
 CONDA = "../envs/env.yml"
+CONDA = "fiberseq-smk"
 PAT_DATA = config.pop("paternal")
 MAT_DATA = config.pop("maternal")
 HIFI_BAM = config.pop("hifi_bam")
