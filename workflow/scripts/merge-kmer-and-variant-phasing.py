@@ -117,15 +117,18 @@ def main():
 
     # assign final haplotype
     merged_df["hap"] = merged_df.kmer_hap
-    can_reassign_kmer = (merged_df.kmer_hap == UNKNOWN) & (merged_df.merged_hap != UNKNOWN)
+    can_reassign_kmer = (merged_df.kmer_hap == UNKNOWN) & (
+        merged_df.merged_hap != UNKNOWN
+    )
     merged_df.loc[can_reassign_kmer, "hap"] = merged_df.merged_hap[can_reassign_kmer]
 
     # make final outputs
-    out = variant_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "kmer_hap"]],
+    out = kmer_df.merge(
+        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
         on=READ_COL,
-        how="outer",
+        how="left",
     )
+    out = out.merge(variant_df[[READ_COL, "variant_hap"]], on=READ_COL, how="outer")
 
     # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
