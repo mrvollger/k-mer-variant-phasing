@@ -73,15 +73,16 @@ rule hiphase:
             --blocks-file {output.blocks} 
         """
 
+
 rule hiphase_read_list:
     input:
-        bam=rules.hiphase.output.bam
+        bam=rules.hiphase.output.bam,
     output:
-        "results/{sm}/hiphase/read-phase-blocks.tsv.gz"
+        "results/{sm}/hiphase/read-phase-blocks.tsv.gz",
     conda:
         CONDA
-    threads: 8 
-    shell: 
+    threads: 8
+    shell:
         """
         ( \
             printf "read\\tphase_block\\thap\\n"; \
