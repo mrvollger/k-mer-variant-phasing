@@ -1,4 +1,3 @@
-
 rule merge_kmer_and_variant_phasing:
     input:
         kmer=rules.canu_read_list.output.tsv,
@@ -7,7 +6,7 @@ rule merge_kmer_and_variant_phasing:
         tsv="results/{sm}/combined_phasing.tsv.gz",
     conda:
         CONDA
-    threads: 8
+    threads: 4
     params:
         script=workflow.source_path("../scripts/merge-kmer-and-variant-phasing.py"),
     shell:
@@ -17,4 +16,24 @@ rule merge_kmer_and_variant_phasing:
             {input.kmer} {input.variant} \
             | bgzip -@ {threads} \
             > {output.tsv}
+        """
+
+
+rule haplotaged_bam:
+    input:
+        bam=HIFI_BAM,
+        tsv=rules.merge_kmer_and_variant_phasing.output.tsv,
+    output:
+        bam="results/{sm}/{sm}.haplotagged.bam",
+    conda:
+        CONDA
+    threads: 8
+    params:
+        script=workflow.source_path("../scripts/merged-haplotag.py"),
+    shell:
+        """
+        python {params.script} \
+            -v -t {threads} \
+            -i {input.bam} -r {input.tsv} \
+            -o {output.bam}
         """
