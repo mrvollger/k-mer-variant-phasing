@@ -72,3 +72,21 @@ rule hiphase:
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
         """
+
+rule hiphase_read_lists:
+    input:
+        bam=rules.hiphase.output.bam
+    output:
+        "results/{sm}/hiphase/{tag}.hiphase.reads.tsv"
+    conda:
+        CONDA
+    threads: 8 
+    shell: 
+        """
+        ( \
+            printf "read\tphase_block\thap\n"; \
+            samtools view -@ {threads} -d HP:{wildcards.tag}  {input.bam} \
+                | cut -f1,12- \
+                | sed -E 's/^(\w+).*PS:i:(\w+)\tHP:i:(\w+).*/\1\t\2\t\3/' \
+        ) | bgzip -@ {threads} > {output}
+        """
