@@ -45,9 +45,10 @@ rule canu_phase:
     conda:
         CONDA
     resources:
-        mem_mb=64 * 1024,
+        mem_mb=132 * 1024,
     params:
         genomeSize="3.1G",
+        meryl_gb="132G",
     threads: 40
     shell:
         """
@@ -56,12 +57,14 @@ rule canu_phase:
             useGrid=false \
             -p asm -d {output.outdir} \
             -genomeSize={params.genomeSize} \
+            -merylMemory={params.meryl_gb} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
         rm -rf {output.outdir}/canu-logs
         rm -rf {output.outdir}/canu-scripts
         rm -rf {output.outdir}/haplotype/*-kmers
+        rm -rf {output.outdir}/asm*
         """
 
 
