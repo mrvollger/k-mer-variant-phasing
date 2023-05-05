@@ -110,7 +110,7 @@ def main():
         logging.info("Prioritizing kmer phasing.")
 
     # say # of reassignments
-    phasing_added = (merged_df[~has_kmer].merged_hap != "unknown").sum()
+    phasing_added = (merged_df[~has_kmer].merged_hap != UNKNOWN).sum()
     logging.info(
         f"{phasing_added:,} unassigned sequences were assigned a haplotype based on variant based phasing"
     )
