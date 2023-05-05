@@ -144,10 +144,7 @@ def main():
     z = (out.hap != "unknown").sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
-    for hap in ["paternal", "maternal", "unknown"]:
-        out[out.hap == hap].seq.to_csv(
-            f"{args.output_prefix}-{hap}.txt", index=False, header=False
-        )
+    out.to_csv(args.output, index=False, header=False, sep="\t")
 
 
 if __name__ == "__main__":
