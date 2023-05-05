@@ -25,7 +25,7 @@ rule clean_bam:
 rule hiphase:
     input:
         vcf=VCF,
-        bam=rules.clean_bam.output.bam,
+        bam=get_hifi_bam,
         ref=REFERENCE,
     output:
         vcf="results/{sm}/{sm}.hiphase.vcf.gz",
