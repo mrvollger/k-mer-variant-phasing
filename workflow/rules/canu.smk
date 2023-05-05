@@ -20,7 +20,7 @@ rule collect_reads:
     output:
         fasta=temp("temp/{sm}/{hap}.fa.gz"),
     conda:
-        "envs/env.yaml"
+        CONDA
     threads: 16
     shell:
         """
