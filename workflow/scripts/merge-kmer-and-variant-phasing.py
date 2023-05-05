@@ -125,8 +125,11 @@ def main():
         on=READ_COL,
         how="left",
     )
-    logging.info(f"is na {out.hap.isna().sum()}")
+    
+    # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
+    # set all nas to unknown
+    out.fillna(UNKNOWN, inplace=True)
 
     # drop ambiguous reads from phasing
     if not args.prioritize_kmer:
