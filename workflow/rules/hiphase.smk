@@ -2,18 +2,19 @@ rule clean_bam:
     input:
         bam=HIFI_BAM,
     output:
-        bam=pipe("temp/{sm}/{sm}.hiphase.bam"),
+        bam=temp("temp/{sm}/{sm}.hiphase.bam"),
     conda:
         CONDA
     resources:
-        mem_mb=4 * 1024,
-    threads: 8
+        mem_mb=8 * 1024,
+    threads: 16
     shell:
         """
         reset-bam-read-groups.py \
             -t {threads} -r {wildcards.sm} \
             -i {input.bam} \
             -o {output.bam} 
+        samtools index -@ {threads} {output.bam}
         """
 
 rule hiphase:
