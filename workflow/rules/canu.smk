@@ -68,7 +68,7 @@ rule canu_read_list:
         mat=rules.canu_phase.output.mat,
         unk=rules.canu_phase.output.unk,
     output:
-        txt="results/{sm}/canu/read-haplotypes.tsv",
+        tsv="results/{sm}/canu/read-haplotypes.tsv",
     conda:
         CONDA
     resources:
