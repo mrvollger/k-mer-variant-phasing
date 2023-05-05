@@ -17,7 +17,7 @@ cluster:
     --export=all
     --parsable # Required to pass job IDs to scancel
 jobs: 20
-local-cores: 52
+local-cores: 16
 rerun-incomplete: True
 rerun-triggers: mtime 
 cluster-cancel: scancel
