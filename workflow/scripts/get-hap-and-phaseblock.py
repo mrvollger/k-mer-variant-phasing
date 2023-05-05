@@ -56,8 +56,12 @@ def main():
 
     out.write("read\tphase_block\tvariant_hap\n")    
     for rec in tqdm(bam.fetch(until_eof=True)):
-        phase_block = rec.get_tag("PS")
-        haplotype = rec.get_tag("HP")
+        if rec.has_tag("HP"):
+            phase_block = rec.get_tag("PS")
+            haplotype = rec.get_tag("HP")
+        else:
+            phase_block = "NA"
+            haplotype = "NA"
         out.write(f"{rec.query_name}\t{phase_block}\t{haplotype}\n")
         
     logging.info("Done")
