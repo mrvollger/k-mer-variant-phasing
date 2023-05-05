@@ -78,14 +78,14 @@ rule canu_read_list:
         printf "read\\thap\\n" > {output.txt}
 
         bgzip -cd@8 {input.pat} \
-            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/pat/' \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tpat/' \
             >> {output.txt}
 
         bgzip -cd@8 {input.mat} \
-            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/mat/' \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tmat/' \
             >> {output.txt}
 
         bgzip -cd@8 {input.unk} \
-            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/unk/' \
+            | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tunk/' \
             >> {output.txt}
         """
