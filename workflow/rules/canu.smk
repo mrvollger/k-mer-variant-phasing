@@ -61,6 +61,7 @@ rule canu_phase:
             -pacbio-raw {input.fasta}
         rm -rf {output.outdir}/canu-logs
         rm -rf {output.outdir}/canu-scripts
+        rm -rf {output.outdir}/haplotype/*-kmers
         """
 
 

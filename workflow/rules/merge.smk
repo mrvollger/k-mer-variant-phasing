@@ -7,6 +7,8 @@ rule merge_kmer_and_variant_phasing:
     conda:
         CONDA
     threads: 4
+    resources:
+        mem_mb=64*1024,
     params:
         script=workflow.source_path("../scripts/merge-kmer-and-variant-phasing.py"),
     shell:
@@ -28,6 +30,8 @@ rule haplotaged_bam:
     conda:
         CONDA
     threads: 8
+    resources:
+        mem_mb=32*1024,
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
     shell:
