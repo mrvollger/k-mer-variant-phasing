@@ -76,17 +76,17 @@ rule canu_read_list:
     threads: 8
     shell:
         """
-        printf "read\\tkmer_hap\\n" > {output.txt}
+        printf "read\\tkmer_hap\\n" > {output.tsv}
 
         bgzip -cd@8 {input.pat} \
             | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tpat/' \
-            >> {output.txt}
+            >> {output.tsv}
 
         bgzip -cd@8 {input.mat} \
             | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tmat/' \
-            >> {output.txt}
+            >> {output.tsv}
 
         bgzip -cd@8 {input.unk} \
             | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tunk/' \
-            >> {output.txt}
+            >> {output.tsv}
         """
