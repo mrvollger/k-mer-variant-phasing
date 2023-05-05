@@ -54,11 +54,12 @@ rule canu_phase:
         """
         canu -haplotype \
             maxThreads={threads} \
+            maxMemory={params.meryl_gb} \
+            merylMemory={params.meryl_gb} \
+            merylThreads={threads} \
             useGrid=false \
             -p asm -d {output.outdir} \
             -genomeSize={params.genomeSize} \
-            -merylMemory={params.meryl_gb} \
-            -merylThreads={threads} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
