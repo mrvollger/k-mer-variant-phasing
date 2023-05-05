@@ -117,7 +117,8 @@ def main():
 
     # assign final haplotype
     merged_df["hap"] = merged_df.kmer_hap
-    merged_df.loc[merged_df.hap == UNKNOWN, "hap"] = merged_df.merged_hap[merged_df.hap == UNKNOWN]
+    can_reassign_kmer = (merged_df.kmer_hap == UNKNOWN) & (merged_df.merged_hap != UNKNOWN)
+    merged_df.loc[can_reassign_kmer, "hap"] = merged_df.merged_hap[can_reassign_kmer]
 
     # make final outputs
     out = kmer_df.merge(
