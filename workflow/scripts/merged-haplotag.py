@@ -71,7 +71,7 @@ def main():
     maternal_reads = 0
     paternal_reads = 0
     unknown_reads = 0
-    for rec in tqdm(bam.fetch(until_eof=True), total=reads.shape[0]):
+    for rec in tqdm(bam.fetch(until_eof=True)):
         rec.set_tag("HP", None)
         rec.set_tag("PS", None)
         if rec.query_name in reads.index:
