@@ -142,7 +142,7 @@ def main():
     z = (out.hap != "unknown").sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
-    out.to_csv(args.output, index=False, header=False, sep="\t")
+    out.to_csv(args.output, index=False, sep="\t")
 
 
 if __name__ == "__main__":
