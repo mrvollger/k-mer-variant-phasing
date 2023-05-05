@@ -6,8 +6,8 @@ rule clean_bam:
     conda:
         CONDA
     resources:
-        mem_mb=32 * 1024,
-    threads: 32
+        mem_mb=4 * 1024,
+    threads: 8
     shell:
         """
         reset-bam-read-groups.py \
