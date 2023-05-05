@@ -60,8 +60,8 @@ def main():
             phase_block = rec.get_tag("PS")
             haplotype = rec.get_tag("HP")
         else:
-            phase_block = "NA"
-            haplotype = "NA"
+            phase_block = "None"
+            haplotype = "None"
         out.write(f"{rec.query_name}\t{phase_block}\t{haplotype}\n")
         
     logging.info("Done")
