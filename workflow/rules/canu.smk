@@ -48,7 +48,7 @@ rule canu_phase:
         mem_mb=64 * 1024,
     params:
         genomeSize="3.1G",
-    threads: 64
+    threads: 40
     shell:
         """
         canu -haplotype \
