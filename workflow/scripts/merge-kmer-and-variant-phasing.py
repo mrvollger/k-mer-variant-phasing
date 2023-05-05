@@ -27,17 +27,18 @@ def read_kmer(file):
     df = pd.read_csv(file, sep="\t")
     df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from {file}")
+    logging.info(f"K-mer based read counts:\n{df.kmer_hap.value_counts()}")
     return df
 
 
 def read_variant(file):
     df = pd.read_csv(file, sep="\t")
     df.drop_duplicates(inplace=True)
-    logging.info(f"Read {len(df):,} sequences from variant based phasing")
+    logging.info(f"Read {len(df):,} sequences from {file}")
     logging.info(
         f"Read {len(df.phase_block.unique()):,} phase blocks from variant based phasing"
     )
-    logging.info(f"variant based hap counts:\n{df.variant_hap.value_counts()}")
+    logging.info(f"Variant based read counts:\n{df.variant_hap.value_counts()}")
     return df
 
 
@@ -140,9 +141,9 @@ def main():
     #logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
     
     z = (out.variant_hap.notna()).sum()
-    logging.info(f"variant based phasing rate: {z/len(out):.2%}")
+    logging.info(f"Variant based phasing rate: {z/len(out):.2%}")
     z = (out.kmer_hap != UNKNOWN).sum()
-    logging.info(f"kmer phasing rate: {z/len(out):.2%}")
+    logging.info(f"K-mer phasing rate: {z/len(out):.2%}")
     z = (out.hap != UNKNOWN).sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
