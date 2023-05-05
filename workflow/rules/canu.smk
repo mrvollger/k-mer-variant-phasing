@@ -75,7 +75,7 @@ rule canu_read_list:
     threads: 8
     shell:
         """
-        printf "read\\thap\\n" > {output.txt}
+        printf "read\\tkmer_hap\\n" > {output.txt}
 
         bgzip -cd@8 {input.pat} \
             | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tpat/' \
