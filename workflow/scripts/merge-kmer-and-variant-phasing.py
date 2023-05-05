@@ -92,7 +92,7 @@ def main():
     args = parse()
     kmer_df = read_kmer(args.kmer)
     variant_df = read_variant(args.variant)
-    merged_df = variant_df.merge(kmer_df, on=READ_COL, how="left")
+    merged_df = kmer_df.merge(variant_df, on=READ_COL, how="left")
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df = (
