@@ -49,6 +49,7 @@ rule hiphase:
         vcf=get_vcf,
         tbi=get_tbi,
         bam=get_hifi_bam,
+        bai=get_hifi_bai,
         ref=REFERENCE,
     output:
         vcf="results/{sm}/hiphase/{sm}.vcf.gz",
