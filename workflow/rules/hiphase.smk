@@ -78,16 +78,17 @@ rule hiphase_read_list:
     input:
         bam=rules.hiphase.output.bam,
     output:
-        "results/{sm}/hiphase/read-phase-blocks.tsv.gz",
+        tsv="results/{sm}/hiphase/read-phase-blocks.tsv.gz",
     conda:
         CONDA
     threads: 8
+    params:
+        script=workflow.source_path("../scripts/get-hap-and-phaseblock.py"),
     shell:
         """
-        ( \
-            printf "read\\tphase_block\\tvariant_hap\\n"; \
-            samtools view -@ {threads} -d HP {input.bam} \
-                | cut -f1,12- \
-                | sed -E 's/^(^\S+).*PS:i:(\w+)\\tHP:i:(\w+).*/\\1\\t\\2\\t\\3/' \
-        ) | bgzip -@ {threads} > {output}
+        python {params.script} \
+            -t {threads} \
+            -i {input.bam} \
+            | bgzip -@ {threads} \
+            > {output.tsv}
         """
