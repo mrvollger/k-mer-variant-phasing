@@ -40,7 +40,7 @@ rule canu_phase:
     output:
         pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
         mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
-        unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unk.fasta.gz"),
+        unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unknown.fasta.gz"),
         outdir=temp(directory("temp/{sm}/canu_phase")),
     conda:
         CONDA
