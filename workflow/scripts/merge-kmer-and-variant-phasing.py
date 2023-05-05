@@ -125,7 +125,7 @@ def main():
         on=READ_COL,
         how="left",
     )
-    
+
     # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
     # set all nas to unknown

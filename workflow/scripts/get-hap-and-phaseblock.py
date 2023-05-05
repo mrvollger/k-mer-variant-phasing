@@ -56,6 +56,8 @@ def main():
 
     out.write("read\tphase_block\tvariant_hap\n")
     for rec in tqdm(bam.fetch(until_eof=True)):
+        if rec.is_secondary or rec.is_supplementary:
+            continue
         if rec.has_tag("HP"):
             phase_block = rec.get_tag("PS")
             haplotype = rec.get_tag("HP")
