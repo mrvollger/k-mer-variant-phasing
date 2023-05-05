@@ -67,14 +67,14 @@ def main():
     reads.loc[reads.hap == "pat", "HP"] = 1
     reads.loc[reads.hap == "mat", "HP"] = 2
     reads.set_index("read", inplace=True)
-    
+
     maternal_reads = 0
     paternal_reads = 0
     unknown_reads = 0
     for rec in tqdm(bam.fetch(until_eof=True), total=reads.shape[0]):
         rec.set_tag("HP", None)
         rec.set_tag("PS", None)
-        if rec.query_name in reads.index: 
+        if rec.query_name in reads.index:
             tag_info = reads.loc[rec.query_name]
             if tag_info.HP is not None:
                 rec.set_tag("HP", tag_info.HP)
