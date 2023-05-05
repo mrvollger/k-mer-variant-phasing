@@ -128,6 +128,7 @@ def main():
         on=READ_COL,
         how="left",
     )
+    # add any reads in the variant df missing from the kmer df
     out = out.merge(variant_df[[READ_COL]], on=READ_COL, how="outer")
 
     # set NA haps to the kmer value (if it exists)
