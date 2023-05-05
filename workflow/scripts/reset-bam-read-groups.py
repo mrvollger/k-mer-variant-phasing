@@ -80,8 +80,9 @@ def main():
     for rec in tqdm(bam.fetch(until_eof=True)):
         rec.set_tag("RG", RG["ID"])
         out_bam.write(rec)
-        
+
     logging.info("Done")
+
 
 if __name__ == "__main__":
     main()

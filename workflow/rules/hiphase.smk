@@ -22,6 +22,7 @@ rule clean_bam:
         samtools index -@ {threads} {output.bam}
         """
 
+
 rule clean_vcf:
     input:
         vcf=VCF,
