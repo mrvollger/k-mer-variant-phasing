@@ -124,12 +124,12 @@ def main():
     out = kmer_df.merge(
         merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
         on=READ_COL,
-        how="left",
+        how="outer",
     )
 
     # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
-    # set all nas to unknown
+    # set all NAs to unknown
     out.fillna(UNKNOWN, inplace=True)
 
     # drop ambiguous reads from phasing
