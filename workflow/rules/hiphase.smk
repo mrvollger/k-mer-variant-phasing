@@ -18,7 +18,7 @@ rule hiphase:
         """
         hiphase -t {threads} \
             --bam {input.bam} \
-            --vcf {inpout.vcf} \
+            --vcf {input.vcf} \
             --reference {input.ref} \
             --output-bam {output.bam} \
             --output-vcf {output.vcf} \
