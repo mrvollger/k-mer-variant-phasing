@@ -96,7 +96,7 @@ def main():
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df = (
-        merged_df[merged_df.variant_hap != UNKNOWN]
+        merged_df[merged_df.kmer_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
         .apply(assign_based_on_kmer)
     )
