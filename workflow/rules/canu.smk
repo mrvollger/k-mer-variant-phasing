@@ -59,6 +59,8 @@ rule canu_phase:
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
+        rm -rf {output.outdir}/canu-logs
+        rm -rf {output.outdir}/canu-scripts
         """
 
 
