@@ -87,6 +87,6 @@ rule hiphase_read_list:
             printf "read\\tphase_block\\thap\\n"; \
             samtools view -@ {threads} -d HP {input.bam} \
                 | cut -f1,12- \
-                | sed -E 's/^(\w+).*PS:i:(\w+)\\tHP:i:(\w+).*/\1\\t\2\\t\3/' \
+                | sed -E 's/^(\w+).*PS:i:(\w+)\\tHP:i:(\w+).*/\\1\\t\\2\\t\\3/' \
         ) | bgzip -@ {threads} > {output}
         """
