@@ -128,7 +128,7 @@ def main():
         on=READ_COL,
         how="left",
     )
-    out = out.merge(variant_df[[READ_COL]], on=READ_COL, how="outer")
+    out = out.merge(variant_df[[READ_COL, "variant_hap"]], on=READ_COL, how="outer")
 
     # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
