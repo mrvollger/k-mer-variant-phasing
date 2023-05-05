@@ -48,7 +48,7 @@ rule canu_phase:
         mem_mb=132 * 1024,
     params:
         genomeSize="3.1G",
-        meryl_gb="132G",
+        meryl_gb="124G",
     threads: 40
     shell:
         """
@@ -58,6 +58,7 @@ rule canu_phase:
             -p asm -d {output.outdir} \
             -genomeSize={params.genomeSize} \
             -merylMemory={params.meryl_gb} \
+            -merylThreads={threads} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
