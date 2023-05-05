@@ -105,7 +105,7 @@ def main():
     logging.info(
         f"{disagreements.sum()/merged_df[has_kmer].shape[0]:.2%} of variant based calls that disagree with the phased kmer calls."
     )
-    if args.prioritize_canu:
+    if args.prioritize_kmer:
         logging.info("Prioritizing kmer phasing.")
 
     # say # of reassignments
