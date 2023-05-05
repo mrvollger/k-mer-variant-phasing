@@ -73,7 +73,7 @@ rule hiphase:
             --blocks-file {output.blocks} 
         """
 
-rule hiphase_read_lists:
+rule hiphase_read_list:
     input:
         bam=rules.hiphase.output.bam
     output:
