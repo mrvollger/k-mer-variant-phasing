@@ -31,9 +31,7 @@ def read_kmer(file):
 
 
 def read_variant(file):
-    df = pd.read_csv(
-        file, sep="\t"
-    )
+    df = pd.read_csv(file, sep="\t")
     df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from variant based phasing")
     logging.info(
