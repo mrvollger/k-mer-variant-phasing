@@ -61,6 +61,7 @@ rule canu_phase:
             -pacbio-raw {input.fasta}
         """
 
+
 rule canu_read_list:
     input:
         pat=rules.canu_phase.output.pat,

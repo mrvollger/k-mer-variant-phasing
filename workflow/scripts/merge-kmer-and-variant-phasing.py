@@ -22,6 +22,7 @@ PATERNAL = "pat"
 MATERNAL = "mat"
 UNKNOWN = "unk"
 
+
 def read_kmer(file):
     df = pd.read_csv(file, sep="\t")
     df.drop_duplicates(inplace=True)
@@ -35,7 +36,9 @@ def read_variant(file):
     )
     df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from variant based phasing")
-    logging.info(f"Read {len(df.phaseblock.unique()):,} phase blocks from variant based phasing")
+    logging.info(
+        f"Read {len(df.phaseblock.unique()):,} phase blocks from variant based phasing"
+    )
     logging.info(f"variant based hap counts:\n{df.variant_hap.value_counts()}")
     return df
 
@@ -59,9 +62,7 @@ def parse():
         help="keep phased kmer reads even if they disagree with variant calls",
         action="store_true",
     )
-    parser.add_argument(
-        "-o", "--output", help="Output file", default=sys.stdout
-    )
+    parser.add_argument("-o", "--output", help="Output file", default=sys.stdout)
     parser.add_argument(
         "-t", "--threads", help="Number of threads to use", type=int, default=8
     )
@@ -120,7 +121,9 @@ def main():
     merged_df.loc[~has_kmer, "hap"] = merged_df.merged_hap[~has_kmer]
 
     # make final outputs
-    out = kmer_df.merge(merged_df[[READ_COL, "merged_hap", "hap"]], on=READ_COL, how="left")
+    out = kmer_df.merge(
+        merged_df[[READ_COL, "merged_hap", "hap"]], on=READ_COL, how="left"
+    )
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
 
     # drop ambiguous reads from phasing
@@ -149,4 +152,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
