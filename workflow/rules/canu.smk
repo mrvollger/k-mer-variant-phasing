@@ -48,7 +48,7 @@ rule canu_phase:
         mem_mb=132 * 1024,
     params:
         genomeSize="3.1G",
-        meryl_gb="124G",
+        meryl_gb="128G",
     threads: 40
     shell:
         """
