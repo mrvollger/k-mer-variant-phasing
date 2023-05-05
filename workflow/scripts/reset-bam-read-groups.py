@@ -66,9 +66,8 @@ def main():
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
     header = bam.header.to_dict()
     RG = header["RG"][0]
-    if args.sample_id is not None:
-        RG["SM"] = args.sample_id
     RG["ID"] = RG["ID"] if args.read_group_id is None else args.read_group_id
+    RG["SM"] = RG["SM"] if args.sample_id is None else args.sample_id
     header["RG"] = [RG]
 
     logging.info(

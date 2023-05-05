@@ -14,7 +14,7 @@ rule clean_bam:
     shell:
         """
         python {params.script} -v \
-            -t {threads} 
+            -t {threads} \
             -r {wildcards.sm} \
             -s {wildcards.sm} \
             -i {input.bam} \
