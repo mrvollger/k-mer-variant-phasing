@@ -96,7 +96,7 @@ def main():
     merged_df["merged_hap"] = UNKNOWN
     merged_df = (
         merged_df[merged_df.variant_hap != "none"]
-        .groupby(["phase_block", "variant_hap"])
+        .groupby(["phase_block", "variant_hap"], group_keys=False)
         .apply(assign_based_on_kmer)
     )
     # count disagreements
