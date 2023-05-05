@@ -92,11 +92,11 @@ def main():
     args = parse()
     kmer_df = read_kmer(args.kmer)
     variant_df = read_variant(args.variant)
-    merged_df = kmer_df.merge(variant_df, on=READ_COL, how="left")
+    merged_df = variant_df.merge(kmer_df, on=READ_COL, how="left")
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df = (
-        merged_df[merged_df.variant_hap != "none"]
+        merged_df[merged_df.variant_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
         .apply(assign_based_on_kmer)
     )
@@ -120,8 +120,8 @@ def main():
     merged_df.loc[~has_kmer, "hap"] = merged_df.merged_hap[~has_kmer]
 
     # make final outputs
-    out = kmer_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
+    out = variant_df.merge(
+        merged_df[[READ_COL, "merged_hap", "hap", "kmer_hap"]],
         on=READ_COL,
         how="left",
     )
