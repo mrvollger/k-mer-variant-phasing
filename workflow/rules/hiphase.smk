@@ -37,7 +37,8 @@ rule clean_vcf:
         """
         bcftools reheader \
             --threads {threads} \
-            -s <(echo {wildcards.sm}) -o {input.vcf} 
+            -s <(echo {wildcards.sm}) \
+            -o {output.vcf} {input.vcf} 
         tabix {output.vcf}
         """
 
