@@ -138,9 +138,9 @@ def main():
     logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
     logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
     logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
-    z = (out.kmer_hap != "unknown").sum()
+    z = (out.kmer_hap != UNKNOWN).sum()
     logging.info(f"kmer phasing rate: {z/len(out):.2%}")
-    z = (out.hap != "unknown").sum()
+    z = (out.hap != UNKNOWN).sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
     out.to_csv(args.output, index=False, sep="\t")
