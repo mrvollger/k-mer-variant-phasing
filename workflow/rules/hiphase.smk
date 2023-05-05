@@ -10,7 +10,7 @@ rule clean_bam:
         mem_mb=8 * 1024,
     threads: 16
     params:
-        script=workflow.source_path("../scripts/reset-bam-read-groups.py")
+        script=workflow.source_path("../scripts/reset-bam-read-groups.py"),
     shell:
         """
         python {params.script} -v \
@@ -21,6 +21,7 @@ rule clean_bam:
             -o {output.bam} 
         samtools index -@ {threads} {output.bam}
         """
+
 
 rule hiphase:
     input:

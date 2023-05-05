@@ -66,12 +66,14 @@ def main():
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
     header = bam.header.to_dict()
     RG = header["RG"][0]
-    if args.sample_id is not None:   
+    if args.sample_id is not None:
         RG["SM"] = args.sample_id
     RG["ID"] = RG["ID"] if args.read_group_id is None else args.read_group_id
-    header["RG"] = [RG]   
+    header["RG"] = [RG]
 
-    logging.info(f"Writing new bam file with read group ID: {RG['ID']} and sample ID: {RG['SM']}")
+    logging.info(
+        f"Writing new bam file with read group ID: {RG['ID']} and sample ID: {RG['SM']}"
+    )
 
     out = sys.stdout if args.out == "-" else open(args.out, "w")
     out_bam = pysam.AlignmentFile(out, "wb", header=header, threads=args.threads)
@@ -83,4 +85,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

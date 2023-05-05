@@ -30,6 +30,7 @@ def get_reads(wc):
         return MAT_DATA
     return PAT_DATA
 
+
 def get_hifi_bam(wc):
     if config.get("clean_bam"):
         return expand(rules.clean_bam.output.bam, sm=wc.sm)
