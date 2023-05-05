@@ -68,7 +68,7 @@ def main():
     reads.loc[reads.hap == "mat", "HP"] = 2
     reads.set_index("read", inplace=True)
 
-    for rec in tqdm(bam.fetch(until_eof=True)):
+    for rec in tqdm(bam.fetch(until_eof=True), total=reads.shape[0]):
         tag_info = reads[rec.query_name]
         if tag_info.HP is not None:
             rec.set_tag("HP", tag_info.HP)
