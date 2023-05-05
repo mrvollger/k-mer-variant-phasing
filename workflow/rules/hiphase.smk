@@ -14,7 +14,9 @@ rule clean_bam:
     shell:
         """
         python {params.script} \
-            -t {threads} -r {wildcards.sm} \
+            -t {threads} 
+            -r {wildcards.sm} \
+            -s {wildcards.sm} \
             -i {input.bam} \
             -o {output.bam} 
         samtools index -@ {threads} {output.bam}
