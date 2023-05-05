@@ -41,7 +41,7 @@ rule canu_phase:
         pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
         mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
         unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unk.fasta.gz"),
-        odir=temp(directory("temp/{sm}/canu_phase")),
+        outdir=temp(directory("temp/{sm}/canu_phase")),
     conda:
         CONDA
     resources:
@@ -52,7 +52,7 @@ rule canu_phase:
         canu -haplotype \
             maxThreads={threads} \
             useGrid=false \
-            -p asm -d {output.dir} \
+            -p asm -d {output.outdir} \
             -genomeSize={params.genomeSize} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
