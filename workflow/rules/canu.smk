@@ -64,10 +64,7 @@ rule canu_phase:
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
-        rm -rf ${{OUTDIR}}/canu-logs
-        rm -rf ${{OUTDIR}}/canu-scripts
-        rm -rf ${{OUTDIR}}/haplotype/*-kmers
-        rm -rf ${{OUTDIR}}/asm*
+        # rm -rf ${{OUTDIR}}/canu-logs ${{OUTDIR}}/canu-scripts ${{OUTDIR}}/haplotype/*-kmers ${{OUTDIR}}/asm*
         """
         #maxThreads={threads} \
         #useGrid=false \
