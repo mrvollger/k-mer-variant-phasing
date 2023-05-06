@@ -52,21 +52,22 @@ rule canu_phase:
     threads: 48
     shell:
         """
+        OUTDIR="temp/{wildcards.sm}/canu_phase"
         canu -haplotype \
             maxThreads={threads} \
             maxMemory={params.meryl_gb} \
             merylMemory=24G \
             merylThreads=12 \
             useGrid=false \
-            -p asm -d {output.outdir} \
+            -p asm -d ${OUTDIR} \
             -genomeSize={params.genomeSize} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
-        rm -rf {output.outdir}/canu-logs
-        rm -rf {output.outdir}/canu-scripts
-        rm -rf {output.outdir}/haplotype/*-kmers
-        rm -rf {output.outdir}/asm*
+        rm -rf ${OUTDIR}/canu-logs
+        rm -rf ${OUTDIR}/canu-scripts
+        rm -rf ${OUTDIR}/haplotype/*-kmers
+        rm -rf ${OUTDIR}/asm*
         """
 
 
