@@ -48,7 +48,7 @@ rule canu_phase:
     params:
         genomeSize="3.1G",
         meryl_gb="124G",
-    threads: 48
+    threads: 40
     shell:
         """
         OUTDIR="temp/{wildcards.sm}/canu_phase"
@@ -56,7 +56,7 @@ rule canu_phase:
             maxThreads={threads} \
             maxMemory={params.meryl_gb} \
             merylMemory=24G \
-            merylThreads=12 \
+            merylThreads=8 \
             useGrid=false \
             -p asm -d ${{OUTDIR}} \
             -genomeSize={params.genomeSize} \
