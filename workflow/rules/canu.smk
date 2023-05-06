@@ -44,19 +44,21 @@ rule canu_phase:
     conda:
         CONDA
     resources:
-        mem_mb=132 * 1024,
+        mem_mb=24 * 1024,
     params:
         genomeSize="3.1G",
-        meryl_gb="124G",
-    threads: 40
+        meryl_gb="24G",
+        meryl_threads=8,
+        grid=" --account=stergachislab --partition=compute --nodes=1 --export=all --parsable "
+    threads: 8
     shell:
         """
         OUTDIR="temp/{wildcards.sm}/canu_phase"
         canu -haplotype \
-            maxThreads={threads} \
-            merylMemory=24G \
-            merylThreads=8 \
-            useGrid=false \
+            merylMemory={params.meryl_gb} \
+            merylThreads={params.meryl_threads} \
+            useGrid=true \
+            gridOptions="{params.grid}" \
             -p asm -d ${{OUTDIR}} \
             -genomeSize={params.genomeSize} \
             -haplotypemat {input.mat} \
@@ -67,6 +69,8 @@ rule canu_phase:
         rm -rf ${{OUTDIR}}/haplotype/*-kmers
         rm -rf ${{OUTDIR}}/asm*
         """
+        #maxThreads={threads} \
+        #useGrid=false \
         #maxMemory={params.meryl_gb} 
 
 
