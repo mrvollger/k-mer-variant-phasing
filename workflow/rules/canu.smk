@@ -55,10 +55,11 @@ rule canu_phase:
         """
         OUTDIR="temp/{wildcards.sm}/canu_phase"
         canu -haplotype \
+            maxThreads={threads} \
+            useGrid=false \
+            maxMemory={params.meryl_gb} \
             merylMemory={params.meryl_gb} \
             merylThreads={params.meryl_threads} \
-            useGrid=true \
-            gridOptions="{params.grid}" \
             -p asm -d ${{OUTDIR}} \
             -genomeSize={params.genomeSize} \
             -haplotypemat {input.mat} \
@@ -66,9 +67,8 @@ rule canu_phase:
             -pacbio-raw {input.fasta}
         # rm -rf ${{OUTDIR}}/canu-logs ${{OUTDIR}}/canu-scripts ${{OUTDIR}}/haplotype/*-kmers ${{OUTDIR}}/asm*
         """
-        #maxThreads={threads} \
-        #useGrid=false \
-        #maxMemory={params.meryl_gb} 
+        #useGrid=true \
+        #gridOptions="{params.grid}" \
 
 
 rule canu_read_list:
