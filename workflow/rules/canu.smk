@@ -54,7 +54,6 @@ rule canu_phase:
         OUTDIR="temp/{wildcards.sm}/canu_phase"
         canu -haplotype \
             maxThreads={threads} \
-            maxMemory={params.meryl_gb} \
             merylMemory=24G \
             merylThreads=8 \
             useGrid=false \
@@ -68,6 +67,7 @@ rule canu_phase:
         rm -rf ${{OUTDIR}}/haplotype/*-kmers
         rm -rf ${{OUTDIR}}/asm*
         """
+        #maxMemory={params.meryl_gb} 
 
 
 rule canu_read_list:
