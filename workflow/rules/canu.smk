@@ -58,15 +58,15 @@ rule canu_phase:
             merylMemory=24G \
             merylThreads=12 \
             useGrid=false \
-            -p asm -d ${OUTDIR} \
+            -p asm -d ${{OUTDIR}} \
             -genomeSize={params.genomeSize} \
             -haplotypemat {input.mat} \
             -haplotypepat {input.pat} \
             -pacbio-raw {input.fasta}
-        rm -rf ${OUTDIR}/canu-logs
-        rm -rf ${OUTDIR}/canu-scripts
-        rm -rf ${OUTDIR}/haplotype/*-kmers
-        rm -rf ${OUTDIR}/asm*
+        rm -rf ${{OUTDIR}}/canu-logs
+        rm -rf ${{OUTDIR}}/canu-scripts
+        rm -rf ${{OUTDIR}}/haplotype/*-kmers
+        rm -rf ${{OUTDIR}}/asm*
         """
 
 
