@@ -48,15 +48,15 @@ rule canu_phase:
         mem_mb=132 * 1024,
     params:
         genomeSize="3.1G",
-        meryl_gb="128G",
-    threads: 40
+        meryl_gb="124G",
+    threads: 48
     shell:
         """
         canu -haplotype \
             maxThreads={threads} \
             maxMemory={params.meryl_gb} \
-            merylMemory={params.meryl_gb} \
-            merylThreads={threads} \
+            merylMemory=24G \
+            merylThreads=12 \
             useGrid=false \
             -p asm -d {output.outdir} \
             -genomeSize={params.genomeSize} \
