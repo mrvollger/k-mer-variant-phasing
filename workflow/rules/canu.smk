@@ -49,7 +49,7 @@ rule canu_phase:
         genomeSize="3.1G",
         meryl_gb="24G",
         meryl_threads=8,
-        grid=" --account=stergachislab --partition=compute --nodes=1 --export=all --parsable "
+        grid=" --account=stergachislab --partition=compute --nodes=1 --export=all --parsable ",
     threads: 8
     shell:
         """

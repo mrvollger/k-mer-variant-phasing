@@ -8,7 +8,7 @@ rule merge_kmer_and_variant_phasing:
         CONDA
     threads: 4
     resources:
-        mem_mb=64*1024,
+        mem_mb=64 * 1024,
     params:
         script=workflow.source_path("../scripts/merge-kmer-and-variant-phasing.py"),
     shell:
@@ -31,7 +31,7 @@ rule haplotaged_bam:
         CONDA
     threads: 16
     resources:
-        mem_mb=32*1024,
+        mem_mb=32 * 1024,
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
     shell:
@@ -42,6 +42,7 @@ rule haplotaged_bam:
             -o {output.bam}
         """
 
+
 rule haplotaged_bai:
     input:
         bam=rules.haplotaged_bam.output.bam,
@@ -51,9 +52,8 @@ rule haplotaged_bai:
         CONDA
     threads: 16
     resources:
-        mem_mb=32*1024,
+        mem_mb=32 * 1024,
     shell:
         """
         samtools index -@ {threads} {output.bam}
         """
-

@@ -36,13 +36,16 @@ def get_hifi_bam(wc):
         return expand(rules.clean_bam.output.bam, sm=wc.sm, allow_missing=True)[0]
     return HIFI_BAM
 
+
 def get_hifi_bai(wc):
     return f"{get_hifi_bam(wc)}.bai"
+
 
 def get_vcf(wc):
     if config.get("clean_vcf"):
         return expand(rules.clean_vcf.output.vcf, sm=wc.sm, allow_missing=True)[0]
     return VCF
+
 
 def get_tbi(wc):
     return f"{get_vcf(wc)}.tbi"

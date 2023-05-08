@@ -32,3 +32,4 @@ rule all:
         expand(rules.canu_read_list.output, sm=SAMPLE),
         expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
         expand(rules.haplotaged_bam.output, sm=SAMPLE),
+        expand(rules.haplotaged_bai.output, sm=SAMPLE),
