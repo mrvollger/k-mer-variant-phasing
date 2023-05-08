@@ -142,7 +142,7 @@ def main():
 
     # make final outputs
     out = kmer_df.merge(
-        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap"]],
+        merged_df[[READ_COL, "merged_hap", "hap", "variant_hap", "phase_block"]],
         on=READ_COL,
         how="left",
     )
@@ -172,7 +172,7 @@ def main():
     z = (out.hap != UNKNOWN).sum()
     logging.info(f"Merged phasing rate: {z/len(out):.2%}")
 
-    out[[READ_COL, "hap", "kmer_hap", "variant_hap"]].to_csv(
+    out[[READ_COL, "hap", "kmer_hap", "variant_hap", "phase_block"]].to_csv(
         args.output, index=False, sep="\t"
     )
 
