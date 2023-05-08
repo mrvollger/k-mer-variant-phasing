@@ -61,6 +61,12 @@ def parse():
         help="keep phased kmer reads even if they disagree with variant calls",
         action="store_true",
     )
+    parser.add_argument(
+        "-m",
+        "--max-frac-disagree",
+        help="Maximum fraction of reads in a phaseblock that can disagree with k-mers assignments before the whole phaseblock is set to unknown",
+        default=0.2,
+    )
     parser.add_argument("-o", "--output", help="Output file", default=sys.stdout)
     parser.add_argument(
         "-t", "--threads", help="Number of threads to use", type=int, default=8
@@ -75,16 +81,27 @@ def parse():
     return args
 
 
-def assign_based_on_kmer(group_df):
+def assign_based_on_kmer(group_df, max_frac_disagree=0.2):
     kmer_counts = group_df.kmer_hap.value_counts()
     paternal = kmer_counts.get(PATERNAL, 0)
     maternal = kmer_counts.get(MATERNAL, 0)
+
+    winner = UNKNOWN
+    looser = UNKNOWN
     if paternal > maternal:
-        group_df.merged_hap = PATERNAL
+        winner = PATERNAL
+        looser = MATERNAL
     elif maternal > 0:
-        group_df.merged_hap = MATERNAL
-    else:
-        group_df.merged_hap = UNKNOWN
+        winner = MATERNAL
+        looser = PATERNAL
+    # set all to unphased if too many disagree
+    if kmer_counts.get(looser, 0) / group_df.shape[0] > max_frac_disagree:
+        logging.info(
+            "Too many reads disagree within phase block. Setting all to unphased."
+        )
+        winner = UNKNOWN
+    # set the merged haplotype to the winner between paternal and maternal
+    group_df.merged_hap = winner
     return group_df
 
 
@@ -98,7 +115,7 @@ def main():
     merged_df = (
         merged_df[merged_df.variant_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
-        .apply(assign_based_on_kmer)
+        .apply(lambda row: assign_based_on_kmer(row, args.max_frac_disagree))
     )
     # count disagreements
     has_kmer = merged_df.kmer_hap != UNKNOWN
@@ -117,9 +134,9 @@ def main():
 
     # assign final haplotype
     merged_df["hap"] = merged_df.kmer_hap
-    can_reassign_kmer = (merged_df.kmer_hap == UNKNOWN) & (
+    can_reassign_kmer = (
         merged_df.merged_hap != UNKNOWN
-    )
+    ) # & (merged_df.kmer_hap == UNKNOWN)
     merged_df.loc[can_reassign_kmer, "hap"] = merged_df.merged_hap[can_reassign_kmer]
 
     # make final outputs
@@ -137,7 +154,7 @@ def main():
     out.fillna(UNKNOWN, inplace=True)
 
     # drop ambiguous reads from phasing
-    if not args.prioritize_kmer:
+    if not args.prioritize_kmer and not args.max_frac_disagree:
         known = (out.kmer_hap.isin([MATERNAL, PATERNAL])) & (
             out.merged_hap.isin([MATERNAL, PATERNAL])
         )
@@ -146,10 +163,6 @@ def main():
         logging.info(
             f"{disagreements.sum()/out.shape[0]:.2%} of total reads changed to unknown due to variant and kmer disagreements"
         )
-
-    # logging.info(f"kmer counts:\n{out.kmer_hap.value_counts()}")
-    # logging.info(f"kmer counts:\n{out.variant_hap.value_counts()}")
-    # logging.info(f"Final merged counts:\n{out.hap.value_counts()}")
 
     z = (out.variant_hap != UNKNOWN).sum()
     logging.info(f"Variant based phasing rate: {z/len(out):.2%}")
