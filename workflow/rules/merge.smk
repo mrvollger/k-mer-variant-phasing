@@ -55,5 +55,5 @@ rule haplotaged_bai:
         mem_mb=32 * 1024,
     shell:
         """
-        samtools index -@ {threads} {output.bam}
+        samtools index -@ {threads} {input.bam}
         """
