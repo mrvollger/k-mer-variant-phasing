@@ -27,9 +27,10 @@ rule haplotaged_bam:
         tsv=rules.merge_kmer_and_variant_phasing.output.tsv,
     output:
         bam="results/{sm}/{sm}.haplotagged.bam",
+        bai="results/{sm}/{sm}.haplotagged.bam.bai",
     conda:
         CONDA
-    threads: 8
+    threads: 16
     resources:
         mem_mb=32*1024,
     params:
@@ -40,4 +41,5 @@ rule haplotaged_bam:
             -v -t {threads} \
             -i {input.bam} -r {input.tsv} \
             -o {output.bam}
+        samtools index -@ {threads} {output.bam}
         """
