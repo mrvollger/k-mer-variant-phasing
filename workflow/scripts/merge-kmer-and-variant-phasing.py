@@ -92,11 +92,11 @@ def parse():
     return args
 
 
-def assign_per_hap(group_df, max_frac_disagree):
+def assign_per_hap(group_df, max_frac_disagree, upper_max_frac_disagree=0.20):
     cur_variant_hap = group_df.variant_hap.iloc[0]
     # if variant reads are unphased use the kmer phasing
     if cur_variant_hap == UNKNOWN or cur_variant_hap.isna():
-        group_df.merged_hap = group_df.kemr_hap
+        group_df.merged_hap = group_df.kmer_hap
         group_df.fraction_disagreement = 0.0
         return group_df
 
@@ -113,28 +113,34 @@ def assign_per_hap(group_df, max_frac_disagree):
     elif maternal > 0:
         winner = MATERNAL
         looser = PATERNAL
-    # set all to unphased if too many disagree
-    fraction_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
-    if fraction_disagreement > max_frac_disagree:
-        logging.debug("Too many reads disagree. Setting all to unphased.")
-        winner = UNKNOWN
-    # set the merged haplotype to the winner between paternal and maternal
     group_df.merged_hap = winner
-    group_df.fraction_disagreement = fraction_disagreement
+    
+    fraction_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
+    group_df.fraction_disagreement = fraction_disagreement 
+    # handle disagreements
+    if fraction_disagreement > upper_max_frac_disagree:
+        # when there are large levels of disagreement use kmer phasing
+        logging.debug("Too many reads disagree. Using k-mer phasing.")
+        group_df.merged_hap = group_df.kmer_hap
+    elif fraction_disagreement > max_frac_disagree:
+        # when there are intermediate levels of disagreement set all to unknown
+        logging.debug("Too many reads disagree. Setting all to unphased.")
+        group_df.merged_hap = UNKNOWN
+        
     return group_df
 
 
-def assign_per_phase_block(group_df, max_frac_disagree):
+def assign_per_phase_block(group_df, args):
     cur_phase_block = group_df.phase_block.iloc[0]
     # if the current phaseblock is unknown use the kmer phasing
     if cur_phase_block == UNKNOWN:
-        group_df.merged_hap = group_df.kemr_hap
+        group_df.merged_hap = group_df.kmer_hap
         group_df.fraction_disagreement = 0.0
         return group_df
 
     # now go through H1, H2 in the phaseblock
     group_df = group_df.groupby("variant_hap", group_keys=False).apply(
-        lambda row: assign_per_hap(row, max_frac_disagree)
+        lambda row: assign_per_hap(row, args.max_frac_disagree)
     )
 
     is_h1 = group_df.variant_hap == 1
@@ -165,7 +171,7 @@ def main():
     merged_df = (
         merged_df[merged_df.variant_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
-        .apply(lambda row: assign_per_phase_block(row, args.max_frac_disagree))
+        .apply(lambda row: assign_per_phase_block(row, args))
     )
 
     # say the number of disagreements
