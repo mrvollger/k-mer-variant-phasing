@@ -87,7 +87,7 @@ def parse():
     )
     args = parser.parse_args()
     log_format = "[%(levelname)s][Time elapsed (ms) %(relativeCreated)d]: %(message)s"
-    log_level = logging.DEBUG if args.verbose else logging.WARNING
+    log_level = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(format=log_format, level=log_level)
     return args
 
