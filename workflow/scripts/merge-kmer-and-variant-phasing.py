@@ -194,7 +194,9 @@ def main():
         merged_df.kmer_hap != UNKNOWN
     )
     improved = merged_df[can_be_improved].merged_hap != UNKNOWN
-    logging.info(f"{improved.sum()/n_reads:.2%} of previously unphased reads were phased.")
+    logging.info(
+        f"{improved.sum()/n_reads:.2%} of previously unphased reads were phased."
+    )
 
     # log the phasing rates
     z = (merged_df.variant_hap != UNKNOWN).sum()
