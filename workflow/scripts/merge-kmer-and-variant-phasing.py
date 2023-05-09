@@ -118,7 +118,7 @@ def main():
         .groupby(["phase_block", "variant_hap"], group_keys=False)
         .apply(lambda row: assign_based_on_kmer(row, args.max_frac_disagree))
     )
-    logging.info(f"merged df\n{merged_df}")
+    logging.info(f"merged df\n{merged_df.head()}")
     # count disagreements
     has_kmer = merged_df.kmer_hap != UNKNOWN
     disagreements = merged_df[has_kmer].kmer_hap != merged_df[has_kmer].merged_hap
