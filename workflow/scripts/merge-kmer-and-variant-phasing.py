@@ -17,6 +17,7 @@ import argparse
 import sys
 import pandas as pd
 pd.set_option('display.width', 150)
+pd.set_option('display.max_columns', 150)
 
 READ_COL = "read"
 PATERNAL = "pat"
