@@ -148,9 +148,9 @@ def main():
         on=READ_COL,
         how="left",
     )
-    logging.info(f"\n{out}\n")
     # add any reads in the variant df missing from the kmer df
     out = out.merge(variant_df[[READ_COL]], on=READ_COL, how="outer")
+    logging.info(f"\n{out}\n")
 
     # set NA haps to the kmer value (if it exists)
     out.loc[out.hap.isna(), "hap"] = out.kmer_hap[out.hap.isna()]
