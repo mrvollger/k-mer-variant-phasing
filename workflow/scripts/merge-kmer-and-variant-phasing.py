@@ -99,15 +99,15 @@ def assign_based_on_kmer(group_df, max_frac_disagree=0.2):
         winner = MATERNAL
         looser = PATERNAL
     # set all to unphased if too many disagree
-    percent_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
-    if percent_disagreement > max_frac_disagree:
+    fraction_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
+    if fraction_disagreement > max_frac_disagree:
         logging.info(
             "Too many reads disagree within phase block. Setting all to unphased."
         )
         winner = UNKNOWN
     # set the merged haplotype to the winner between paternal and maternal
     group_df.merged_hap = winner
-    group_df.percent_disagreement = percent_disagreement
+    group_df.fraction_disagreement = fraction_disagreement
     return group_df
 
 
@@ -118,7 +118,7 @@ def main():
     merged_df = kmer_df.merge(variant_df, on=READ_COL, how="left")
 
     merged_df["merged_hap"] = UNKNOWN
-    merged_df["percent_disagreement"] = 0.0
+    merged_df["fraction_disagreement"] = 0.0
     merged_df = (
         merged_df[merged_df.variant_hap != UNKNOWN]
         .groupby(["phase_block", "variant_hap"], group_keys=False)
@@ -155,7 +155,7 @@ def main():
                 "hap",
                 "variant_hap",
                 "phase_block",
-                "percent_disagreement",
+                "fraction_disagreement",
             ]
         ],
         on=READ_COL,
@@ -194,7 +194,7 @@ def main():
             "kmer_hap",
             "variant_hap",
             "phase_block",
-            "percent_disagreement",
+            "fraction_disagreement",
         ]
     ].to_csv(args.output, index=False, sep="\t")
 
