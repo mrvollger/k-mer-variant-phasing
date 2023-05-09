@@ -116,7 +116,7 @@ def assign_per_hap(group_df, max_frac_disagree):
     # set all to unphased if too many disagree
     fraction_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
     if fraction_disagreement > max_frac_disagree:
-        # logging.info("Too many reads disagree. Setting all to unphased.")
+        logging.debug("Too many reads disagree. Setting all to unphased.")
         winner = UNKNOWN
     # set the merged haplotype to the winner between paternal and maternal
     group_df.merged_hap = winner
@@ -144,7 +144,7 @@ def assign_per_phase_block(group_df, max_frac_disagree):
     # mat < pat < unk
     assignments = sorted([h1_assignment, h2_assignment])
     if assignments[0] != UNKNOWN and assignments[1] == UNKNOWN:
-        logging.info(
+        logging.debug(
             f"Within a phase block one haplotype was assigned maternal or paternal but the other was unassigned.\n{group_df}"
         )
         # TODO sync up the unknown haplotype
