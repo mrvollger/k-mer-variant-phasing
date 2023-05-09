@@ -16,6 +16,7 @@ import logging
 import argparse
 import sys
 import pandas as pd
+pd.set_option('display.width', 150)
 
 READ_COL = "read"
 PATERNAL = "pat"
