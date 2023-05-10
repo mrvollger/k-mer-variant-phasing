@@ -227,6 +227,7 @@ def main():
         )
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
+    # log results
     log_phasing_stats(merged_df)
 
     # write the output
