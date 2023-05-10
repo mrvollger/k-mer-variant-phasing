@@ -220,7 +220,9 @@ def main():
             "fraction_disagreement",
             "disagreement_count",
         ]
-    ].to_csv(args.output, index=False, sep="\t")
+    ].sort_values(["phase_block", "hap", "read"]).to_csv(
+        args.output, index=False, sep="\t"
+    )
 
 
 if __name__ == "__main__":
