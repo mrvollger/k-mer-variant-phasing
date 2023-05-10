@@ -218,6 +218,7 @@ def main():
             "variant_hap",
             "phase_block",
             "fraction_disagreement",
+            "disagreement_count",
         ]
     ].to_csv(args.output, index=False, sep="\t")
 
