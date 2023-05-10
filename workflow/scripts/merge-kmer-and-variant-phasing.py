@@ -209,7 +209,7 @@ def main():
     )
     disagreements = (merged_df.merged_hap != merged_df.kmer_hap) & can_disagree
     logging.info(
-        f"{disagreements.sum()/n_reads:.2%} of reads disagree in variant versus kmer based phasing."
+        f"{disagreements.sum()/n_reads:.2%} of reads that disagree in variant versus kmer based phasing."
     )
 
     # resolve disagreements
