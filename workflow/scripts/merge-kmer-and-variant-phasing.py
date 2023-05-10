@@ -92,10 +92,10 @@ def parse():
     return args
 
 
-def assign_per_hap(group_df, max_frac_disagree, upper_max_frac_disagree=0.20):
+def assign_per_hap(group_df, max_frac_disagree):
     cur_variant_hap = group_df.variant_hap.iloc[0]
     # if variant reads are unphased use the kmer phasing
-    if cur_variant_hap == UNKNOWN or cur_variant_hap.isna():
+    if cur_variant_hap == UNKNOWN:
         group_df.merged_hap = group_df.kmer_hap
         group_df.fraction_disagreement = 0.0
         return group_df
@@ -114,19 +114,28 @@ def assign_per_hap(group_df, max_frac_disagree, upper_max_frac_disagree=0.20):
         winner = MATERNAL
         looser = PATERNAL
     group_df.merged_hap = winner
-    
-    fraction_disagreement = kmer_counts.get(looser, 0) / group_df.shape[0]
-    group_df.fraction_disagreement = fraction_disagreement 
+
+    # find fraction in disagreement
+    if winner == UNKNOWN:
+        disagreement_count = 0
+        fraction_disagreement = 0.0
+    else:
+        disagreement_count = kmer_counts.get(looser, 0)
+        fraction_disagreement = disagreement_count / group_df.shape[0]
+    group_df.fraction_disagreement = fraction_disagreement
+    group_df.disagreement_count = disagreement_count
+
     # handle disagreements
-    if fraction_disagreement > upper_max_frac_disagree:
+    if (fraction_disagreement > max_frac_disagree) and (disagreement_count >= 5):
         # when there are large levels of disagreement use kmer phasing
         logging.debug("Too many reads disagree. Using k-mer phasing.")
-        group_df.merged_hap = group_df.kmer_hap
+        logging.debug(f"Disagreement count: {disagreement_count}")
+        # group_df.merged_hap = group_df.kmer_hap
     elif fraction_disagreement > max_frac_disagree:
         # when there are intermediate levels of disagreement set all to unknown
         logging.debug("Too many reads disagree. Setting all to unphased.")
-        group_df.merged_hap = UNKNOWN
-        
+        # group_df.merged_hap = UNKNOWN
+
     return group_df
 
 
@@ -145,6 +154,7 @@ def assign_per_phase_block(group_df, args):
 
     is_h1 = group_df.variant_hap == 1
     is_h2 = group_df.variant_hap == 2
+    return group_df
     h1_assignment = group_df.merged_hap[is_h1].iloc[0]
     h2_assignment = group_df.merged_hap[is_h2].iloc[0]
     # mat < pat < unk
@@ -164,21 +174,22 @@ def main():
     variant_df = read_variant(args.variant)
     merged_df = kmer_df.merge(variant_df, on=READ_COL, how="outer")
     merged_df.fillna(UNKNOWN, inplace=True)
+    median_reads = merged_df.phase_block.value_counts().median()
+    logging.info(f"Median number of reads per phase block: {median_reads}")
     n_reads = merged_df.shape[0]
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df["fraction_disagreement"] = 0.0
-    merged_df = (
-        merged_df[merged_df.variant_hap != UNKNOWN]
-        .groupby(["phase_block", "variant_hap"], group_keys=False)
-        .apply(lambda row: assign_per_phase_block(row, args))
+    merged_df["disagreement_count"] = 0.0
+    merged_df = merged_df.groupby("phase_block", group_keys=False).apply(
+        lambda row: assign_per_phase_block(row, args)
     )
 
     # say the number of disagreements
     can_disagree = (
         (merged_df.variant_hap != UNKNOWN)
         & (merged_df.kmer_hap != UNKNOWN)
-        & (merged_df.merge_hap != UNKNOWN)
+        & (merged_df.merged_hap != UNKNOWN)
     )
     disagreements = (merged_df.merged_hap != merged_df.kmer_hap) & can_disagree
     logging.info(
@@ -186,6 +197,10 @@ def main():
     )
 
     # resolve disagreements
+    switch_to_kmer = (merged_df.disagreement_count >= 5) & (
+        merged_df.fraction_disagreement > args.max_frac_disagree
+    )
+    merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
     if args.prioritize_kmer:
         logging.info("Prioritizing k-mer based phasing when there is disagreements.")
         merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
@@ -193,15 +208,15 @@ def main():
         logging.info(
             "Strict mode. Setting reads to unphased if there is a disagreement."
         )
-        merged_df.merged_hap[disagreements] = UNKNOWN
+        merged_df.loc[disagreements, "merged_hap"] = UNKNOWN
 
     # say the number of reassigned reads
-    can_be_improved = (merged_df.variant_hap != UNKNOWN) | (
-        merged_df.kmer_hap != UNKNOWN
+    can_be_improved = (merged_df.variant_hap == UNKNOWN) | (
+        merged_df.kmer_hap == UNKNOWN
     )
     improved = merged_df[can_be_improved].merged_hap != UNKNOWN
     logging.info(
-        f"{improved.sum()/n_reads:.2%} of previously unphased reads were phased."
+        f"{improved.sum()/n_reads:.2%} of reads with previously unknown haplotype by either k-mers or variants were assigned a haplotype."
     )
 
     # log the phasing rates
