@@ -148,15 +148,51 @@ def assign_per_phase_block(group_df, args):
     return group_df
 
 
+def log_phasing_stats(merged_df):
+    n_reads = merged_df.shape[0]
+    # say the number of reassigned reads
+    can_be_improved = (merged_df.variant_hap == UNKNOWN) | (
+        merged_df.kmer_hap == UNKNOWN
+    )
+    improved = merged_df[can_be_improved].merged_hap != UNKNOWN
+    logging.info(
+        f"{improved.sum()/n_reads:.2%} of reads with previously unknown haplotype by either k-mers or variants were assigned a haplotype."
+    )
+    # say kmer reassignment rate
+    kmer_improved = (
+        merged_df[can_be_improved & (merged_df.kmer_hap == UNKNOWN)].merged_hap
+        != UNKNOWN
+    )
+    logging.info(
+        f"{kmer_improved.sum()/n_reads:.2%} of reads with an unknown k-mer haplotype were assigned a haplotype."
+    )
+    # say variant reassignment rate
+    variant_improved = (
+        merged_df[can_be_improved & (merged_df.variant_hap == UNKNOWN)].merged_hap
+        != UNKNOWN
+    )
+    logging.info(
+        f"{variant_improved.sum()/n_reads:.2%} of reads with an unknown variant haplotype were assigned a haplotype."
+    )
+
+    # log the phasing rates
+    z = (merged_df.variant_hap != UNKNOWN).sum()
+    logging.info(f"Variant based phasing rate: {z/n_reads:.2%}")
+    z = (merged_df.kmer_hap != UNKNOWN).sum()
+    logging.info(f"K-mer phasing rate: {z/n_reads:.2%}")
+    z = (merged_df.merged_hap != UNKNOWN).sum()
+    logging.info(f"Merged phasing rate: {z/n_reads:.2%}")
+
+
 def main():
     args = parse()
     kmer_df = read_kmer(args.kmer)
     variant_df = read_variant(args.variant)
     merged_df = kmer_df.merge(variant_df, on=READ_COL, how="outer")
     merged_df.fillna(UNKNOWN, inplace=True)
+    n_reads = merged_df.shape[0]
     median_reads = merged_df.phase_block.value_counts().median()
     logging.info(f"Median number of reads per phase block: {median_reads}")
-    n_reads = merged_df.shape[0]
 
     merged_df["merged_hap"] = UNKNOWN
     merged_df["fraction_disagreement"] = 0.0
@@ -191,22 +227,7 @@ def main():
         )
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
-    # say the number of reassigned reads
-    can_be_improved = (merged_df.variant_hap == UNKNOWN) | (
-        merged_df.kmer_hap == UNKNOWN
-    )
-    improved = merged_df[can_be_improved].merged_hap != UNKNOWN
-    logging.info(
-        f"{improved.sum()/n_reads:.2%} of reads with previously unknown haplotype by either k-mers or variants were assigned a haplotype."
-    )
-
-    # log the phasing rates
-    z = (merged_df.variant_hap != UNKNOWN).sum()
-    logging.info(f"Variant based phasing rate: {z/n_reads:.2%}")
-    z = (merged_df.kmer_hap != UNKNOWN).sum()
-    logging.info(f"K-mer phasing rate: {z/n_reads:.2%}")
-    z = (merged_df.merged_hap != UNKNOWN).sum()
-    logging.info(f"Merged phasing rate: {z/n_reads:.2%}")
+    log_phasing_stats(merged_df)
 
     # write the output
     merged_df["hap"] = merged_df.merged_hap
