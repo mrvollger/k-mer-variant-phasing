@@ -182,14 +182,14 @@ def main():
             "Strict mode. Setting reads to unphased if there is a disagreement."
         )
         merged_df.loc[disagreements, "merged_hap"] = UNKNOWN
+    elif args.prioritize_kmer:
+        logging.info("Prioritizing k-mer based phasing when there is disagreements.")
+        merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
     else:
         switch_to_kmer = (merged_df.disagreement_count >= args.disagreement_count) & (
             merged_df.fraction_disagreement > args.max_frac_disagree
         )
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
-    if args.prioritize_kmer:
-        logging.info("Prioritizing k-mer based phasing when there is disagreements.")
-        merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
 
     # say the number of reassigned reads
     can_be_improved = (merged_df.variant_hap == UNKNOWN) | (
