@@ -74,9 +74,16 @@ def parse():
     parser.add_argument(
         "-m",
         "--max-frac-disagree",
-        help="Maximum fraction of reads in a phaseblock that can disagree with k-mers assignments before the whole phaseblock is set to unknown",
-        default=0.05,
+        help="Maximum fraction of reads in a phaseblock that can disagree with k-mers assignments before the whole phaseblock is considered incorrect and k-mers alone are used",
+        default=0.10,
         type=float,
+    )
+    parser.add_argument(
+        "-d",
+        "--disagreement-count",
+        help="Minimum number of disagreeing reads in a phaseblock before it is considered incorrect and k-mers alone are used",
+        default=5,
+        type=int,
     )
     parser.add_argument("-o", "--output", help="Output file", default=sys.stdout)
     parser.add_argument(
@@ -92,7 +99,7 @@ def parse():
     return args
 
 
-def assign_per_hap(group_df, max_frac_disagree):
+def assign_per_hap(group_df):
     cur_variant_hap = group_df.variant_hap.iloc[0]
     # if variant reads are unphased use the kmer phasing
     if cur_variant_hap == UNKNOWN:
@@ -124,18 +131,6 @@ def assign_per_hap(group_df, max_frac_disagree):
         fraction_disagreement = disagreement_count / group_df.shape[0]
     group_df.fraction_disagreement = fraction_disagreement
     group_df.disagreement_count = disagreement_count
-
-    # handle disagreements
-    if (fraction_disagreement > max_frac_disagree) and (disagreement_count >= 5):
-        # when there are large levels of disagreement use kmer phasing
-        logging.debug("Too many reads disagree. Using k-mer phasing.")
-        logging.debug(f"Disagreement count: {disagreement_count}")
-        # group_df.merged_hap = group_df.kmer_hap
-    elif fraction_disagreement > max_frac_disagree:
-        # when there are intermediate levels of disagreement set all to unknown
-        logging.debug("Too many reads disagree. Setting all to unphased.")
-        # group_df.merged_hap = UNKNOWN
-
     return group_df
 
 
@@ -146,25 +141,10 @@ def assign_per_phase_block(group_df, args):
         group_df.merged_hap = group_df.kmer_hap
         group_df.fraction_disagreement = 0.0
         return group_df
-
     # now go through H1, H2 in the phaseblock
     group_df = group_df.groupby("variant_hap", group_keys=False).apply(
-        lambda row: assign_per_hap(row, args.max_frac_disagree)
+        lambda row: assign_per_hap(row)
     )
-
-    is_h1 = group_df.variant_hap == 1
-    is_h2 = group_df.variant_hap == 2
-    return group_df
-    h1_assignment = group_df.merged_hap[is_h1].iloc[0]
-    h2_assignment = group_df.merged_hap[is_h2].iloc[0]
-    # mat < pat < unk
-    assignments = sorted([h1_assignment, h2_assignment])
-    if assignments[0] != UNKNOWN and assignments[1] == UNKNOWN:
-        logging.debug(
-            f"Within a phase block one haplotype was assigned maternal or paternal but the other was unassigned.\n{group_df}"
-        )
-        # TODO sync up the unknown haplotype
-
     return group_df
 
 
@@ -197,18 +177,19 @@ def main():
     )
 
     # resolve disagreements
-    switch_to_kmer = (merged_df.disagreement_count >= 5) & (
-        merged_df.fraction_disagreement > args.max_frac_disagree
-    )
-    merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
-    if args.prioritize_kmer:
-        logging.info("Prioritizing k-mer based phasing when there is disagreements.")
-        merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
     if args.strict:
         logging.info(
             "Strict mode. Setting reads to unphased if there is a disagreement."
         )
         merged_df.loc[disagreements, "merged_hap"] = UNKNOWN
+    else:
+        switch_to_kmer = (merged_df.disagreement_count >= args.disagreement_count) & (
+            merged_df.fraction_disagreement > args.max_frac_disagree
+        )
+        merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
+    if args.prioritize_kmer:
+        logging.info("Prioritizing k-mer based phasing when there is disagreements.")
+        merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
 
     # say the number of reassigned reads
     can_be_improved = (merged_df.variant_hap == UNKNOWN) | (
