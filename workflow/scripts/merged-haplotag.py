@@ -62,7 +62,6 @@ def parse():
 def main():
     args = parse()
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
-
     header = bam.header.to_dict()
     if args.sample_name:
         RG = header["RG"][0]
