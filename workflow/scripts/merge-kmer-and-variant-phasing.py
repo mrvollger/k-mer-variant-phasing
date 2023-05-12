@@ -249,9 +249,9 @@ def main():
     # drop reads that appear more than once
     count = merged_df.groupby(READ_COL)[READ_COL].transform("size")
     is_dup = count > 1 
-    logging.debug(f"{merged_df[is_dup]}")
+    #logging.debug(f"{merged_df[is_dup]}")
+    #dup_reads = merged_df[is_dup][READ_COL]
     de_dup_df = merged_df[is_dup].groupby(READ_COL).apply(pick_one_read)
-    dup_reads = merged_df[is_dup][READ_COL]
     merged_df = pd.concat([merged_df[~is_dup], de_dup_df]) 
 
     # log results
