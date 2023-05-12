@@ -47,8 +47,7 @@ def read_variant(file):
             READ_COL,
             "variant_hap",
         ]
-    else:
-        df.drop_duplicates(inplace=True)
+    df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from {file}")
     logging.info(
         f"Read {len(df.phase_block.unique()):,} phase blocks from variant based phasing"
@@ -238,6 +237,10 @@ def main():
         )
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
+    # drop reads that appear more than once
+    merged_df["count"] = merged_df.groupby(READ_COL)[READ_COL].transform('size')
+    logging.info(f"{merged_df[merged_df['count']>1]}")
+    
     # log results
     log_phasing_stats(merged_df)
 
