@@ -194,6 +194,15 @@ def log_phasing_stats(merged_df):
     logging.info(f"Merged phasing rate: {z/n_reads:.2%}")
 
 
+def pick_one_read(group_df):
+    if group_df.shape[0] == 1:
+        return group_df
+    group_df.sort_values(
+        ["merged_hap", "fraction_disagreement", "disagreement_count"], inplace=True
+    )
+    return group_df.head(1)
+
+
 def main():
     args = parse()
     kmer_df = read_kmer(args.kmer)
@@ -238,9 +247,12 @@ def main():
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
     # drop reads that appear more than once
-    merged_df["count"] = merged_df.groupby(READ_COL)[READ_COL].transform('size')
+    merged_df["count"] = merged_df.groupby(READ_COL)[READ_COL].transform("size")
     logging.info(f"{merged_df[merged_df['count']>1]}")
-    
+    dup_reads = merged_df[merged_df["count"] > 1][READ_COL]
+
+    merged_df = merged_df.groupby(READ_COL).apply(pick_one_read)
+
     # log results
     log_phasing_stats(merged_df)
 
