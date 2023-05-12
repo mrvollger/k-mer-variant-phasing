@@ -53,10 +53,11 @@ rule hiphase:
         ref=REFERENCE,
     output:
         vcf="results/{sm}/hiphase/{sm}.vcf.gz",
-        bam="results/{sm}/hiphase/{sm}.bam",
+        #bam="results/{sm}/hiphase/{sm}.bam",
         summary="results/{sm}/hiphase/summary.tsv",
         stats="results/{sm}/hiphase/stats.tsv",
         blocks="results/{sm}/hiphase/blocks.tsv",
+        haptag="results/{sm}/hiphase/read-level-phasing.tsv",
     conda:
         CONDA
     resources:
@@ -69,11 +70,13 @@ rule hiphase:
             --bam {input.bam} \
             --vcf {input.vcf} \
             --reference {input.ref} \
-            --output-bam {output.bam} \
             --output-vcf {output.vcf} \
+            --haplotag-file {output.haptag} \
             --summary-file {output.summary} \
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
+        
+        #--output-bam {output.bam} \
         """
 
 
