@@ -77,8 +77,7 @@ rule hiphase:
             --blocks-file {output.blocks} 
         """
         #--output-bam {output.bam} \
-
-
+'''
 rule hiphase_read_list:
     input:
         bam=rules.hiphase.output.bam,
@@ -97,3 +96,4 @@ rule hiphase_read_list:
             | bgzip -@ {threads} \
             > {output.tsv}
         """
+'''
