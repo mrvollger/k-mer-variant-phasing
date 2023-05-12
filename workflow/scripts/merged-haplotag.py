@@ -38,6 +38,9 @@ def parse():
         required=True,
     )
     parser.add_argument(
+        "-s", "--sample-name", help="Update RG with this sample name", default=None
+    )
+    parser.add_argument(
         "-o",
         "--out",
         help="Output bam file.",
@@ -59,8 +62,16 @@ def parse():
 def main():
     args = parse()
     bam = pysam.AlignmentFile(args.input, threads=args.threads, check_sq=False)
+
+    header = bam.header.to_dict()
+    if args.sample_name:
+        RG = header["RG"][0]
+        RG["ID"] = args.sample_name
+        RG["SM"] = args.sample_name
+        header["RG"] = [RG]
+
     out = sys.stdout if args.out == "-" else open(args.out, "w")
-    out_bam = pysam.AlignmentFile(out, "wb", template=bam, threads=args.threads)
+    out_bam = pysam.AlignmentFile(out, "wb", header=header, threads=args.threads)
     # read in the haplotags for each read
     reads = pd.read_csv(args.read_list, sep="\t")
     reads["HP"] = None
@@ -87,6 +98,8 @@ def main():
                 unknown_reads += 1
         else:
             unknown_reads += 1
+        if args.sample_name:
+            rec.set_tag("RG", args.sample_name)
         out_bam.write(rec)
     logging.info(f"Assigned {paternal_reads:,} paternal reads")
     logging.info(f"Assigned {maternal_reads:,} maternal reads")

@@ -39,7 +39,14 @@ def read_variant(file):
     df = pd.read_csv(file, sep="\t")
     if "source_block_index" in df.columns:
         # source_block_index	sample_name	chrom	phase_block_id	read_name	haplotag
-        df.columns = ["source_block_index", "sample", "chrom", "phase_block", READ_COL, "variant_hap"]
+        df.columns = [
+            "source_block_index",
+            "sample",
+            "chrom",
+            "phase_block",
+            READ_COL,
+            "variant_hap",
+        ]
     else:
         df.drop_duplicates(inplace=True)
     logging.info(f"Read {len(df):,} sequences from {file}")

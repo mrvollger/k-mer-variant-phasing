@@ -38,6 +38,7 @@ rule haplotaged_bam:
     shell:
         """
         python {params.script} \
+            --sample-name {wildcards.sm} \
             -v -t {threads} \
             -i {input.bam} -r {input.tsv} \
             -o {output.bam}
