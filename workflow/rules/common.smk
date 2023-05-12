@@ -32,7 +32,7 @@ def get_reads(wc):
 
 
 def get_hifi_bam(wc):
-    #if config.get("clean_bam"):
+    # if config.get("clean_bam"):
     #    return expand(rules.clean_bam.output.bam, sm=wc.sm, allow_missing=True)[0]
     return HIFI_BAM
 
