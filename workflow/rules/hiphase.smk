@@ -75,9 +75,8 @@ rule hiphase:
             --summary-file {output.summary} \
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
-        
-        #--output-bam {output.bam} \
         """
+        #--output-bam {output.bam} \
 
 
 rule hiphase_read_list:
