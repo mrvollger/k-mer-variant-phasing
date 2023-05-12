@@ -247,8 +247,8 @@ def main():
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
     # drop reads that appear more than once
-    merged_df["count"] = merged_df.groupby(READ_COL)[READ_COL].transform("size")
-    is_dup = merged_df["count"] > 1 
+    count = merged_df.groupby(READ_COL)[READ_COL].transform("size")
+    is_dup = count > 1 
     logging.DEBUG(f"{merged_df[is_dup]}")
     de_dup_df = merged_df[is_dup].groupby(READ_COL).apply(pick_one_read)
     dup_reads = merged_df[is_dup][READ_COL]
