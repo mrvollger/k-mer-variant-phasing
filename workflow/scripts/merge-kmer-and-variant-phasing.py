@@ -252,7 +252,7 @@ def main():
     logging.debug(f"{merged_df[is_dup]}")
     de_dup_df = merged_df[is_dup].groupby(READ_COL).apply(pick_one_read)
     dup_reads = merged_df[is_dup][READ_COL]
-    merged_df.drop(dup_reads, inplace=True)
+    merged_df.drop(is_dup, inplace=True)
     merged_df = pd.concat([merged_df, de_dup_df]) 
 
     # log results
