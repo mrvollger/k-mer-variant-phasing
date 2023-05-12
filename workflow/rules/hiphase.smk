@@ -65,6 +65,7 @@ rule hiphase:
     shell:
         """
         hiphase -t {threads} \
+            --ignore-read-groups \
             --bam {input.bam} \
             --vcf {input.vcf} \
             --reference {input.ref} \
