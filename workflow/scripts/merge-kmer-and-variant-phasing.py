@@ -251,7 +251,7 @@ def main():
     logging.info(f"{merged_df[merged_df['count']>1]}")
     dup_reads = merged_df[merged_df["count"] > 1][READ_COL]
 
-    merged_df = merged_df.groupby(READ_COL).apply(pick_one_read)
+    de_dup_df = merged_df[merged_df["count"] > 1].groupby(READ_COL).apply(pick_one_read)
 
     # log results
     log_phasing_stats(merged_df)
