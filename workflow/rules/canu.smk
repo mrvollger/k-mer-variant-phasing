@@ -143,8 +143,8 @@ rule split_haplotype:
             -cl {params.min_rl} \
             -memory {resources.mem_mb} \
             -threads {threads} \
-            -H {input.mat_hapmer} 1 {output.mat} \
-            -H {input.pat_hapmer} 1 {output.pat} \
+            -H {input.mat} 1 {output.mat} \
+            -H {input.pat} 1 {output.pat} \
             -A {output.unk} \
             -R {input.reads}
         """
