@@ -117,7 +117,7 @@ rule hapmers:
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
         pushd {output.run_dir}
-        bash {params.hapmers} $MAT $PAT $PRO
+        $MERQURY/trio/hapmers.sh $MAT $PAT $PRO
         popd
         echo "done" > {output.done}
         """
