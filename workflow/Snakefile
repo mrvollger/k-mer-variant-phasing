@@ -18,6 +18,7 @@ REFERENCE = config.pop("reference")
 wildcard_constraints:
     sm="|".join([SAMPLE]),
     hap="pat|mat",
+    individual="mat|pat|pro",
 
 
 localrules:

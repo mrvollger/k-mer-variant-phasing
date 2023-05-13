@@ -71,11 +71,87 @@ rule canu_phase:
         #gridOptions="{params.grid}" \
 
 
+rule make_meryl:
+    input:
+        reads=get_meryl_input,
+    output:
+        meryl=directory("temp/{sm}/kmer_phase/{individual}/"),
+        done=temp("temp/{sm}/kmer_phase/{individual}/done.txt"),
+    conda:
+        CONDA
+    resources:
+        mem_mb=70 * 1024,
+    threads: 32
+    shell:
+        """
+        mkdir -p {output.meryl}
+        meryl \
+            threads={threads} memory=64 \
+            k=21 count \
+            {input.reads} output {output.meryl}
+        echo "done" > {output.txt}
+        """
+
+
+rule hapmers:
+    input:
+        mat=directory("temp/{sm}/kmer_phase/mat/")
+        pat=directory("temp/{sm}/kmer_phase/pat/")
+        pro=directory("temp/{sm}/kmer_phase/pro/")
+    output:
+        mat=directory("temp/{sm}/kmer_phase/pat.hapmer.meryl/")
+        pat=directory("temp/{sm}/kmer_phase/mat.hapmer.meryl/")
+        done=temp("temp/{sm}/kmer_phase/done.txt"),
+    conda:
+        CONDA
+    resources:
+        mem_mb=64 * 1024,
+    threads: 32
+    shell: 
+        """
+        MAT=$(realpath {input.mat})
+        PAT=$(realpath {input.pat})
+        PRO=$(realpath {input.pro})
+        pushd {input.mat} && cd ..
+        $MERQURY/trio/hapmers.sh $MAT $PAT $PRO
+        popd
+        echo "done" > {output.txt}
+        """
+
+rule split_haplotype:
+    input:
+        pat=rules.hapmers.output.pat,
+        mat=rules.hapmers.output.mat,
+        fasta=rules.hifi_fasta.output.fasta,
+    output:
+        pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
+        mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
+        unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unknown.fasta.gz"),
+    conda:
+        CONDA
+    resources:
+        mem_mb=32 * 1024,
+    params:
+        min_rl=1000,
+    threads: 32
+    shell:
+        """
+        splitHaplotype \
+            -cl {params.min_rl} \
+            -memory {resources.mem_mb} \
+            -threads {threads} \
+            -H {input.mat_hapmer} 1 {output.mat} \
+            -H {input.pat_hapmer} 1 {output.pat} \
+            -A {output.unk} \
+            -R {input.reads}
+        """
+
+
 rule canu_read_list:
     input:
-        pat=rules.canu_phase.output.pat,
-        mat=rules.canu_phase.output.mat,
-        unk=rules.canu_phase.output.unk,
+        pat=rules.split_haplotype.output.pat,
+        mat=rules.split_haplotype.output.mat,
+        unk=rules.split_haplotype.output.unk,
     output:
         tsv="results/{sm}/canu/read-haplotypes.tsv",
     conda:
