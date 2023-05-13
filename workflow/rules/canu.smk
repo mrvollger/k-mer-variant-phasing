@@ -85,6 +85,7 @@ rule make_meryl:
     shell:
         """
         which meryl
+        rm -rf {output.meryl}
         meryl threads={threads} memory=64 k=21 count {input.reads} output {output.meryl}
         echo "done" > {output.done}
         """
