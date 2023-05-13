@@ -97,8 +97,9 @@ rule hapmers:
         pat="temp/{sm}/kmer_phase/pat/",
         pro="temp/{sm}/kmer_phase/pro/",
     output:
-        mat=directory("temp/{sm}/kmer_phase/pat.hapmer.meryl/"),
-        pat=directory("temp/{sm}/kmer_phase/mat.hapmer.meryl/"),
+        run_dir=directory("temp/{sm}/kmer_phase/hapmers/"),
+        mat=directory("temp/{sm}/kmer_phase/hapmers/pat.hapmer.meryl/"),
+        pat=directory("temp/{sm}/kmer_phase/hapmers/mat.hapmer.meryl/"),
         done=temp("temp/{sm}/kmer_phase/done.txt"),
     conda:
         CONDA
@@ -107,7 +108,8 @@ rule hapmers:
     threads: 32
     shell:
         """
-        rm -rf {output.mat} {output.pat}
+        rm -rf {output.run_dir}
+        mkdir -p {output.run_dir}
         MAT=$(realpath {input.mat})
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
