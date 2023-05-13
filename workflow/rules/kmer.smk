@@ -42,7 +42,7 @@ rule meryl:
         CONDA
     resources:
         mem_mb=70 * 1024,
-    threads: 40
+    threads: K_MER_THREADS
     shell:
         """
         which meryl
@@ -65,7 +65,7 @@ rule hapmers:
         CONDA
     resources:
         mem_mb=64 * 1024,
-    threads: 40
+    threads: K_MER_THREADS
     shell:
         """
         # setup 
@@ -103,7 +103,7 @@ rule split_haplotype:
         mem_mb=64 * 1024,
     params:
         min_rl=1000,
-    threads: 40
+    threads: K_MER_THREADS
     shell:
         """
         splitHaplotype \
@@ -167,7 +167,7 @@ rule canu_phase:
         meryl_gb="256G",
         meryl_threads=32,
         grid=" --account=stergachislab --partition=compute --nodes=1 --export=all --parsable ",
-    threads: 48
+    threads: K_MER_THREADS
     shell:
         """
         OUTDIR="temp/{wildcards.sm}/canu_phase"

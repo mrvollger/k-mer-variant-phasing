@@ -18,7 +18,7 @@ HIFI_BAM = config.pop("hifi_bam")
 VCF = config.pop("vcf")
 SAMPLE = config.pop("sample")
 REFERENCE = config.pop("reference")
-
+K_MER_THREADS = config.pop("k_mer_threads", 40)
 
 wildcard_constraints:
     sm="|".join([SAMPLE]),
