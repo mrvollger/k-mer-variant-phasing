@@ -96,19 +96,19 @@ rule make_meryl:
 
 rule hapmers:
     input:
-        mat=directory("temp/{sm}/kmer_phase/mat/")
-        pat=directory("temp/{sm}/kmer_phase/pat/")
-        pro=directory("temp/{sm}/kmer_phase/pro/")
+        mat=directory("temp/{sm}/kmer_phase/mat/"),
+        pat=directory("temp/{sm}/kmer_phase/pat/"),
+        pro=directory("temp/{sm}/kmer_phase/pro/"),
     output:
-        mat=directory("temp/{sm}/kmer_phase/pat.hapmer.meryl/")
-        pat=directory("temp/{sm}/kmer_phase/mat.hapmer.meryl/")
+        mat=directory("temp/{sm}/kmer_phase/pat.hapmer.meryl/"),
+        pat=directory("temp/{sm}/kmer_phase/mat.hapmer.meryl/"),
         done=temp("temp/{sm}/kmer_phase/done.txt"),
     conda:
         CONDA
     resources:
         mem_mb=64 * 1024,
     threads: 32
-    shell: 
+    shell:
         """
         which meryl
         MAT=$(realpath {input.mat})
@@ -119,6 +119,7 @@ rule hapmers:
         popd
         echo "done" > {output.txt}
         """
+
 
 rule split_haplotype:
     input:
