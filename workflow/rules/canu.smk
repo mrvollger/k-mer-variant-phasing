@@ -85,11 +85,7 @@ rule make_meryl:
     shell:
         """
         which meryl
-        mkdir -p {output.meryl}
-        meryl \
-            threads={threads} memory=64 \
-            k=21 count \
-            {input.reads} output {output.meryl}
+        meryl threads={threads} memory=64 k=21 count {input.reads} output {output.meryl}
         echo "done" > {output.done}
         """
 
