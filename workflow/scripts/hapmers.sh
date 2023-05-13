@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -exo pipefail
 
 if [[ "$#" -lt 2 ]]; then
     echo
