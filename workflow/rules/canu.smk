@@ -71,7 +71,7 @@ rule canu_phase:
         #gridOptions="{params.grid}" \
 
 
-rule make_meryl:
+rule meryl:
     input:
         reads=get_meryl_input,
     output:
