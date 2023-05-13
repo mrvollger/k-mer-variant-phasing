@@ -42,7 +42,7 @@ rule meryl:
         CONDA
     resources:
         mem_mb=70 * 1024,
-    threads: 48
+    threads: 40
     shell:
         """
         which meryl
@@ -65,7 +65,7 @@ rule hapmers:
         CONDA
     resources:
         mem_mb=64 * 1024,
-    threads: 48
+    threads: 40
     shell:
         """
         # setup 
@@ -103,7 +103,7 @@ rule split_haplotype:
         mem_mb=64 * 1024,
     params:
         min_rl=1000,
-    threads: 48
+    threads: 40
     shell:
         """
         splitHaplotype \
