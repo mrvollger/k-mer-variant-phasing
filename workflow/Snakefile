@@ -31,7 +31,7 @@ localrules:
 
 
 include: "rules/common.smk"
-include: "rules/canu.smk"
+include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
 
