@@ -54,6 +54,4 @@ def get_tbi(wc):
 def get_meryl_input(wc):
     if wc.individual == "pro":
         return rules.hifi_fasta.output.fasta
-    return expand(
-        rules.collect_reads.output.fasta, hap=wc.individual, allow_missing=True
-    )
+    return get_cleaned_reads(wc.sm, wc.individual)
