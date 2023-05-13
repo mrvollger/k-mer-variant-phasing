@@ -1,6 +1,6 @@
 rule merge_kmer_and_variant_phasing:
     input:
-        kmer=rules.canu_read_list.output.tsv,
+        kmer=rules.kmer_read_list.output.tsv,
         variant=rules.hiphase.output.haptag,
         #variant=rules.hiphase_read_list.output.tsv,
     output:

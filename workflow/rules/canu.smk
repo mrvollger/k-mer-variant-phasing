@@ -150,7 +150,7 @@ rule split_haplotype:
         """
 
 
-rule canu_read_list:
+rule kmer_read_list:
     input:
         pat=rules.split_haplotype.output.pat,
         mat=rules.split_haplotype.output.mat,
