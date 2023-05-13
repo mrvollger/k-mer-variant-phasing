@@ -123,7 +123,7 @@ rule kmer_read_list:
         mat=rules.split_haplotype.output.mat,
         unk=rules.split_haplotype.output.unk,
     output:
-        tsv="results/{sm}/canu/read-haplotypes.tsv",
+        tsv="results/{sm}/kmer/read-haplotypes.tsv",
     conda:
         CONDA
     resources:
