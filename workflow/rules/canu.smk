@@ -96,9 +96,9 @@ rule make_meryl:
 
 rule hapmers:
     input:
-        mat=directory("temp/{sm}/kmer_phase/mat/"),
-        pat=directory("temp/{sm}/kmer_phase/pat/"),
-        pro=directory("temp/{sm}/kmer_phase/pro/"),
+        mat="temp/{sm}/kmer_phase/mat/",
+        pat="temp/{sm}/kmer_phase/pat/",
+        pro="temp/{sm}/kmer_phase/pro/",
     output:
         mat=directory("temp/{sm}/kmer_phase/pat.hapmer.meryl/"),
         pat=directory("temp/{sm}/kmer_phase/mat.hapmer.meryl/"),
