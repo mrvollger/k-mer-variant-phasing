@@ -146,7 +146,7 @@ rule split_haplotype:
             -H {input.mat} 1 {output.mat} \
             -H {input.pat} 1 {output.pat} \
             -A {output.unk} \
-            -R {input.reads}
+            -R {input.fasta}
         """
 
 
