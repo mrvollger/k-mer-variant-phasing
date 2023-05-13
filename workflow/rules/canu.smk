@@ -111,7 +111,7 @@ rule hapmers:
     shell:
         """
         # setup 
-        RUNDIR=$(dirname {input.run_start})
+        RUNDIR=$(dirname {output.run_start})
         rm -rf $RUNDIR
         mkdir -p $RUNDIR
         echo "start" > {output.run_start}
