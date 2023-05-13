@@ -84,6 +84,7 @@ rule make_meryl:
     threads: 32
     shell:
         """
+        which meryl
         mkdir -p {output.meryl}
         meryl \
             threads={threads} memory=64 \
@@ -109,6 +110,7 @@ rule hapmers:
     threads: 32
     shell: 
         """
+        which meryl
         MAT=$(realpath {input.mat})
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
@@ -124,9 +126,9 @@ rule split_haplotype:
         mat=rules.hapmers.output.mat,
         fasta=rules.hifi_fasta.output.fasta,
     output:
-        pat=temp("temp/{sm}/canu_phase/haplotype/haplotype-pat.fasta.gz"),
-        mat=temp("temp/{sm}/canu_phase/haplotype/haplotype-mat.fasta.gz"),
-        unk=temp("temp/{sm}/canu_phase/haplotype/haplotype-unknown.fasta.gz"),
+        pat=temp("temp/{sm}/kmer_phase/haplotype/haplotype-pat.fasta.gz"),
+        mat=temp("temp/{sm}/kmer_phase/haplotype/haplotype-mat.fasta.gz"),
+        unk=temp("temp/{sm}/kmer_phase/haplotype/haplotype-unknown.fasta.gz"),
     conda:
         CONDA
     resources:

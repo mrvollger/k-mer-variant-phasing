@@ -5,6 +5,11 @@ from snakemake.utils import min_version
 
 min_version("7.20")
 
+MERYL="/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/meryl-1.4/bin/"
+HIPHASE="/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/"
+shell.prefix(f"export PATH={MERYL}:{HIPHASE}:$PATH; ")
+
+
 CONDA = "fiberseq-smk"
 CONDA = "../envs/env.yml"
 PAT_DATA = config.pop("paternal")
