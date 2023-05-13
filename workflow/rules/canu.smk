@@ -75,8 +75,8 @@ rule meryl:
     input:
         reads=get_meryl_input,
     output:
-        meryl=directory("temp/{sm}/kmer_phase/{individual}/"),
-        done=temp("temp/{sm}/kmer_phase/{individual}.done.txt"),
+        meryl=directory("temp/{sm}/kmer_phase/{sm}.{individual}.meryl/"),
+        done=temp("temp/{sm}/kmer_phase/{sm}.{individual}.done.txt"),
     conda:
         CONDA
     resources:
@@ -93,9 +93,9 @@ rule meryl:
 
 rule hapmers:
     input:
-        mat="temp/{sm}/kmer_phase/mat",
-        pat="temp/{sm}/kmer_phase/pat",
-        pro="temp/{sm}/kmer_phase/pro",
+        mat="temp/{sm}/kmer_phase/{sm}.mat.meryl/",
+        pat="temp/{sm}/kmer_phase/{sm}.pat.meryl/",
+        pro="temp/{sm}/kmer_phase/{sm}.pro.meryl/",
     output:
         run_dir=directory("temp/{sm}/kmer_phase/hapmers/"),
         mat=directory("temp/{sm}/kmer_phase/hapmers/pat.hapmer.meryl/"),
