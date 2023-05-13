@@ -97,7 +97,6 @@ rule hapmers:
         pat="temp/{sm}/kmer_phase/{sm}.pat.meryl/",
         pro="temp/{sm}/kmer_phase/{sm}.pro.meryl/",
     output:
-        run_start="temp/{sm}/kmer_phase/hapmers/start.txt",
         mat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.pat.hapmer.meryl/"),
         pat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.mat.hapmer.meryl/"),
         done=temp("temp/{sm}/kmer_phase/hapmers/done.txt"),
@@ -106,23 +105,23 @@ rule hapmers:
     resources:
         mem_mb=64 * 1024,
     threads: 32
-    params:
-        hapmers=workflow.source_path("../scripts/hapmers.sh"),
     shell:
         """
         # setup 
-        RUNDIR=$(dirname {output.run_start})
-        rm -rf $RUNDIR
-        mkdir -p $RUNDIR
-        echo "start" > {output.run_start}
-        # full paths 
+        RUNDIR=$(dirname {output.done})
         MAT=$(realpath {input.mat})
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
+
+        # clean
+        rm -rf $RUNDIR
+        mkdir -p $RUNDIR
+
         # hapmers
         pushd $RUNDIR
         $MERQURY/trio/hapmers.sh $MAT $PAT $PRO
         popd
+        
         # finish
         echo "done" > {output.done}
         """
