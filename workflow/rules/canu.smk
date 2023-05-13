@@ -107,7 +107,7 @@ rule hapmers:
     threads: 32
     shell:
         """
-        which meryl
+        rm -rf {output.mat} {output.pat}
         MAT=$(realpath {input.mat})
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
