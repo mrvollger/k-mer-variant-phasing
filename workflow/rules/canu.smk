@@ -106,6 +106,8 @@ rule hapmers:
     resources:
         mem_mb=64 * 1024,
     threads: 32
+    params:
+        hapmers=workflow.source_path("../scripts/hapmers.sh"),
     shell:
         """
         which meryl
@@ -114,8 +116,10 @@ rule hapmers:
         MAT=$(realpath {input.mat})
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
-        pushd {input.mat} && cd ..
-        $MERQURY/trio/hapmers.sh $MAT $PAT $PRO
+        pushd {output.run_dir}
+        ls $MAT $PAT $PRO
+        ls 
+        bash {params.hapmers} $MAT $PAT $PRO
         popd
         echo "done" > {output.done}
         """
