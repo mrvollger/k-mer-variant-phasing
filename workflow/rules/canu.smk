@@ -90,7 +90,7 @@ rule make_meryl:
             threads={threads} memory=64 \
             k=21 count \
             {input.reads} output {output.meryl}
-        echo "done" > {output.txt}
+        echo "done" > {output.done}
         """
 
 
@@ -117,7 +117,7 @@ rule hapmers:
         pushd {input.mat} && cd ..
         $MERQURY/trio/hapmers.sh $MAT $PAT $PRO
         popd
-        echo "done" > {output.txt}
+        echo "done" > {output.done}
         """
 
 
