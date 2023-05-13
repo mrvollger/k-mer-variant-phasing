@@ -93,9 +93,9 @@ rule make_meryl:
 
 rule hapmers:
     input:
-        mat="temp/{sm}/kmer_phase/mat/",
-        pat="temp/{sm}/kmer_phase/pat/",
-        pro="temp/{sm}/kmer_phase/pro/",
+        mat="temp/{sm}/kmer_phase/mat",
+        pat="temp/{sm}/kmer_phase/pat",
+        pro="temp/{sm}/kmer_phase/pro",
     output:
         run_dir=directory("temp/{sm}/kmer_phase/hapmers/"),
         mat=directory("temp/{sm}/kmer_phase/hapmers/pat.hapmer.meryl/"),
@@ -108,6 +108,7 @@ rule hapmers:
     threads: 32
     shell:
         """
+        which meryl
         rm -rf {output.run_dir}
         mkdir -p {output.run_dir}
         MAT=$(realpath {input.mat})
