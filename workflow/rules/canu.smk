@@ -98,8 +98,8 @@ rule hapmers:
         pro="temp/{sm}/kmer_phase/{sm}.pro.meryl/",
     output:
         run_start="temp/{sm}/kmer_phase/hapmers/start.txt",
-        mat=directory("temp/{sm}/kmer_phase/hapmers/pat.hapmer.meryl/"),
-        pat=directory("temp/{sm}/kmer_phase/hapmers/mat.hapmer.meryl/"),
+        mat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.pat.hapmer.meryl/"),
+        pat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.mat.hapmer.meryl/"),
         done=temp("temp/{sm}/kmer_phase/hapmers/done.txt"),
     conda:
         CONDA
