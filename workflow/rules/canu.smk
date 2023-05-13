@@ -76,7 +76,7 @@ rule make_meryl:
         reads=get_meryl_input,
     output:
         meryl=directory("temp/{sm}/kmer_phase/{individual}/"),
-        done=temp("temp/{sm}/kmer_phase/{individual}/done.txt"),
+        done=temp("temp/{sm}/kmer_phase/{individual}.done.txt"),
     conda:
         CONDA
     resources:
@@ -100,7 +100,7 @@ rule hapmers:
         run_dir=directory("temp/{sm}/kmer_phase/hapmers/"),
         mat=directory("temp/{sm}/kmer_phase/hapmers/pat.hapmer.meryl/"),
         pat=directory("temp/{sm}/kmer_phase/hapmers/mat.hapmer.meryl/"),
-        done=temp("temp/{sm}/kmer_phase/done.txt"),
+        done=temp("temp/{sm}/kmer_phase/hapmers/done.txt"),
     conda:
         CONDA
     resources:
@@ -117,8 +117,6 @@ rule hapmers:
         PAT=$(realpath {input.pat})
         PRO=$(realpath {input.pro})
         pushd {output.run_dir}
-        ls $MAT $PAT $PRO
-        ls 
         bash {params.hapmers} $MAT $PAT $PRO
         popd
         echo "done" > {output.done}
