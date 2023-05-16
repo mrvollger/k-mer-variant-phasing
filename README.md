@@ -1,7 +1,7 @@
 # Joint k-mer and variant phasing
 
 ## Usage
-First set of a configuration file. See `config/config.yaml` for an commented example. 
+First set of a configuration file. See `config/config.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ```
 snakemake --profile profile/compute --configfile config/your_config.yaml
