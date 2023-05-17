@@ -53,7 +53,6 @@ rule hiphase:
         ref=REFERENCE,
     output:
         vcf="results/{sm}/hiphase/{sm}.vcf.gz",
-        #bam="results/{sm}/hiphase/{sm}.bam",
         summary="results/{sm}/hiphase/summary.tsv",
         stats="results/{sm}/hiphase/stats.tsv",
         blocks="results/{sm}/hiphase/blocks.tsv",
@@ -76,26 +75,3 @@ rule hiphase:
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
         """
-        #--output-bam {output.bam} \
-
-
-'''
-rule hiphase_read_list:
-    input:
-        bam=rules.hiphase.output.bam,
-    output:
-        tsv="results/{sm}/hiphase/read-phase-blocks.tsv.gz",
-    conda:
-        CONDA
-    threads: 8
-    params:
-        script=workflow.source_path("../scripts/get-hap-and-phaseblock.py"),
-    shell:
-        """
-        python {params.script} \
-            -t {threads} \
-            -i {input.bam} \
-            | bgzip -@ {threads} \
-            > {output.tsv}
-        """
-'''
