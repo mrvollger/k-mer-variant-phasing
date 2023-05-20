@@ -147,4 +147,3 @@ rule kmer_read_list:
             | grep '^>' | cut -f 1 | sed 's/^>//' | sed 's/$/\\tunk/' \
             >> {output.tsv}
         """
-
