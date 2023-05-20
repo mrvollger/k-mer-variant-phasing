@@ -37,7 +37,7 @@ rule haplotaged_bam:
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
     benchmark:
-        "benchmark/{sm}/haplotaged_bam/bench.txt"
+        "benchmark/{sm}/haplotaged_bam/{sm}.bench.txt"
     shell:
         """
         python {params.script} \
