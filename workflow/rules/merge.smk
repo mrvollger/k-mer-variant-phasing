@@ -12,6 +12,8 @@ rule merge_kmer_and_variant_phasing:
         mem_mb=64 * 1024,
     params:
         script=workflow.source_path("../scripts/merge-kmer-and-variant-phasing.py"),
+    benchmark:
+        "benchmark/{sm}/merge_kmer_and_variant_phasing/bench.txt"
     shell:
         """
         python {params.script} \
@@ -35,6 +37,8 @@ rule haplotaged_bam:
         mem_mb=32 * 1024,
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
+    benchmark:
+        "benchmark/{sm}/haplotaged_bam/bench.txt"
     shell:
         """
         python {params.script} \
