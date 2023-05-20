@@ -62,6 +62,8 @@ rule hiphase:
     resources:
         mem_mb=32 * 1024,
     threads: 32
+    benchmark:
+        "benchmark/{sm}/hiphase/bench.txt"
     shell:
         """
         hiphase -t {threads} \

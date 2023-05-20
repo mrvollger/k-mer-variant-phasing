@@ -45,6 +45,8 @@ rule meryl:
     params:
         k_mer_size=K_MER_SIZE,
     threads: K_MER_THREADS
+    benchmark:
+        "benchmark/{SM}/meryl/{individual}.txt"
     shell:
         """
         which meryl
@@ -68,6 +70,8 @@ rule hapmers:
     resources:
         mem_mb=64 * 1024,
     threads: K_MER_THREADS
+    benchmark:
+        "benchmark/{sm}/hapmers/bench.txt"
     shell:
         """
         # setup 
@@ -106,6 +110,8 @@ rule split_haplotype:
     params:
         min_rl=1000,
     threads: K_MER_THREADS
+    benchmark:
+        "benchmark/{sm}/split_haplotype/bench.txt"
     shell:
         """
         splitHaplotype \
