@@ -46,7 +46,7 @@ rule meryl:
         k_mer_size=K_MER_SIZE,
     threads: K_MER_THREADS
     benchmark:
-        "benchmark/{SM}/meryl/{individual}.txt"
+        "benchmark/{sm}/meryl/{individual}.txt"
     shell:
         """
         which meryl
