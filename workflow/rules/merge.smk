@@ -2,7 +2,6 @@ rule merge_kmer_and_variant_phasing:
     input:
         kmer=rules.kmer_read_list.output.tsv,
         variant=rules.hiphase.output.haptag,
-        #variant=rules.hiphase_read_list.output.tsv,
     output:
         tsv="results/{sm}/combined_phasing.tsv.gz",
     conda:
