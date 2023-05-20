@@ -42,12 +42,14 @@ rule meryl:
         CONDA
     resources:
         mem_mb=70 * 1024,
+    params:
+        k_mer_size=K_MER_SIZE,
     threads: K_MER_THREADS
     shell:
         """
         which meryl
         rm -rf {output.meryl}
-        meryl threads={threads} memory=64 k=21 count {input.reads} output {output.meryl}
+        meryl threads={threads} memory=64 k={params.k_mer_size} count {input.reads} output {output.meryl}
         echo "done" > {output.done}
         """
 
