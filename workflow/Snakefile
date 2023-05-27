@@ -19,7 +19,7 @@ VCF = config.pop("vcf")
 SAMPLE = config.pop("sample")
 REFERENCE = config.pop("reference")
 K_MER_THREADS = config.pop("k_mer_threads", 40)
-K_MER_SIZE = config.pop("k_mer_size", 21)
+K_MER_SIZE = config.pop("k_mer_size", 31)
 
 
 wildcard_constraints:
