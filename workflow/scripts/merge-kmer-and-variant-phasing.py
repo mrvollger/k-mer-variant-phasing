@@ -241,7 +241,6 @@ def main():
         logging.info("Prioritizing k-mer based phasing when there is disagreements.")
         merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
     else:
-        merged_df.loc[disagreements, "merged_hap"] = UNKNOWN
         switch_to_kmer = (merged_df.disagreement_count >= args.disagreement_count) & (
             merged_df.fraction_disagreement > args.max_frac_disagree
         )
