@@ -85,7 +85,7 @@ def parse():
         "-m",
         "--max-frac-disagree",
         help="Maximum fraction of reads in a phaseblock that can disagree with k-mers assignments before the whole phaseblock is considered incorrect and k-mers alone are used",
-        default=0.20,
+        default=0.10,
         type=float,
     )
     parser.add_argument(
