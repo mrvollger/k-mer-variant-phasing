@@ -244,7 +244,7 @@ def main():
         logging.info("Prioritizing k-mer but only when a large fraction of reads within a phaseblock disagree.")
         switch_to_kmer = (merged_df.disagreement_count >= args.disagreement_count) & (
             merged_df.fraction_disagreement > args.max_frac_disagree
-        )
+        ) & (merged_df.kmer_hap != UNKNOWN)
         merged_df.loc[switch_to_kmer, "merged_hap"] = merged_df.kmer_hap[switch_to_kmer]
 
     # drop reads that appear more than once
