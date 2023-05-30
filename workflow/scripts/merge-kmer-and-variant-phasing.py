@@ -85,14 +85,14 @@ def parse():
         "-m",
         "--max-frac-disagree",
         help="Maximum fraction of reads in a phaseblock that can disagree with k-mers assignments before the whole phaseblock is considered incorrect and k-mers alone are used",
-        default=0.10,
+        default=0.20,
         type=float,
     )
     parser.add_argument(
         "-d",
         "--disagreement-count",
         help="Minimum number of disagreeing reads in a phaseblock before it is considered incorrect and k-mers alone are used",
-        default=5,
+        default=10,
         type=int,
     )
     parser.add_argument("-o", "--output", help="Output file", default=sys.stdout)
@@ -241,6 +241,7 @@ def main():
         logging.info("Prioritizing k-mer based phasing when there is disagreements.")
         merged_df.merged_hap[disagreements] = merged_df.kmer_hap[disagreements]
     else:
+        merged_df.loc[disagreements, "merged_hap"] = UNKNOWN
         switch_to_kmer = (merged_df.disagreement_count >= args.disagreement_count) & (
             merged_df.fraction_disagreement > args.max_frac_disagree
         )
