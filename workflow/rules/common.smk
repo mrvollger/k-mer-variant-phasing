@@ -5,7 +5,15 @@ def get_cleaned_reads(sm, hap):
         reads = PAT_DATA
     else:
         raise ValueError("hap must be mat or pat")
-
+    # check format
+    valid_extensions = [".fa", ".fasta", ".fq", ".fastq"]
+    valid_extensions += [x + ".gz" for x in valid_extensions]
+    valid_extensions += [".fofn", ".bam", ".sam", ".cram"]
+    assert reads.endswith(tuple(valid_extensions)), (
+        f"reads must end with one of {valid_extensions}, "
+        f"but {reads} does not"
+    )
+    # get fasta 
     if (
         reads.endswith(".fofn")
         or reads.endswith("bam")
@@ -29,13 +37,6 @@ def get_reads(wc):
     reads = PAT_DATA
     if wc.hap == "mat":
         reads = MAT_DATA
-    valid_extensions = [".fa", ".fasta", ".fq", ".fastq"]
-    valid_extensions += [x + ".gz" for x in valid_extensions]
-    valid_extensions += [".fofn", ".bam", ".sam", ".cram"]
-    assert reads.endswith(tuple(valid_extensions)), (
-        f"reads must end with one of {valid_extensions}, "
-        f"but {reads} does not"
-    )
     return reads
 
 
