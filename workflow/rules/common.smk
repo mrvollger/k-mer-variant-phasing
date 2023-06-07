@@ -26,9 +26,17 @@ def get_pat(wc):
 
 
 def get_reads(wc):
+    reads = PAT_DATA
     if wc.hap == "mat":
-        return MAT_DATA
-    return PAT_DATA
+        reads = MAT_DATA
+    valid_extensions = [".fa", ".fasta", ".fq", ".fastq"]
+    valid_extensions += [x + ".gz" for x in valid_extensions]
+    valid_extensions += [".fofn", ".bam", ".sam", ".cram"]
+    assert reads.endswith(tuple(valid_extensions)), (
+        f"reads must end with one of {valid_extensions}, "
+        f"but {reads} does not"
+    )
+    return reads
 
 
 def get_hifi_bam(wc):
