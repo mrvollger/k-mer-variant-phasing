@@ -12,16 +12,16 @@ shell.prefix(f"export PATH={MERYL}:{HIPHASE}:$PATH; ")
 
 CONDA = "fiberseq-smk"
 CONDA = "../envs/env.yml"
-PAT_DATA = config.pop("paternal")
-MAT_DATA = config.pop("maternal")
-HIFI_BAM = config.pop("hifi_bam")
-VCF = config.pop("vcf")
-SAMPLE = config.pop("sample")
-REFERENCE = config.pop("reference")
-K_MER_THREADS = config.pop("k_mer_threads", 40)
-K_MER_SIZE = config.pop("k_mer_size", 31)
+PAT_DATA = config.get("paternal")
+MAT_DATA = config.get("maternal")
+HIFI_BAM = config.get("hifi_bam")
+VCF = config.get("vcf")
+SAMPLE = config.get("sample")
+REFERENCE = config.get("reference")
+K_MER_THREADS = config.get("k_mer_threads", 40)
+K_MER_SIZE = config.get("k_mer_size", 31)
 BIN_VERSION = config.get("BIN_VERSION", "1.5.0")
-DEEPVARIANT = config.pop("deepvariant", False)
+DEEPVARIANT = config.get("deepvariant", False)
 
 
 wildcard_constraints:
