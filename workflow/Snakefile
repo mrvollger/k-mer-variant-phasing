@@ -52,7 +52,7 @@ elif not PAT_DATA and not MAT_DATA:
 
     rule all:
         input:
-            expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
+            expand(rules.hiphase.output, sm=SAMPLE),
 
 else:
 
