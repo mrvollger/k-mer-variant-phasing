@@ -7,7 +7,10 @@ rule deepvariant:
         ref=REFERENCE,
     output:
         vcf=temp("temp/{sm}/deepvariant/{sm}.deepvariant.vcf.gz"),
+        vcf.tbi=temp("temp/{sm}/deepvariant/{sm}.deepvariant.vcf.gz.tbi"),
         gvcf=temp("temp/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz"),
+        gvcf.tbi=temp("temp/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz.tbi"),
+        html=temp("temp/{sm}/deepvariant/{sm}.deepvariant.visual_report.html"),
     threads: 8
     resources:
         mem_mb=64 * 1024,
