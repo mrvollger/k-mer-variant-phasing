@@ -27,6 +27,8 @@ wildcard_constraints:
     hap="pat|mat",
     individual="mat|pat|pro",
 
+localrules:
+    deepvariant
 
 include: "rules/common.smk"
 include: "rules/kmer.smk"
