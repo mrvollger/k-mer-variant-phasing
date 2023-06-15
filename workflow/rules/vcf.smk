@@ -66,7 +66,7 @@ rule deepvariant_merge:
             -s <(echo {wildcards.sm}) -o {output.vcf}
         bcftools index {output.vcf} 
         bcftools concat {input.gvcfs} -o - \
-            | bcftools reheaader --threads {threads} \
+            | bcftools reheader --threads {threads} \
             -s <(echo {wildcards.sm}) -o {output.gvcf} --write-index
         bcftools index {output.gvcf} 
         """
