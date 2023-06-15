@@ -19,8 +19,6 @@ rule deepvariant:
         bin_version=BIN_VERSION,
     shell:
         """
-        singularity run -B /usr/lib/locale/:/usr/lib/locale/ \
-            docker://google/deepvariant:"{params.bin_version}" \
             /opt/deepvariant/bin/run_deepvariant \
             --model_type={params.model_type} \
             --ref={input.ref} \
@@ -34,3 +32,5 @@ rule deepvariant:
 #--intermediate_results_dir "${OUTPUT_DIR}/intermediate_results_dir" \ **Optional.
 # singularity run --nv -B /usr/lib/locale/:/usr/lib/locale/ \
 # docker://google/deepvariant:"${BIN_VERSION}-gpu" \
+# singularity run -B /usr/lib/locale/:/usr/lib/locale/ \
+#  docker://google/deepvariant:"{params.bin_version}" \
