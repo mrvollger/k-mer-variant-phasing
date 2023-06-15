@@ -23,7 +23,8 @@ K_MER_THREADS = config.get("k_mer_threads", 40)
 K_MER_SIZE = config.get("k_mer_size", 31)
 BIN_VERSION = config.get("BIN_VERSION", "1.5.0")
 DEEPVARIANT = config.get("deepvariant", False)
-
+# inferted
+NO_PARENTAL = PAT_DATA is False or MAT_DATA is False
 
 wildcard_constraints:
     sm="|".join([SAMPLE]),
@@ -49,7 +50,7 @@ if DEEPVARIANT:
         input:
             rules.deepvariant.input,
 
-elif not PAT_DATA and not MAT_DATA:
+elif NO_PARENTAL:
 
     rule all:
         input:
