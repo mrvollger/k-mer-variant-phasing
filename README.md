@@ -19,11 +19,20 @@ See `config/no_parental.yaml` for an example input file.
 
 ## Running only DeepVariant
 
-First set of a configuration file. See `config/deepvariant.yaml` for a commented example. 
+First set up a configuration file. See `config/deepvariant.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ``` 
 snakemake --profile profile/compute --configfile config/your_config.yaml deepvariant
 ```
+
+## Running only alignment (pbmm2)
+
+First set up a configuration file. See `config/align.yaml` for a commented example. 
+Then run snakemake with the following command pointing to your configuration file.
+``` 
+snakemake --profile profile/compute --configfile config/your_config.yaml pbmm2
+```
+
 
 ### Dependencies 
 
