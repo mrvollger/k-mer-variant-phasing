@@ -18,7 +18,6 @@ rule deepvariant_chunk:
         mem_mb=64 * 1024,
     singularity:
         f"docker://google/deepvariant:{BIN_VERSION}"
-        #f"docker://google/deepvariant:{BIN_VERSION}-gpu"
     params:
         model_type="PACBIO",  # WGS, WES, PACBIO, ONT_R104, HYBRID_PACBIO_ILLUMINA
         bin_version=BIN_VERSION,
@@ -37,6 +36,7 @@ rule deepvariant_chunk:
 
 
 # --intermediate_results_dir "${OUTPUT_DIR}/intermediate_results_dir" \ **Optional.
+#f"docker://google/deepvariant:{BIN_VERSION}-gpu"
 # singularity run --nv -B /usr/lib/locale/:/usr/lib/locale/ \
 
 
