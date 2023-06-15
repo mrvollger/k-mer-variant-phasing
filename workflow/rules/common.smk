@@ -33,7 +33,7 @@ def get_fai(wc):
 
 
 def make_regions():
-    fai=f"{REFERENCE}.fai"
+    fai = f"{REFERENCE}.fai"
     step_size = config.get("step_size", 10_000_000)
     rtn = []
     with open(fai) as f:
