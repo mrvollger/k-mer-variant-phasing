@@ -26,7 +26,7 @@ rule deepvariant:
             --reads={input.bam} \
             --regions "chr20:10,000,000-10,010,000" \
             --output_vcf={output.vcf} \
-            --output_gvcf={output.gvcfg} \
+            --output_gvcf={output.gvcf} \
             --num_shards={threads}
         """
 
