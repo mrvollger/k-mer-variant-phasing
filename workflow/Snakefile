@@ -30,6 +30,8 @@ wildcard_constraints:
 
 localrules:
     deepvariant,
+    deepvariant_chunk,
+    deepvariant_merge,
 
 
 include: "rules/common.smk"
