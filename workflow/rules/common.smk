@@ -32,7 +32,20 @@ def get_fai(wc):
     return f"{get_ref(wc)}.fai"
 
 
-REGIONS = ["chr20_chr_st_10000000_chr_en_10010000"]
+def make_regions():
+    fai=f"{REFERENCE}.fai"
+    step_size = 10_000_000
+    rtn = []
+    with open(fai) as f:
+        for line in f:
+            chrom, length, *_ = line.split()
+            length = int(length)
+            for start in range(1, length, step_size):
+                end = min(start + step_size, length)
+                rtn.append(f"{chrom}_chr_st_{start}_chr_en_{end}")
+    return rtn
+
+REGIONS = make_regions()
 
 
 def get_region(wc):
