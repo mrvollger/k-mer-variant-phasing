@@ -36,7 +36,7 @@ REGIONS = ["chr20_chr_st_10000000_chr_en_10010000"]
 
 
 def get_region(wc):
-    return wc.rgn.replace(":", "_chr_st_").replace("-", "_chr_en_")
+    return wc.rgn.replace("_chr_st_", ":").replace("_chr_en_", "-")
 
 
 def get_mat(wc):
