@@ -6,7 +6,7 @@ However, by running it in different modes you can also use it to phase using onl
 
 ## Usage
 
-First set of a configuration file. See `config/config.yaml` for a commented example. 
+First set up a configuration file. See `config/config.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ```
 snakemake --profile profile/compute --configfile config/your_config.yaml
