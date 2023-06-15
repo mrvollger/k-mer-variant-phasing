@@ -27,7 +27,7 @@ rule split_zmws:
         """
         python {params.split_zmws} \
             --scatteritem {wildcards.scatteritem} \
-            {input.txt} -o {output.txt} 2> {log}
+            {input.txt} -o {output.txt}
         """
 
 
