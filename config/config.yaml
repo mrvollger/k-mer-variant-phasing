@@ -4,7 +4,7 @@ sample: "test_GM12878"
 # reference that the hifi bam and vcf correspond to, must be indexed (.fai)
 reference: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.fa 
 
-# Hifi bam to phase, must be indexed (.bai or .pbi)
+# Hifi bam to phase, must be indexed [.bai if aligned or .pbi if alignment is to be done] 
 hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/GM12878.hifi.chr20.bam 
 
 # if you want to align the hifi data to the reference set this to true
@@ -16,7 +16,6 @@ align: true
 
 # replace the first sample name in the VCF with the pipeline sample name
 clean_vcf: true 
-
 
 # if you don't proved the maternal and paternal data the pipeline will only run hiphase 
 # paternal sequencing data, can be sam, bam, cram, fa, or fq
