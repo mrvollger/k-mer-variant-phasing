@@ -34,7 +34,6 @@ def get_fai(wc):
 REGIONS=["chr20:10,000,000-10,010,000"]
 def get_region(wc):
     print(wc)
-    print(regions)
     return "chr20:10,000,000-10,010,000" 
 
 def get_mat(wc):
