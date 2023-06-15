@@ -64,7 +64,7 @@ rule hiphase:
         mem_mb=32 * 1024,
     threads: 32
     params:
-        bam = "--output-bam {{output.bam}}" if NO_PARENTAL else "",
+        bam = "--output-bam" if NO_PARENTAL else "",
     benchmark:
         "benchmark/{sm}/hiphase/bench.txt"
     shell:
@@ -75,7 +75,7 @@ rule hiphase:
             --vcf {input.vcf} \
             --reference {input.ref} \
             --output-vcf {output.vcf} \
-            {params.bam} \
+            {params.bam} {output.bam} \
             --haplotag-file {output.haptag} \
             --summary-file {output.summary} \
             --stats-file {output.stats} \
