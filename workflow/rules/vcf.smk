@@ -36,7 +36,7 @@ rule deepvariant_chunk:
 
 
 # --intermediate_results_dir "${OUTPUT_DIR}/intermediate_results_dir" \ **Optional.
-#f"docker://google/deepvariant:{BIN_VERSION}-gpu"
+# f"docker://google/deepvariant:{BIN_VERSION}-gpu"
 # singularity run --nv -B /usr/lib/locale/:/usr/lib/locale/ \
 
 
