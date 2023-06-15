@@ -73,7 +73,7 @@ rule pbmm2_merge:
         ),
     output:
         bam="results/{sm}/pbmm2/{sm}.bam",
-        bai="results/{sm}/pbmm2/{sm}.bam.bai",
+        pbi="results/{sm}/pbmm2/{sm}.bam.pbi",
     conda:
         CONDA
     threads: 16
