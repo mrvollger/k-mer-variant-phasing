@@ -1,6 +1,6 @@
 rule clean_bam:
     input:
-        bam=HIFI_BAM,
+        bam=get_hifi_bam,
     output:
         bam=temp("temp/{sm}/{sm}.hiphase.bam"),
         bai=temp("temp/{sm}/{sm}.hiphase.bam.bai"),
@@ -25,7 +25,7 @@ rule clean_bam:
 
 rule clean_vcf:
     input:
-        vcf=VCF,
+        vcf=get_vcf,
     output:
         vcf=temp("temp/{sm}/{sm}.hiphase.vcf.gz"),
         tbi=temp("temp/{sm}/{sm}.hiphase.vcf.gz.tbi"),

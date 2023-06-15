@@ -76,6 +76,8 @@ def get_hifi_bai(wc):
 
 
 def get_vcf(wc):
+    if VCF is None or VCF is False:
+        return rules.deepvariant_merge.output.vcf
     if config.get("clean_vcf"):
         return expand(rules.clean_vcf.output.vcf, sm=wc.sm, allow_missing=True)[0]
     return VCF
