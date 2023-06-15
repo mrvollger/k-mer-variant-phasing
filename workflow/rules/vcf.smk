@@ -54,6 +54,7 @@ rule deepvariant_merge:
         vcf_tbi="results/{sm}/deepvariant/{sm}.deepvariant.vcf.gz.tbi",
         gvcf="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz",
         gvcf_tbi="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz.tbi",
+        tmp=temp("temp/{sm}/deepvariant/{sm}.deepvariant.vcf.gz"),
     threads: 16
     resources:
         mem_mb=64 * 1024,
@@ -61,18 +62,18 @@ rule deepvariant_merge:
         CONDA
     shell:
         """
-        bcftools concat {input.vcfs} -o - \
-            | bcftools reheader --threads {threads} \
-            -s <(echo {wildcards.sm}) -o - \
-            | bgzip -@ {threads} > {output.vcf}
+        bcftools concat {input.vcfs} -o {output.temp}
+        bcftools reheader --threads {threads} \
+            -s <(echo {wildcards.sm}) {output.temp} \
+            -o {output.vcf} 
         bcftools index -t {output.vcf} 
-        
-        bcftools concat {input.gvcfs} -o - \
-            | bcftools reheader --threads {threads} \
-            -s <(echo {wildcards.sm}) -o - \
-            | bgzip -@ {threads} > {output.gvcf}
+
+        bcftools concat {input.gvcfs} -o {output.temp}
+        bcftools reheader --threads {threads} \
+            -s <(echo {wildcards.sm}) {output.temp} \
+            -o {output.gvcf} 
         bcftools index -t {output.gvcf} 
-        """
+       """
 
 
 rule deepvariant:
