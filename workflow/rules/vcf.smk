@@ -62,15 +62,15 @@ rule deepvariant_merge:
         CONDA
     shell:
         """
-        bcftools concat {input.vcfs} -o {output.temp}
+        bcftools concat {input.vcfs} -o {output.tmp}
         bcftools reheader --threads {threads} \
-            -s <(echo {wildcards.sm}) {output.temp} \
+            -s <(echo {wildcards.sm}) {output.tmp} \
             -o {output.vcf} 
         bcftools index -t {output.vcf} 
 
-        bcftools concat {input.gvcfs} -o {output.temp}
+        bcftools concat {input.gvcfs} -o {output.tmp}
         bcftools reheader --threads {threads} \
-            -s <(echo {wildcards.sm}) {output.temp} \
+            -s <(echo {wildcards.sm}) {output.tmp} \
             -o {output.gvcf} 
         bcftools index -t {output.gvcf} 
        """
