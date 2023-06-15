@@ -1,0 +1,8 @@
+# sample name that with prefix your results and is inserted into the read group and sample name
+sample: "test_GM12878" 
+# Hifi bam to phase, must be indexed (.bai)
+hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/GM12878.hifi.chr20.bam 
+# reference that the hifi bam and vcf correspond to, must be indexed (.fai)
+reference: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.fa 
+# run only deep variant 
+deepvariant: true
