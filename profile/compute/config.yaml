@@ -26,6 +26,7 @@ restart-times: 0
 printshellcmds: True
 reason: True
 use-conda: True
+use-singularity: True
 show-failed-logs: True 
 latency-wait: 60
 max-jobs-per-second: 100
