@@ -32,12 +32,12 @@ include: "rules/common.smk"
 include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
-
+include: "rules/vcf.smk"
 
 rule all:
     input:
-        #expand(rules.hiphase_read_list.output, sm=SAMPLE),
         expand(rules.kmer_read_list.output, sm=SAMPLE),
         expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
         expand(rules.haplotaged_bam.output, sm=SAMPLE),
         expand(rules.haplotaged_bai.output, sm=SAMPLE),
+        expand(rules.deepvariant.output, sm=SAMPLE),
