@@ -32,12 +32,11 @@ def get_fai(wc):
     return f"{get_ref(wc)}.fai"
 
 
-REGIONS = ["chr20_10000000-10010000"]
+REGIONS = ["chr20_chr_st_10000000_chr_en_10010000"]
 
 
 def get_region(wc):
-    print(wc)
-    return "chr20:10000000-10010000"
+    retrun wc.region.replace(":", "_chr_st_").replace("-", "_chr_en_")
 
 
 def get_mat(wc):
