@@ -25,7 +25,7 @@ rule merge_kmer_and_variant_phasing:
 
 rule haplotaged_bam:
     input:
-        bam=HIFI_BAM,
+        bam=get_hifi_bam,
         tsv=rules.merge_kmer_and_variant_phasing.output.tsv,
     output:
         bam="results/{sm}/{sm}.haplotagged.bam",

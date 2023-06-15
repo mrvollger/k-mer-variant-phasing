@@ -4,8 +4,11 @@ sample: "test_GM12878"
 # reference that the hifi bam and vcf correspond to, must be indexed (.fai)
 reference: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.fa 
 
-# Hifi bam to phase, must be indexed (.bai)
+# Hifi bam to phase, must be indexed (.bai or .pbi)
 hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/GM12878.hifi.chr20.bam 
+
+# if you want to align the hifi data to the reference set this to true
+align: true
 
 # Deep variant vcf file of the hifi bam against the reference. Must be indexed (.tbi)
 # if you don't provide a vcf, the pipeline will run deepvariant for you and make one

@@ -68,6 +68,8 @@ def get_reads(wc):
 def get_hifi_bam(wc):
     # if config.get("clean_bam"):
     #    return expand(rules.clean_bam.output.bam, sm=wc.sm, allow_missing=True)[0]
+    if ALIGN:
+        return rules.pbmm2_merge.output.bam
     return HIFI_BAM
 
 
@@ -91,3 +93,9 @@ def get_meryl_input(wc):
     if wc.individual == "pro":
         return rules.hifi_fasta.output.fasta
     return get_cleaned_reads(wc.sm, wc.individual)
+
+
+def custom_scatteritems():
+    n_chunks = config.get("n_chunks", 100)
+    scatteritems = [f"{i+1}-of-{n_chunks}" for i in range(n_chunks)]
+    return scatteritems
