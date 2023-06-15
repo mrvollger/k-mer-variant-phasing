@@ -12,7 +12,7 @@ rule deepvariant_chunk:
         html=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.visual_report.html"),
     threads: 8
     resources:
-        mem_mb=64 * 1024,
+        mem_mb=32 * 1024,
     singularity:
         f"docker://google/deepvariant:{BIN_VERSION}"
     params:
