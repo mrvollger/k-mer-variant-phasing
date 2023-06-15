@@ -31,10 +31,10 @@ def get_ref(wc):
 def get_fai(wc):
     return f"{get_ref(wc)}.fai"
 
-REGIONS=["chr20:10,000,000-10,010,000"]
+REGIONS=["chr20_10000000-10010000"]
 def get_region(wc):
     print(wc)
-    return "chr20:10,000,000-10,010,000" 
+    return "chr20:10000000-10010000" 
 
 def get_mat(wc):
     return get_cleaned_reads(wc.sm, "mat")
