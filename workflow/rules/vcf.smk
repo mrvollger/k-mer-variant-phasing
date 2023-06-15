@@ -62,9 +62,11 @@ rule deepvariant_merge:
     shell:
         """
         bcftools concat {input.vcfs} -o - \
-            | bcftools --threads {threads} -s <(echo {wildcards.sm}) -o {output.vcf} --write-index
+            | bcftools reheader --threads {threads} \
+            -s <(echo {wildcards.sm}) -o {output.vcf} --write-index
         bcftools concat {input.gvcfs} -o - \
-            | bcftools --threads {threads} -s <(echo {wildcards.sm}) -o {output.gvcf} --write-index
+            | bcftools reheaader --threads {threads} \
+            -s <(echo {wildcards.sm}) -o {output.gvcf} --write-index
         """
 
 
