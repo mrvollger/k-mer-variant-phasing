@@ -12,8 +12,8 @@ shell.prefix(f"export PATH={MERYL}:{HIPHASE}:$PATH; ")
 
 CONDA = "fiberseq-smk"
 CONDA = "../envs/env.yml"
-PAT_DATA = config.get("paternal")
-MAT_DATA = config.get("maternal")
+PAT_DATA = config.get("paternal", False)
+MAT_DATA = config.get("maternal", False)
 HIFI_BAM = config.get("hifi_bam")
 VCF = config.get("vcf")
 SAMPLE = config.get("sample")
@@ -47,6 +47,12 @@ if DEEPVARIANT:
     rule all:
         input:
             rules.deepvariant.input,
+
+elif not PAT_DATA and not MAT_DATA:
+
+    rule all:
+        input:
+            expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
 
 else:
 
