@@ -10,10 +10,9 @@ def get_cleaned_reads(sm, hap):
     valid_extensions += [x + ".gz" for x in valid_extensions]
     valid_extensions += [".fofn", ".bam", ".sam", ".cram"]
     assert reads.endswith(tuple(valid_extensions)), (
-        f"reads must end with one of {valid_extensions}, "
-        f"but {reads} does not"
+        f"reads must end with one of {valid_extensions}, " f"but {reads} does not"
     )
-    # get fasta 
+    # get fasta
     if (
         reads.endswith(".fofn")
         or reads.endswith("bam")
@@ -24,6 +23,19 @@ def get_cleaned_reads(sm, hap):
     else:
         return reads
 
+
+def get_ref(wc):
+    return REFERENCE
+
+
+def get_fai(wc):
+    return f"{get_ref(wc)}.fai"
+
+REGIONS=["chr20:10,000,000-10,010,000"]
+def get_region(wc):
+    print(wc)
+    print(regions)
+    return "chr20:10,000,000-10,010,000" 
 
 def get_mat(wc):
     return get_cleaned_reads(wc.sm, "mat")
