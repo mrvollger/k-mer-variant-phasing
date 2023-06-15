@@ -45,8 +45,6 @@ def make_regions():
                 rtn.append(f"{chrom}_chr_st_{start}_chr_en_{end}")
     return rtn
 
-REGIONS = make_regions()
-
 
 def get_region(wc):
     return wc.rgn.replace("_chr_st_", ":").replace("_chr_en_", "-")

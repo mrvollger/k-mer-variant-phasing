@@ -45,9 +45,9 @@ rule deepvariant_chunk:
 
 rule deepvariant_merge:
     input:
-        vcfs=expand(rules.deepvariant_chunk.output.vcf, rgn=REGIONS, allow_missing=True),
+        vcfs=expand(rules.deepvariant_chunk.output.vcf, rgn=make_regions(), allow_missing=True),
         gvcfs=expand(
-            rules.deepvariant_chunk.output.gvcf, rgn=REGIONS, allow_missing=True
+            rules.deepvariant_chunk.output.gvcf, rgn=make_regions(), allow_missing=True
         ),
     output:
         vcf="results/{sm}/deepvariant/{sm}.deepvariant.vcf.gz",
