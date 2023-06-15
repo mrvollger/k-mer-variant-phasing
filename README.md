@@ -1,5 +1,9 @@
 # Joint k-mer and variant phasing
 
+This is a pipeline designed to phase variants and PacBio Hifi data using a combination of k-mers and variants. 
+
+However, by running it in different modes you can also use it to phase using only variants and not k-mers (hiphase), or to just generate variant calls without any phasing of reads or the vcf (DeepVariant).
+
 ## Usage
 
 First set of a configuration file. See `config/config.yaml` for a commented example. 
