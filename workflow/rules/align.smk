@@ -74,12 +74,14 @@ rule pbmm2_merge:
     output:
         bam="results/{sm}/pbmm2/{sm}.bam",
         pbi="results/{sm}/pbmm2/{sm}.bam.pbi",
+        bai="results/{sm}/pbmm2/{sm}.bam.bai",
     conda:
         CONDA
     threads: 16
     shell:
         """
         pbmerge -j {threads} {input.bams} -o {output.bam}
+        samtools index -@ {threads} {output.bam}
         """
 
 
