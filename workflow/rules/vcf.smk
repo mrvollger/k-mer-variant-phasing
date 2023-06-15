@@ -3,6 +3,7 @@ BIN_VERSION="1.5.0"
 rule deepvariant:
     input:
         bam=get_hifi_bam,
+        bai=get_hifi_bai,
         ref=REFERENCE,
     output:
         vcf=temp("temp/{sm}/deepvariant/{sm}.deepvariant.vcf.gz"),
