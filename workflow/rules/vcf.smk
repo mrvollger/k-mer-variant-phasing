@@ -1,6 +1,6 @@
 BIN_VERSION="1.5.0"
 
-rule deepvariant:
+rule deepvariant_chunk:
     input:
         bam=get_hifi_bam,
         bai=get_hifi_bai,
@@ -37,3 +37,30 @@ rule deepvariant:
 # docker://google/deepvariant:"${BIN_VERSION}-gpu" \
 # singularity run -B /usr/lib/locale/:/usr/lib/locale/ \
 #  docker://google/deepvariant:"{params.bin_version}" \
+
+rule deepvariant_merge:
+    input:
+        vcfs=expand(rules.deepvariant_chunk.output.vcf, rgn=REGIONS, allow_missing=True),
+        gvcfs=expand(rules.deepvariant_chunk.output.gvcf, rgn=REGIONS, allow_missing=True),
+    output:
+        vcf="results/{sm}/deepvariant/{sm}.deepvariant.vcf.gz",
+        vcf_tbi="results/{sm}/deepvariant/{sm}.deepvariant.vcf.gz.tbi",
+        gvcf="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz",
+        gvcf_tbi="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz.tbi",
+    threads: 16
+    resources:
+        mem_mb=64 * 1024,
+    conda:
+        CONDA
+    shell:
+        """
+        bcftools concat {input.vcfs} -o - \
+            | bcftools --threads {threads} -s <(echo {wildcards.sm}) -o {output.vcf} --write-index
+        bcftools concat {input.gvcfs} -o - \
+            | bcftools --threads {threads} -s <(echo {wildcards.sm}) -o {output.gvcf} --write-index
+        """
+
+rule deepvariant:
+    input:
+        expand(rules.deepvariant_merge.output, sm=SAMPLE),
+    
