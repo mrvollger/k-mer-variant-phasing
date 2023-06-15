@@ -57,7 +57,7 @@ rule hiphase:
         stats="results/{sm}/hiphase/stats.tsv",
         blocks="results/{sm}/hiphase/blocks.tsv",
         haptag="results/{sm}/hiphase/read-level-phasing.tsv",
-        bam="results/{sm}/hiphase/{sm}.bam" if NO_PARENTAL else "",
+        bam="results/{sm}/hiphase/{sm}.bam" if NO_PARENTAL else None,
     conda:
         CONDA
     resources:
