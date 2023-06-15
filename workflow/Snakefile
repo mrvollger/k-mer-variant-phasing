@@ -35,10 +35,10 @@ localrules:
 
 
 include: "rules/common.smk"
+include: "rules/vcf.smk"
 include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
-include: "rules/vcf.smk"
 
 if DEEPVARIANT:
     rule all:
