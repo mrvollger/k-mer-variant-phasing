@@ -1,6 +1,3 @@
-BIN_VERSION = "1.5.0"
-
-
 rule deepvariant_chunk:
     input:
         bam=get_hifi_bam,
