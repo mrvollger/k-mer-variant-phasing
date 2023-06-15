@@ -21,7 +21,8 @@ REFERENCE = config.pop("reference")
 K_MER_THREADS = config.pop("k_mer_threads", 40)
 K_MER_SIZE = config.pop("k_mer_size", 31)
 BIN_VERSION = config.get("BIN_VERSION", "1.5.0")
-DEEPVARIANT=config.pop("deepvariant", False)
+DEEPVARIANT = config.pop("deepvariant", False)
+
 
 wildcard_constraints:
     sm="|".join([SAMPLE]),
@@ -40,11 +41,15 @@ include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
 
+
 if DEEPVARIANT:
+
     rule all:
         input:
             rules.deepvariant.input,
+
 else:
+
     rule all:
         input:
             expand(rules.kmer_read_list.output, sm=SAMPLE),
