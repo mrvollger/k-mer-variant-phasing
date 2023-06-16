@@ -2,6 +2,7 @@
 import logging
 import argparse
 
+
 # https://stackoverflow.com/questions/2130016/splitting-a-list-into-n-parts-of-approximately-equal-length
 def split(a, n):
     k, m = divmod(len(a), n)
@@ -19,7 +20,7 @@ def parse():
         "--out",
         help="Output file",
         required=True,
-        #nargs="+",
+        # nargs="+",
     )
     parser.add_argument(
         "-s", "--scatteritem", help="scatteritem chunk to save", required=True
