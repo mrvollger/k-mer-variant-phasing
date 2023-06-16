@@ -51,6 +51,7 @@ rule deepvariant_merge:
         gvcf="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz",
         gvcf_tbi="results/{sm}/deepvariant/{sm}.deepvariant.gvcf.gz.tbi",
         tmp=temp("temp/{sm}/deepvariant/{sm}.deepvariant.vcf.gz"),
+        vcfs=temp("temp/{sm}/deepvariant/vcfs.txt"),
     threads: 16
     resources:
         mem_mb=64 * 1024,
@@ -58,13 +59,34 @@ rule deepvariant_merge:
         CONDA
     shell:
         """
-        bcftools concat {input.vcfs} -o {output.tmp}
+        > {output.vcfs}
+        for vcf in {input.vcfs}; do
+            sample=$(bcftools head $vcf | tail -n 1 | cut -f 10)
+            if [[ $sample == "default" ]]; then
+                echo "skipping, no variants in $vcf"
+            elfi
+                echo $vcf >> {output.vcfs}
+            fi
+        done
+
+        bcftools concat $(cat {output.vcfs}) -o {output.tmp}
         bcftools reheader --threads {threads} \
             -s <(echo {wildcards.sm}) {output.tmp} \
             -o {output.vcf} 
         bcftools index -t {output.vcf} 
 
-        bcftools concat {input.gvcfs} -o {output.tmp}
+
+        > {output.vcfs}
+        for vcf in {input.gvcfs}; do
+            sample=$(bcftools head $vcf | tail -n 1 | cut -f 10)
+            if [[ $sample == "default" ]]; then
+                echo "skipping, no variants in $vcf"
+            elfi
+                echo $vcf >> {output.vcfs}
+            fi
+        done
+        
+        bcftools concat $(cat {output.vcfs}) -o {output.tmp}
         bcftools reheader --threads {threads} \
             -s <(echo {wildcards.sm}) {output.tmp} \
             -o {output.gvcf} 
