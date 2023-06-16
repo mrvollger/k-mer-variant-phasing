@@ -64,7 +64,7 @@ rule deepvariant_merge:
             sample=$(bcftools head $vcf | tail -n 1 | cut -f 10)
             if [[ $sample == "default" ]]; then
                 echo "skipping, no variants in $vcf"
-            elfi
+            elif
                 echo $vcf >> {output.vcfs}
             fi
         done
@@ -81,11 +81,11 @@ rule deepvariant_merge:
             sample=$(bcftools head $vcf | tail -n 1 | cut -f 10)
             if [[ $sample == "default" ]]; then
                 echo "skipping, no variants in $vcf"
-            elfi
+            elif
                 echo $vcf >> {output.vcfs}
             fi
         done
-        
+
         bcftools concat $(cat {output.vcfs}) -o {output.tmp}
         bcftools reheader --threads {threads} \
             -s <(echo {wildcards.sm}) {output.tmp} \
