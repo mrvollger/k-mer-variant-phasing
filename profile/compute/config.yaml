@@ -6,7 +6,7 @@ cluster:
   mkdir -p cluster_logs/{rule} &&
   sbatch
     --account=stergachislab
-    --partition=compute
+    --partition={CLUSTER_PARTITION}
     --nodes=1 
     --ntasks-per-node={threads} 
     --mem={resources.mem_mb} 

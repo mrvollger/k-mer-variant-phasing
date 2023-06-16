@@ -26,7 +26,7 @@ DEEPVARIANT = config.get("deepvariant", False)
 ALIGN = config.get("align", False)
 # inferted
 NO_PARENTAL = PAT_DATA is False or MAT_DATA is False
-
+CLUSTER_PARTITION = "compute"
 
 wildcard_constraints:
     sm="|".join([SAMPLE]),
