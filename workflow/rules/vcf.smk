@@ -60,9 +60,11 @@ rule deepvariant_merge:
     shell:
         """
         > {output.vcfs}
-        for vcf in {input.vcfs}; do
+        for vcf in {input.vcfs}
+        do
             sample=$(bcftools head $vcf | tail -n 1 | cut -f 10)
-            if [[ $sample == "default" ]]; then
+            if [[ $sample == "default" ]]
+            then
                 echo "skipping, no variants in $vcf"
             elif
                 echo $vcf >> {output.vcfs}
