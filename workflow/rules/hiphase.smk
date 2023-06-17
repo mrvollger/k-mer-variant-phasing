@@ -25,7 +25,7 @@ rule clean_bam:
 
 rule clean_vcf:
     input:
-        vcf=VCF,
+        vcf=get_input_vcf,
     output:
         vcf=temp("temp/{sm}/{sm}.hiphase.vcf.gz"),
         tbi=temp("temp/{sm}/{sm}.hiphase.vcf.gz.tbi"),
