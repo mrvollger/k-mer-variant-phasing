@@ -22,7 +22,7 @@ See `config/no_parental.yaml` for an example input file.
 First set up a configuration file. See `config/deepvariant.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ``` 
-snakemake --profile profile/compute --configfile config/your_config.yaml deepvariant
+snakemake deepvariant --profile profile/compute --configfile config/your_config.yaml 
 ```
 
 ## Running only alignment (pbmm2)
@@ -30,7 +30,7 @@ snakemake --profile profile/compute --configfile config/your_config.yaml deepvar
 First set up a configuration file. See `config/align.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ``` 
-snakemake --profile profile/compute --configfile config/your_config.yaml pbmm2
+snakemake pbmm2 --profile profile/compute --configfile config/your_config.yaml 
 ```
 
 
