@@ -114,7 +114,6 @@ def assign_per_hap(group_df):
     # if variant reads are unphased use the kmer phasing
     if cur_variant_hap == UNKNOWN:
         group_df.merged_hap = group_df.kmer_hap
-        group_df.fraction_disagreement = 0.0
         return group_df
 
     # check which kmer haplotype is more common in the phaseblock
@@ -123,24 +122,11 @@ def assign_per_hap(group_df):
     maternal = kmer_counts.get(MATERNAL, 0)
 
     winner = UNKNOWN
-    looser = UNKNOWN
     if paternal > maternal:
         winner = PATERNAL
-        looser = MATERNAL
     elif maternal > 0:
         winner = MATERNAL
-        looser = PATERNAL
     group_df.merged_hap = winner
-
-    # find fraction in disagreement
-    if winner == UNKNOWN:
-        disagreement_count = 0
-        fraction_disagreement = 0.0
-    else:
-        disagreement_count = kmer_counts.get(looser, 0)
-        fraction_disagreement = disagreement_count / group_df.shape[0]
-    group_df.fraction_disagreement = fraction_disagreement
-    group_df.disagreement_count = disagreement_count
     return group_df
 
 
@@ -152,10 +138,46 @@ def assign_per_phase_block(group_df, args):
         group_df.fraction_disagreement = 0.0
         return group_df
     # now go through H1, H2 in the phaseblock
-    group_df = group_df.groupby("variant_hap", group_keys=False).apply(
+    out_df = group_df.groupby("variant_hap", group_keys=False).apply(
         lambda row: assign_per_hap(row)
     )
-    return group_df
+    # check if the variant haplotype is unknown or the merged haplotype
+    if (out_df.variant_hap == UNKNOWN).all() or (
+        out_df.merged_hap == UNKNOWN
+    ).all():
+        out_df.fraction_disagreement = 0.0
+        return out_df
+    # if both variant haps got the same parental hap take the better one
+    has_variant = out_df.variant_hap != UNKNOWN
+    haps = out_df[has_variant].merged_hap.unique()
+    variant_haps = out_df[has_variant].variant_hap.unique() 
+    if len(haps) == 1 and len(variant_haps) == 2:
+        parental_hap = haps[0]
+        other_parental_hap = PATERNAL if parental_hap == MATERNAL else MATERNAL
+        weights = []
+        for variant_hap, hap_df in out_df[has_variant].groupby(
+            "variant_hap", group_keys=False
+        ):
+            agree = hap_df.kmer_hap == hap_df.merged_hap
+            disagree = ~agree & (hap_df.kmer_hap != UNKNOWN)
+            weight = agree.sum() - disagree.sum()
+            assert weight >= 0
+            weights.append((weight, variant_hap))
+        assert len(weights) == 2, out_df
+        weight1, hap1 = weights[0]
+        weight2, hap2 = weights[1]
+        looser_hap = hap1 if weight2 > weight1 else hap2
+        out_df.loc[
+            has_variant & (out_df.variant_hap == looser_hap), "merged_hap"
+        ] = other_parental_hap
+
+    # calculate the disagreements
+    agree = out_df.kmer_hap == out_df.merged_hap
+    disagree = ~agree & (out_df.kmer_hap != UNKNOWN)
+    out_df["disagreement_count"] = disagree.sum()
+    out_df["fraction_disagreement"] = disagree.sum() / out_df.shape[0]
+
+    return out_df
 
 
 def log_phasing_stats(merged_df):
@@ -217,7 +239,7 @@ def main():
     merged_df["fraction_disagreement"] = 0.0
     merged_df["disagreement_count"] = 0.0
     merged_df = merged_df.groupby("phase_block", group_keys=False).apply(
-        lambda row: assign_per_phase_block(row, args)
+        lambda gdf: assign_per_phase_block(gdf, args)
     )
 
     # say the number of disagreements

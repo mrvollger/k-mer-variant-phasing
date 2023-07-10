@@ -14,7 +14,7 @@ snakemake --profile profile/compute --configfile config/your_config.yaml
 
 ## Running without parental data
 
-You can run the pipeline the same way, it will just only use `hiphase` instead of a combination of `hiphase` and k-mers to phase.
+You can run the pipeline the same way, it will only use `hiphase` instead of a combination of `hiphase` and k-mers to phase.
 See `config/no_parental.yaml` for an example input file.
 
 ## Running only DeepVariant
