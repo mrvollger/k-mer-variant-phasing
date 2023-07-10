@@ -142,15 +142,13 @@ def assign_per_phase_block(group_df, args):
         lambda row: assign_per_hap(row)
     )
     # check if the variant haplotype is unknown or the merged haplotype
-    if (out_df.variant_hap == UNKNOWN).all() or (
-        out_df.merged_hap == UNKNOWN
-    ).all():
+    if (out_df.variant_hap == UNKNOWN).all() or (out_df.merged_hap == UNKNOWN).all():
         out_df.fraction_disagreement = 0.0
         return out_df
     # if both variant haps got the same parental hap take the better one
     has_variant = out_df.variant_hap != UNKNOWN
     haps = out_df[has_variant].merged_hap.unique()
-    variant_haps = out_df[has_variant].variant_hap.unique() 
+    variant_haps = out_df[has_variant].variant_hap.unique()
     if len(haps) == 1 and len(variant_haps) == 2:
         parental_hap = haps[0]
         other_parental_hap = PATERNAL if parental_hap == MATERNAL else MATERNAL
