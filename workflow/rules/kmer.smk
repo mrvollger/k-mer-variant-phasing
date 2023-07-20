@@ -41,7 +41,7 @@ rule meryl:
     conda:
         CONDA
     resources:
-        mem_mb=96 * 1024,
+        mem_mb=148 * 1024,
     params:
         k_mer_size=K_MER_SIZE,
     threads: K_MER_THREADS
@@ -51,7 +51,7 @@ rule meryl:
         """
         which meryl
         rm -rf {output.meryl}
-        meryl threads={threads} memory=72 k={params.k_mer_size} count {input.reads} output {output.meryl}
+        meryl threads={threads} memory=124 k={params.k_mer_size} count {input.reads} output {output.meryl}
         echo "done" > {output.done}
         """
 
