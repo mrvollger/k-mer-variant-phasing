@@ -84,10 +84,12 @@ def get_vcf(wc):
         return rules.clean_vcf.output.vcf
     return VCF
 
+
 def get_input_vcf(wc):
     if VCF is None or VCF is False:
         return rules.deepvariant_merge.output.vcf
     return VCF
+
 
 def get_tbi(wc):
     return f"{get_vcf(wc)}.tbi"
