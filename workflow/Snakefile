@@ -48,6 +48,7 @@ include: "rules/vcf.smk"
 include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
+include: "rules/variant_callers.smk"
 
 
 if DEEPVARIANT:

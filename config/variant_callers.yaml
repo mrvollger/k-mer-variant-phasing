@@ -1,8 +1,8 @@
 # sample name that with prefix your results and is inserted into the read group and sample name
 sample: "test_GM12878" 
 
-# Align the hifi data to the reference
-align: true
+# run variant callers sniffles and PBSV
+variant_callers: true
 
 # Hifi bam to call variants on, must be indexed (.bai)
 hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/GM12878.hifi.chr20.bam 
