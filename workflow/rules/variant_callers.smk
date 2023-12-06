@@ -49,9 +49,9 @@ rule run_sniffles:
 
 
 def get_sv_caller_outputs():
-    if not SV_CALLERS:
-        return []
     rtn = expand(rules.run_pbsv.output, sm=SAMPLE)
     rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
     print(f"SV_CALLERS: {SV_CALLERS}\nSV_CALLER_OUTPUTS: {rtn}")
+    if not SV_CALLERS:
+        return []
     return rtn
