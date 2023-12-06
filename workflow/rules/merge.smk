@@ -13,13 +13,15 @@ rule merge_kmer_and_variant_phasing:
         script=workflow.source_path("../scripts/merge-kmer-and-variant-phasing.py"),
     benchmark:
         "benchmark/{sm}/merge_kmer_and_variant_phasing/bench.txt"
+    log:
+        "logs/{sm}/{sm}-merge-kmer-and-variant-phasing.log"
     shell:
         """
         python {params.script} \
             -v -t {threads} \
             {input.kmer} {input.variant} \
             | bgzip -@ {threads} \
-            > {output.tsv}
+            > {output.tsv} 2> {log}
         """
 
 
