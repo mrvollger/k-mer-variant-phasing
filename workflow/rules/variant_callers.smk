@@ -45,9 +45,8 @@ rule run_sniffles:
 
 
 def get_sv_caller_outputs(wc):
-    rtn = expand(rules.run_pbsv.output, sm=SAMPLE)
-    rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
-    print(f"SV_CALLERS: {SV_CALLERS}\nSV_CALLER_OUTPUTS: {rtn}")
     if not SV_CALLERS:
         return []
+    rtn = expand(rules.run_pbsv.output, sm=SAMPLE)
+    rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
     return rtn
