@@ -62,7 +62,7 @@ elif NO_PARENTAL:
 
     rule all:
         input:
-            expand(rules.hiphase.output, sm=SAMPLE)(),
+            expand(rules.hiphase.output, sm=SAMPLE),
             get_sv_caller_outputs,
 
 else:
