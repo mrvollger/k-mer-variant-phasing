@@ -66,6 +66,7 @@ elif NO_PARENTAL:
             get_sv_caller_outputs,
 
 else:
+
     rule all:
         input:
             expand(rules.kmer_read_list.output, sm=SAMPLE),

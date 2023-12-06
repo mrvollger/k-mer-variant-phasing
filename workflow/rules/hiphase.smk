@@ -43,7 +43,8 @@ rule clean_vcf:
         tabix {output.vcf}
         """
 
-# Currently, DeepVariant, pbsv, and TRGT are the three supported input types. 
+
+# Currently, DeepVariant, pbsv, and TRGT are the three supported input types.
 rule hiphase:
     input:
         vcf=get_vcf,
@@ -72,8 +73,8 @@ rule hiphase:
         hiphase -t {threads} \
             --ignore-read-groups \
             --bam {input.bam} \
-            --vcf {input.vcf} \
             --reference {input.ref} \
+            --vcf {input.vcf} \
             --output-vcf {output.vcf} \
             {params.bam} {output.bam} \
             --haplotag-file {output.haptag} \

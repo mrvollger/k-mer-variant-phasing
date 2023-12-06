@@ -6,7 +6,7 @@ rule run_pbsv:
         fai=get_fai,
     output:
         svsig="results/{sm}/pbsv/{sm}.pbsv.svsig.gz",
-        vcf="results/{sm}/pbsv/{sm}.pbsv.vcf",
+        vcf=temp("temp/{sm}/pbsv/{sm}.pbsv.vcf"),
     threads: 16
     resources:
         mem_mb=64 * 1024,
@@ -15,12 +15,29 @@ rule run_pbsv:
     shell:
         """
         pbsv discover \
+            --ccs \
             --sample {wildcards.sm} \
             {input.bam} \
             {output.svsig}
             
         pbsv call {input.ref} \
             --ccs {output.svsig} {output.vcf}
+        """
+
+
+rule pbsv_index:
+    input:
+        vcf=rules.run_pbsv.output.vcf,
+    output:
+        vcf="results/{sm}/pbsv/{sm}.pbsv.vcf.gz",
+        tbi="results/{sm}/pbsv/{sm}.pbsv.vcf.gz.tbi",
+    conda:
+        CONDA
+    threads: 4
+    shell:
+        """
+        bgzip -@ {threads} -c {input.vcf} > {input.vcf}.gz
+        tabix {input.vcf}
         """
 
 
@@ -49,6 +66,6 @@ rule run_sniffles:
 def get_sv_caller_outputs(wc):
     if not SV_CALLERS:
         return []
-    rtn = expand(rules.run_pbsv.output, sm=SAMPLE)
+    rtn = expand(rules.pbsv_index.output, sm=SAMPLE)
     rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
     return rtn
