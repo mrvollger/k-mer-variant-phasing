@@ -53,4 +53,5 @@ def get_sv_caller_outputs():
         return []
     rtn = expand(rules.run_pbsv.output, sm=SAMPLE)
     rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
+    print(f"SV_CALLERS: {SV_CALLERS}\nSV_CALLER_OUTPUTS: {rtn}")
     return rtn
