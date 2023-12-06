@@ -15,6 +15,7 @@ rule run_pbsv:
     shell:
         """
         pbsv discover \
+            --sample {wildcards.sm} \
             {input.bam} \
             {output.svsig}
             

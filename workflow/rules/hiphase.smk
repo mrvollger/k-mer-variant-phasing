@@ -43,7 +43,7 @@ rule clean_vcf:
         tabix {output.vcf}
         """
 
-
+# Currently, DeepVariant, pbsv, and TRGT are the three supported input types. 
 rule hiphase:
     input:
         vcf=get_vcf,
