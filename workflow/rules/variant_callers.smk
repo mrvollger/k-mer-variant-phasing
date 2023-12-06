@@ -19,8 +19,7 @@ rule run_pbsv:
             {output.svsig}
             
         pbsv call {input.ref} \
-        --ccs {output.svsig} {output.vcf}
-            
+            --ccs {output.svsig} {output.vcf}
         """
 
 
@@ -30,7 +29,6 @@ rule run_sniffles:
         bai=get_hifi_bai,
         ref=get_ref,
         fai=get_fai,
-        sm=SAMPLE,
     output:
         vcf="results/{sm}/sniffles/{sm}.sniffles.vcf",
     threads: 16
@@ -41,9 +39,8 @@ rule run_sniffles:
     shell:
         """
         sniffles --input {input.bam} \
-        --vcf {output.vcf} \
-        --reference {input.ref}
-            
+            --vcf {output.vcf} \
+            --reference {input.ref}
         """
 
 
