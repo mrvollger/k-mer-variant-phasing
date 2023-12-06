@@ -36,8 +36,8 @@ rule pbsv_index:
     threads: 4
     shell:
         """
-        bgzip -@ {threads} -c {input.vcf} > {input.vcf}.gz
-        tabix {input.vcf}
+        bgzip -@ {threads} -c {input.vcf} > {output.vcf}
+        tabix {output.vcf}
         """
 
 
