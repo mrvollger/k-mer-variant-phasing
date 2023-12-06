@@ -72,4 +72,4 @@ else:
             expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
             expand(rules.haplotaged_bam.output, sm=SAMPLE),
             expand(rules.haplotaged_bai.output, sm=SAMPLE),
-            get_sv_caller_outputs(),
+            get_sv_caller_outputs,
