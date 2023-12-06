@@ -1,7 +1,7 @@
 # sample name that with prefix your results and is inserted into the read group and sample name
 sample: "test_GM12878"
 
-# run variant callers sniffles and PBSV
+# run variant callers sniffles and PBSV, the default value is true, can explicitly set to false to skip
 variant_callers: true
 
 # Hifi bam to call variants on, must be indexed (.bai)
