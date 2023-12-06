@@ -52,8 +52,10 @@ rule hiphase:
         bam=get_hifi_bam,
         bai=get_hifi_bai,
         ref=REFERENCE,
+        pbsv_vcf=rules.pbsv_index.output.vcf,
     output:
         vcf="results/{sm}/hiphase/{sm}.vcf.gz",
+        pbsv_vcf="results/{sm}/hiphase/{sm}.pbsv.vcf.gz",
         summary="results/{sm}/hiphase/summary.tsv",
         stats="results/{sm}/hiphase/stats.tsv",
         blocks="results/{sm}/hiphase/blocks.tsv",
@@ -76,6 +78,8 @@ rule hiphase:
             --reference {input.ref} \
             --vcf {input.vcf} \
             --output-vcf {output.vcf} \
+            --vcf {input.pbsv_vcf} \
+            --output-vcf {output.pbsv_vcf} \
             {params.bam} {output.bam} \
             --haplotag-file {output.haptag} \
             --summary-file {output.summary} \
