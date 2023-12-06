@@ -63,9 +63,9 @@ elif NO_PARENTAL:
     rule all:
         input:
             expand(rules.hiphase.output, sm=SAMPLE),
+            get_sv_caller_outputs,
 
 else:
-
     rule all:
         input:
             expand(rules.kmer_read_list.output, sm=SAMPLE),
