@@ -8,7 +8,6 @@ rule run_pbsv:
     output:
         svsig="results/{sm}/pbsv/{sm}.pbsv.svsig.gz",
         vcf="results/{sm}/pbsv/{sm}.pbsv.vcf",
-        
     threads: 16
     resources:
         mem_mb=64 * 1024,
@@ -24,7 +23,8 @@ rule run_pbsv:
         --ccs {output.svsig} {output.vcf}
             
         """
-        
+
+
 rule run_sniffles:
     input:
         bam=get_hifi_bam,
@@ -34,7 +34,6 @@ rule run_sniffles:
         sm=SAMPLE,
     output:
         vcf="results/{sm}/sniffles/{sm}.sniffles.vcf",
-        
     threads: 16
     resources:
         mem_mb=64 * 1024,
