@@ -4,7 +4,6 @@ rule run_pbsv:
         bai=get_hifi_bai,
         ref=get_ref,
         fai=get_fai,
-        sm=SAMPLE,
     output:
         svsig="results/{sm}/pbsv/{sm}.pbsv.svsig.gz",
         vcf="results/{sm}/pbsv/{sm}.pbsv.vcf",
