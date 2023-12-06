@@ -9,9 +9,3 @@ hifi_bam: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/
 
 # reference that the hifi bam was mapped to, must be indexed (.fai)
 reference: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/chr20.fa
-
-# if you don't proved the maternal and paternal data the pipeline will only run hiphase
-# paternal sequencing data, can be sam, bam, cram, fa, or fq
-paternal: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/NA12891.chr20.bam
-# maternal sequencing data, can be sam, bam, cram, fa, or fq
-maternal: /mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/test_data/NA12892.chr20.bam
