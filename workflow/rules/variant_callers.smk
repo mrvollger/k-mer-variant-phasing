@@ -46,3 +46,11 @@ rule run_sniffles:
         --reference {input.ref}
             
         """
+
+
+def get_sv_caller_outputs():
+    if not SV_CALLERS:
+        return []
+    rtn = expand(rules.run_pbsv.output, SAMPLE=SAMPLES)
+    rtn += expand(rules.run_sniffles.output, SAMPLE=SAMPLES)
+    return rtn
