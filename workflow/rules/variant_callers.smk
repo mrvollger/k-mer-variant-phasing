@@ -40,6 +40,7 @@ rule run_sniffles:
     shell:
         """
         sniffles --input {input.bam} \
+            --sample-id {wildcards.sm} \
             --vcf {output.vcf} \
             --reference {input.ref}
         """
