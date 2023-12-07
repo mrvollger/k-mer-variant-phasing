@@ -14,7 +14,7 @@ rule merge_kmer_and_variant_phasing:
     benchmark:
         "benchmark/{sm}/merge_kmer_and_variant_phasing/bench.txt"
     log:
-        "results/{sm}/merge-kmer-and-variant-phasing.log"
+        "results/{sm}/merge-kmer-and-variant-phasing.log",
     shell:
         """
         python {params.script} \

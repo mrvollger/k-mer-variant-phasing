@@ -2,8 +2,23 @@ import os
 import sys
 import math
 from snakemake.utils import min_version
+import logging
 
-min_version("7.20")
+# set logging level to info
+logging.basicConfig(level=logging.INFO)
+logging.info(
+    "Running Snakemake version {} and python version {}".format(
+        snakemake.__version__, ".".join([str(x) for x in sys.version_info[0:3]])
+    )
+)
+
+min_version("7.32")
+
+if sys.version_info[0] < 3 and sys.version_info[1] >= 12:
+    raise Exception(
+        "Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings. Please downgrade your Python version to 3.11."
+    )
+
 
 MERYL = "/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/meryl-1.4/bin/"
 shell.prefix(f"export PATH={MERYL}:$PATH; ")
