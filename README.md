@@ -44,6 +44,10 @@ python<=3.11
 **Note:**
 Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings
 
+An example install could look like this:
+```
+conda create -n snakemake -c conda-forge -c bioconda mamba snakemake>=7.32 python=3.11
+```
 
 Additional dependencies are managed with conda. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
 ```
