@@ -35,7 +35,7 @@ snakemake pbmm2 --profile profile/compute --configfile config/your_config.yaml
 
 
 ### Dependencies 
-Requirements for executing the pipeline are:
+Requirements for executing the pipeline are, apptainer/singulariy or docker and the following conda packages:
 ```
 mamba
 snakemake>=7.32.0
@@ -48,6 +48,7 @@ An example install could look like this:
 ```
 conda create -n snakemake -c conda-forge -c bioconda mamba 'snakemake>=7.32' 'python=3.11'
 ```
+
 
 Additional dependencies are managed automatically by snakemake using mamba. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
 ```
