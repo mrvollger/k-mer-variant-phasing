@@ -49,7 +49,7 @@ An example install could look like this:
 conda create -n snakemake -c conda-forge -c bioconda mamba snakemake>=7.32 python=3.11
 ```
 
-Additional dependencies are managed with conda. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
+Additional dependencies are managed automatically by snakemake using mamba. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
 ```
 export SNAKEMAKE_CONDA_PREFIX=/mmfs1/gscratch/stergachislab/snakemake-conda-envs
 ```
