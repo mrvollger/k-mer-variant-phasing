@@ -35,8 +35,17 @@ snakemake pbmm2 --profile profile/compute --configfile config/your_config.yaml
 
 
 ### Dependencies 
+Requirements for executing the pipeline are:
+```
+mamba
+snakemake>=7.32.0
+python<=3.11
+```
+**Note:**
+Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings
 
-Dependencies are managed with conda. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
+
+Additional dependencies are managed with conda. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
 ```
 export SNAKEMAKE_CONDA_PREFIX=/mmfs1/gscratch/stergachislab/snakemake-conda-envs
 ```
