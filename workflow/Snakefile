@@ -5,8 +5,8 @@ from snakemake.utils import min_version
 
 # set logging level to info
 msg = "Running Snakemake version {} and python version {}".format(
-        snakemake.__version__, ".".join([str(x) for x in sys.version_info[0:3]])
-    )
+    snakemake.__version__, ".".join([str(x) for x in sys.version_info[0:3]])
+)
 print(msg, file=sys.stderr)
 
 min_version("7.32")
