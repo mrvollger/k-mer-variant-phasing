@@ -3,7 +3,19 @@ import sys
 import math
 from snakemake.utils import min_version
 
-min_version("7.20")
+# set logging level to info
+msg = "Running Snakemake version {} and python version {}".format(
+    snakemake.__version__, ".".join([str(x) for x in sys.version_info[0:3]])
+)
+print(msg, file=sys.stderr)
+
+min_version("7.32")
+
+if sys.version_info[0] < 3 and sys.version_info[1] >= 12:
+    raise Exception(
+        "Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings. Please downgrade your Python version to 3.11."
+    )
+
 
 MERYL = "/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/meryl-1.4/bin/"
 shell.prefix(f"export PATH={MERYL}:$PATH; ")
@@ -23,6 +35,7 @@ K_MER_SIZE = config.get("k_mer_size", 31)
 BIN_VERSION = config.get("BIN_VERSION", "1.5.0")
 DEEPVARIANT = config.get("deepvariant", False)
 ALIGN = config.get("align", False)
+SV_CALLERS = config.get("variant_callers", True)
 CLUSTER_PARTITION = config.get(
     "cluster_partition", "compute"
 )  # can also be ckpt (checkpoint)
@@ -45,6 +58,7 @@ localrules:
 include: "rules/common.smk"
 include: "rules/align.smk"
 include: "rules/vcf.smk"
+include: "rules/variant_callers.smk"
 include: "rules/kmer.smk"
 include: "rules/hiphase.smk"
 include: "rules/merge.smk"
@@ -61,6 +75,7 @@ elif NO_PARENTAL:
     rule all:
         input:
             expand(rules.hiphase.output, sm=SAMPLE),
+            get_sv_caller_outputs,
 
 else:
 
@@ -70,3 +85,4 @@ else:
             expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
             expand(rules.haplotaged_bam.output, sm=SAMPLE),
             expand(rules.haplotaged_bai.output, sm=SAMPLE),
+            get_sv_caller_outputs,
