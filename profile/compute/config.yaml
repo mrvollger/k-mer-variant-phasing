@@ -1,20 +1,21 @@
-cluster:
-  mkdir -p cluster_logs/{rule} &&
+cluster: mkdir -p cluster_logs/{rule} &&
   sbatch
-    --account=stergachislab
-    --partition={CLUSTER_PARTITION}
-    --nodes=1 
-    --ntasks-per-node={threads} 
-    --mem={resources.mem_mb} 
-    --tmp={resources.disk_mb}
-    --time={resources.time}
-    --job-name=smk-{rule}-{wildcards}
-    --output=cluster_logs/{rule}/{rule}-{wildcards}-%j.out
-    --export=all
-    --parsable # Required to pass job IDs to scancel
+  --account=stergachislab
+  --partition={CLUSTER_PARTITION}
+  --nodes=1
+  --ntasks-per-node={threads}
+  --mem={resources.mem_mb}
+  --tmp={resources.disk_mb}
+  --time={resources.time}
+  --job-name=smk-{rule}-{wildcards}
+  --output=cluster_logs/{rule}/{rule}-{wildcards}-%j.out
+  --export=all
+  --parsable # Required to pass job IDs to scancel
 jobs: 200
 local-cores: 16
 cluster-cancel-nargs: 200 # cancel 500 jobs at a time, all will still be canceled
 latency-wait: 60
 max-jobs-per-second: 100
 cluster-status: status-sacct.sh
+cluster-cancel: scancel
+restart-times: 1
