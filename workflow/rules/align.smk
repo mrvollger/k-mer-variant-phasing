@@ -1,3 +1,17 @@
+rule pbindex:
+    input:
+        bam=ancient(HIFI_BAM),
+    output:
+        pbi=f"{HIFI_BAM}.pbi",
+    conda:
+        CONDA
+    threads: 8
+    shell:
+        """
+        pbindex -j {threads} {input.bam} 
+        """
+
+
 rule zmws:
     input:
         bam=HIFI_BAM,
