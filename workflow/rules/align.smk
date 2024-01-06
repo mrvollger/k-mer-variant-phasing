@@ -92,6 +92,8 @@ rule pbmm2_merge:
     conda:
         CONDA
     threads: 16
+    resources:
+        mem_mb=32 * 1024,
     shell:
         """
         pbmerge -j {threads} {input.bams} -o {output.bam}
