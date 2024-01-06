@@ -12,6 +12,10 @@ if [[ $# -lt 3 ]]; then
 fi
 
 set -euo pipefail
+SRC_DIR=$(
+    cd "$(dirname "${BASH_SOURCE[0]}")"
+    pwd -P
+)
 
 # n cpus
 CPUS=$(getconf _NPROCESSORS_ONLN 2>/dev/null)
