@@ -9,13 +9,7 @@ msg = "Running Snakemake version {} and python version {}".format(
 )
 print(msg, file=sys.stderr)
 
-min_version("7.32")
-
-if sys.version_info[0] < 3 and sys.version_info[1] >= 12:
-    raise Exception(
-        "Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings. Please downgrade your Python version to 3.11."
-    )
-
+min_version("8.4")
 
 MERYL = "/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/meryl-1.4/bin/"
 shell.prefix(f"export PATH={MERYL}:$PATH; ")
@@ -36,18 +30,15 @@ BIN_VERSION = config.get("BIN_VERSION", "1.5.0")
 DEEPVARIANT = config.get("deepvariant", False)
 ALIGN = config.get("align", False)
 SV_CALLERS = config.get("variant_callers", True)
-CLUSTER_PARTITION = config.get(
-    "cluster_partition", "compute"
-)  # can also be ckpt (checkpoint)
 # inferted
 NO_PARENTAL = PAT_DATA is False or MAT_DATA is False
 
 
 wildcard_constraints:
-    sm="|".join([SAMPLE]),
-    hap="pat|mat",
-    individual="mat|pat|pro",
-    scatteritem="\d+-of-\d+",
+    sm=r"|".join([SAMPLE]),
+    hap=r"pat|mat",
+    individual=r"mat|pat|pro",
+    scatteritem=r"\d+-of-\d+",
 
 
 localrules:

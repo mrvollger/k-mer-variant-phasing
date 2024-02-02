@@ -22,6 +22,6 @@ CPUS=$(getconf _NPROCESSORS_ONLN 2>/dev/null)
 snakemake \
     pbmm2 \
     -s "${SRC_DIR}/workflow/Snakefile" \
-    --profile "${SRC_DIR}/profile/compute" \
+    --profile "${SRC_DIR}/profiles/slurm-executor" \
     --local-cores "${CPUS}" \
     --config align=true cluster_partition=ckpt $@
