@@ -38,7 +38,7 @@ NO_PARENTAL = PAT_DATA is False or MAT_DATA is False
 
 
 wildcard_constraints:
-    sm="\|".join([SAMPLE]),
+    sm=r"|".join([SAMPLE]),
     hap=r"pat|mat",
     individual=r"mat|pat|pro",
     scatteritem=r"\d+-of-\d+",
