@@ -38,10 +38,10 @@ NO_PARENTAL = PAT_DATA is False or MAT_DATA is False
 
 
 wildcard_constraints:
-    sm="|".join([SAMPLE]),
-    hap="pat|mat",
-    individual="mat|pat|pro",
-    scatteritem="\d+-of-\d+",
+    sm=r"|".join([SAMPLE]),
+    hap=r"pat|mat",
+    individual=r"mat|pat|pro",
+    scatteritem=r"\d+-of-\d+",
 
 
 localrules:
