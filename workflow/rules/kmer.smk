@@ -58,9 +58,9 @@ rule meryl:
 
 rule hapmers:
     input:
-        mat=r"temp/{sm}/kmer_phase/{sm}.mat.meryl/",
-        pat=r"temp/{sm}/kmer_phase/{sm}.pat.meryl/", 
-        pro=r"temp/{sm}/kmer_phase/{sm}.pro.meryl/",
+        mat="temp/{sm}/kmer_phase/{sm}.mat.meryl/",
+        pat="temp/{sm}/kmer_phase/{sm}.pat.meryl/",
+        pro="temp/{sm}/kmer_phase/{sm}.pro.meryl/",
     output:
         pat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.pat.hapmer.meryl/"),
         mat=directory("temp/{sm}/kmer_phase/hapmers/{sm}.mat.hapmer.meryl/"),
