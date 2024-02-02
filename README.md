@@ -9,7 +9,7 @@ However, by running it in different modes you can also use it to phase using onl
 First set up a configuration file. See `config/config.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ```
-snakemake --profile profile/compute --configfile config/your_config.yaml
+snakemake --profile profiles/slurm-executor --configfile config/your_config.yaml
 ```
 
 ## Running without parental data
@@ -22,7 +22,7 @@ See `config/no_parental.yaml` for an example input file.
 First set up a configuration file. See `config/deepvariant.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ``` 
-snakemake deepvariant --profile profile/compute --configfile config/your_config.yaml 
+snakemake deepvariant --profile profiles/slurm-executor --configfile config/your_config.yaml 
 ```
 
 ## Running only alignment (pbmm2)
@@ -30,7 +30,7 @@ snakemake deepvariant --profile profile/compute --configfile config/your_config.
 First set up a configuration file. See `config/align.yaml` for a commented example. 
 Then run snakemake with the following command pointing to your configuration file.
 ``` 
-snakemake pbmm2 --profile profile/compute --configfile config/your_config.yaml 
+snakemake pbmm2 --profile profiles/slurm-executor --configfile config/your_config.yaml 
 ```
 
 
@@ -38,19 +38,20 @@ snakemake pbmm2 --profile profile/compute --configfile config/your_config.yaml
 Requirements for executing the pipeline are, apptainer/singulariy or docker and the following conda packages:
 ```
 mamba
-snakemake>=7.32.0
-python<=3.11
+snakemake>=8.4.0
 ```
-**Note:**
-Snakemake is currently not compatible with Python >=3.12 due to a change in f-strings
-
 An example install could look like this:
 ```
-conda create -n snakemake -c conda-forge -c bioconda mamba 'snakemake>=7.32' 'python=3.11'
+conda create -n snakemake -c conda-forge -c bioconda mamba 'snakemake>=8.4'
+```
+
+If you wish to distribute jobs across a cluster you will need to install the appropriate [snakemake executor plugin](https://snakemake.github.io/snakemake-plugin-catalog/). For example, to use SLURM you can install the `snakemake-executor-slurm` plugin using pip:
+```  
+pip install snakemake-executor-plugin-slurm
 ```
 
 
-Additional dependencies are managed automatically by snakemake using mamba. Be sure to include the following in your `.bashrc` if you want to use the pre-computed conda env. 
+Additional dependencies are managed automatically by snakemake using mamba. For Stergachis lab members be sure to include the following in your `.bashrc` if you want to use a pre-computed conda env. 
 ```
 export SNAKEMAKE_CONDA_PREFIX=/mmfs1/gscratch/stergachislab/snakemake-conda-envs
 ```

@@ -60,7 +60,7 @@ rule pbmm2_chunk:
         CONDA
     resources:
         disk_mb=32 * 1024,
-        time=120,
+        runtime=120,
         mem_mb=32 * 1024,
     threads: 8
     shell:
