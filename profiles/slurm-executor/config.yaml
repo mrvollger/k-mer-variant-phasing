@@ -8,3 +8,5 @@ max-jobs-per-second: 50
 # default-resources:
 #   - slurm_partition=ckpt
 ## without these options it will default to stergachislab and compute when using hyak
+default-resources:
+  - slurm_extra="--job-name=smk-{rule}-{wildcards}-%j" # for more readable job names
