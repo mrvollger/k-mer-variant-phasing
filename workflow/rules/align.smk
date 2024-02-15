@@ -87,8 +87,24 @@ rule pbmm2_merge:
         ),
     output:
         bam="results/{sm}/pbmm2/{sm}.bam",
-        pbi="results/{sm}/pbmm2/{sm}.bam.pbi",
         bai="results/{sm}/pbmm2/{sm}.bam.bai",
+    conda:
+        CONDA
+    threads: 16
+    resources:
+        mem_mb=64 * 1024,
+    shell:
+        """
+        #pbmerge -j {threads} {input.bams} -o {output.bam}
+    samtools merge -@ {threads} -cp --write-index -o {output.bam}##idx##{output.bai} {input.bams}
+        """
+
+
+rule pbmm2_index:
+    input:
+        bam=rules.pbmm2_merge.output.bam,
+    output:
+        pbi="results/{sm}/pbmm2/{sm}.bam.pbi",
     conda:
         CONDA
     threads: 16
@@ -96,11 +112,11 @@ rule pbmm2_merge:
         mem_mb=32 * 1024,
     shell:
         """
-        pbmerge -j {threads} {input.bams} -o {output.bam}
-        samtools index -@ {threads} {output.bam}
+    pbindex -j {threads} {input.bam}
         """
 
 
 rule pbmm2:
     input:
         expand(rules.pbmm2_merge.output, sm=SAMPLE),
+        expand(rules.pbmm2_index.output, sm=SAMPLE),
