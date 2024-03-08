@@ -64,8 +64,8 @@ rule hiphase:
     conda:
         CONDA
     resources:
-        mem_mb=32 * 1024,
-    threads: 32
+        mem_mb=96 * 1024,
+    threads: 16
     params:
         bam="--output-bam" if NO_PARENTAL else "",
     benchmark:
