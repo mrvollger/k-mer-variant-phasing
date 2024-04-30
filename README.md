@@ -1,4 +1,5 @@
 # Joint k-mer and variant phasing
+[![DOI](https://zenodo.org/badge/636406459.svg)](https://zenodo.org/doi/10.5281/zenodo.10655504)
 
 This is a pipeline designed to phase variants and PacBio Hifi data using a combination of k-mers and variants. 
 
