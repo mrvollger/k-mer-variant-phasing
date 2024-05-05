@@ -66,7 +66,6 @@ rule haplotagged_bai:
         """
 
 
-
 rule haplotagged_vcf:
     input:
         bam=rules.haplotagged_bam.output.bam,
