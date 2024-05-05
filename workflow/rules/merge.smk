@@ -73,6 +73,7 @@ rule haplotagged_vcf:
         ref=get_ref,
     output:
         vcf="results/{sm}/{sm}.haplotagged.vcf.gz",
+        tbi="results/{sm}/{sm}.haplotagged.vcf.gz.tbi",
     conda:
         CONDA
     threads: 4
