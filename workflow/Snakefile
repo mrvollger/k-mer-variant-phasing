@@ -74,6 +74,7 @@ else:
         input:
             expand(rules.kmer_read_list.output, sm=SAMPLE),
             expand(rules.merge_kmer_and_variant_phasing.output, sm=SAMPLE),
-            expand(rules.haplotaged_bam.output, sm=SAMPLE),
-            expand(rules.haplotaged_bai.output, sm=SAMPLE),
+            expand(rules.haplotagged_bam.output, sm=SAMPLE),
+            expand(rules.haplotagged_bai.output, sm=SAMPLE),
+            expand(rules.haplotagged_vcf.output, sm=SAMPLE),
             get_sv_caller_outputs,
