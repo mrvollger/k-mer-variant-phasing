@@ -64,3 +64,27 @@ rule haplotaged_bai:
         """
         samtools index -@ {threads} {input.bam}
         """
+
+
+
+rule haplotaged_vcf:
+    input:
+        bam=rules.haplotaged_bam.output.bam,
+        vcf=rules.hiphase.output.vcf,
+        ref=get_ref,
+    output:
+        vcf="results/{sm}/{sm}.haplotagged.vcf.gz",
+    conda:
+        CONDA
+    threads: 4
+    resources:
+        mem_mb=48 * 1024,
+    benchmark:
+        "benchmark/{sm}/haplotaged_vcf/{sm}.bench.txt"
+    shell:
+        """
+        whatshap haplotagphase \
+            -r {input.ref} \
+            -o {output.vcf} \
+            {input.vcf} {input.bam}
+        """
