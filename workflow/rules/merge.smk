@@ -78,6 +78,7 @@ rule haplotagged_vcf:
     threads: 4
     resources:
         mem_mb=48 * 1024,
+        runtime=8 * 60,
     benchmark:
         "benchmark/{sm}/haplotagged_vcf/{sm}.bench.txt"
     shell:
