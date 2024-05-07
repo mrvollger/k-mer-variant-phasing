@@ -89,7 +89,7 @@ rule haplotagged_vcf:
         """
 
 
-rule index_haplotagged_vcf:
+rule haplotagged_vcf_index:
     input:
         vcf=rules.haplotagged_vcf.output.vcf,
     output:
