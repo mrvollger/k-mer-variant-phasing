@@ -25,7 +25,7 @@ rule merge_kmer_and_variant_phasing:
         """
 
 
-rule haplotaged_bam:
+rule haplotagged_bam:
     input:
         bam=get_hifi_bam,
         tsv=rules.merge_kmer_and_variant_phasing.output.tsv,
@@ -39,7 +39,7 @@ rule haplotaged_bam:
     params:
         script=workflow.source_path("../scripts/merged-haplotag.py"),
     benchmark:
-        "benchmark/{sm}/haplotaged_bam/{sm}.bench.txt"
+        "benchmark/{sm}/haplotagged_bam/{sm}.bench.txt"
     shell:
         """
         python {params.script} \
@@ -50,11 +50,11 @@ rule haplotaged_bam:
         """
 
 
-rule haplotaged_bai:
+rule haplotagged_bai:
     input:
-        bam=rules.haplotaged_bam.output.bam,
+        bam=rules.haplotagged_bam.output.bam,
     output:
-        bai=f"{rules.haplotaged_bam.output.bam}.bai",
+        bai=f"{rules.haplotagged_bam.output.bam}.bai",
     conda:
         CONDA
     threads: 16
@@ -63,4 +63,44 @@ rule haplotaged_bai:
     shell:
         """
         samtools index -@ {threads} {input.bam}
+        """
+
+
+rule haplotagged_vcf:
+    input:
+        bam=rules.haplotagged_bam.output.bam,
+        vcf=rules.hiphase.output.vcf,
+        ref=get_ref,
+    output:
+        vcf="results/{sm}/{sm}.haplotagged.vcf.gz",
+    conda:
+        CONDA
+    threads: 4
+    resources:
+        mem_mb=32 * 1024,
+        runtime=8 * 60,
+    benchmark:
+        "benchmark/{sm}/haplotagged_vcf/{sm}.bench.txt"
+    shell:
+        """
+        whatshap haplotagphase \
+            -r {input.ref} \
+            -o {output.vcf} \
+            {input.vcf} {input.bam}
+        """
+
+
+rule haplotagged_vcf_index:
+    input:
+        vcf=rules.haplotagged_vcf.output.vcf,
+    output:
+        tbi=f"{rules.haplotagged_vcf.output.vcf}.tbi",
+    conda:
+        CONDA
+    threads: 1
+    resources:
+        mem_mb=12 * 1024,
+    shell:
+        """
+        tabix {input.vcf}
         """
