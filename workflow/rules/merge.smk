@@ -73,7 +73,6 @@ rule haplotagged_vcf:
         ref=get_ref,
     output:
         vcf="results/{sm}/{sm}.haplotagged.vcf.gz",
-        tbi="results/{sm}/{sm}.haplotagged.vcf.gz.tbi",
     conda:
         CONDA
     threads: 4
@@ -87,4 +86,20 @@ rule haplotagged_vcf:
             -r {input.ref} \
             -o {output.vcf} \
             {input.vcf} {input.bam}
+        """
+
+
+rule index_haplotagged_vcf:
+    input:
+        vcf=rules.haplotagged_vcf.output.vcf,
+    output:
+        tbi=f"{rules.haplotagged_vcf.output.vcf}.tbi",
+    conda:
+        CONDA
+    threads: 1
+    resources:
+        mem_mb=12 * 1024,
+    shell:
+        """
+        tabix {input.vcf}
         """
