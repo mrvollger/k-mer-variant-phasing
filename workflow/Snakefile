@@ -77,4 +77,5 @@ else:
             expand(rules.haplotagged_bam.output, sm=SAMPLE),
             expand(rules.haplotagged_bai.output, sm=SAMPLE),
             expand(rules.haplotagged_vcf.output, sm=SAMPLE),
+            expand(rules.haplotagged_vcf_index.output, sm=SAMPLE),
             get_sv_caller_outputs,
