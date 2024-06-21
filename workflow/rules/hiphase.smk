@@ -93,7 +93,7 @@ rule hiphase_vcf:
         gvcf=rules.hiphase.output.gvcf,
     output:
         vcf="results/{sm}/hiphase/{sm}.vcf.gz",
-        tbi="results/{sm}/hiphase/{sm}.vcf.gz.tbi",
+        index="results/{sm}/hiphase/{sm}.vcf.gz.csi",
     conda:
         CONDA
     resources:
@@ -105,6 +105,6 @@ rule hiphase_vcf:
             --threads {threads} \
             -e'FILTER="."' -AA \
             --write-index \
-            -o {output.vcf}##{output.tbi} \
+            -o {output.vcf} \
             {input.gvcf}
         """
