@@ -77,9 +77,9 @@ def get_hifi_bai(wc):
     return f"{get_hifi_bam(wc)}.bai"
 
 
-def get_vcf(wc):
+def get_variant_file(wc):
     if VCF is None or VCF is False:
-        return rules.deepvariant_merge.output.vcf
+        return rules.deepvariant_merge.output.gvcf
     if config.get("clean_vcf"):
         return rules.clean_vcf.output.vcf
     return VCF
@@ -91,8 +91,8 @@ def get_input_vcf(wc):
     return VCF
 
 
-def get_tbi(wc):
-    return f"{get_vcf(wc)}.tbi"
+def get_variant_tbi(wc):
+    return f"{get_variant_file(wc)}.tbi"
 
 
 def get_meryl_input(wc):
