@@ -104,6 +104,7 @@ rule hiphase_vcf:
         bcftools view \
             --threads {threads} \
             -e'FILTER="."' -AA \
-            --write-index -o {output.vcf} \
+            --write-index \
+            -o {output.vcf}##{output.tbi} \
             {input.gvcf}
         """
