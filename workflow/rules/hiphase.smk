@@ -87,6 +87,7 @@ rule hiphase:
             --blocks-file {output.blocks} 
         """
 
+
 rule hiphase_vcf:
     input:
         gvcf=rules.hiphase.output.gvcf,
