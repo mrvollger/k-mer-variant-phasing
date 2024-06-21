@@ -69,6 +69,7 @@ rule haplotagged_bai:
 rule haplotagged_vcf:
     input:
         bam=rules.haplotagged_bam.output.bam,
+        bai=rules.haplotagged_bai.output.bai,
         vcf=rules.hiphase_vcf.output.vcf,
         ref=get_ref,
     output:
