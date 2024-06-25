@@ -8,6 +8,15 @@ from cyvcf2 import VCF, Writer
 from tqdm import tqdm
 
 
+def add_phasing_format_to_header(vcf):
+    vcf.add_format_to_header(
+        dict(ID="PS", Number=1, Type="Integer", Description="Phase set identifier")
+    )
+    vcf.add_format_to_header(
+        dict(ID="PF", Number=1, Type="String", Description="Phasing flag")
+    )
+
+
 def get_tag(rec):
     return (rec.CHROM, rec.POS, rec.REF, rec.ALT[0])
 
@@ -33,6 +42,7 @@ def run(vcf: Path, gvcf: Path, outfile: Path, break_n=None):
     logging.info("Reading and modifying gvcf")
     gvcf = VCF(gvcf)
     o_gvcf = Writer(outfile, gvcf, mode="wz")
+    add_phasing_format_to_header(o_gvcf)
     change_count = 0
     for idx, rec in enumerate(tqdm(gvcf)):
         tag = get_tag(rec)

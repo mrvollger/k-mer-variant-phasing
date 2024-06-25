@@ -165,9 +165,9 @@ def assign_per_phase_block(group_df, args):
         weight1, hap1 = weights[0]
         weight2, hap2 = weights[1]
         looser_hap = hap1 if weight2 > weight1 else hap2
-        out_df.loc[
-            has_variant & (out_df.variant_hap == looser_hap), "merged_hap"
-        ] = other_parental_hap
+        out_df.loc[has_variant & (out_df.variant_hap == looser_hap), "merged_hap"] = (
+            other_parental_hap
+        )
 
     # calculate the disagreements
     agree = out_df.kmer_hap == out_df.merged_hap
