@@ -43,6 +43,9 @@ def run(vcf: Path, gvcf: Path, outfile: Path, break_n=None):
     gvcf = VCF(gvcf)
     add_phasing_format_to_header(gvcf)
     o_gvcf = Writer(outfile, gvcf, mode="wz")
+    o_gvcf.add_to_header(
+        f"{sys.argv[0]}##Command={}".format(" ".join(sys.argv)),
+    )
     change_count = 0
     for idx, rec in enumerate(tqdm(gvcf)):
         tag = get_tag(rec)
