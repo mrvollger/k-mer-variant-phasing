@@ -110,7 +110,7 @@ rule haplotagged_vcf_index:
 rule haplotagged_gvcf:
     input:
         vcf=rules.haplotagged_vcf.output.vcf,
-        gvcf=rules.hiphase_gvcf.output.gvcf,
+        gvcf=get_variant_file,
     output:
         gvcf="results/{sm}/{sm}.haplotagged.gvcf.gz",
         tbi="results/{sm}/{sm}.haplotagged.gvcf.gz.tbi",
