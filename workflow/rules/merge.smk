@@ -105,3 +105,24 @@ rule haplotagged_vcf_index:
         """
         tabix {input.vcf}
         """
+
+
+rule haplotagged_gvcf:
+    input:
+        vcf=rules.haplotagged_vcf.output.vcf,
+        gvcf=rules.hiphase_gvcf.output.gvcf,
+    output:
+        gvcf="results/{sm}/{sm}.haplotagged.gvcf.gz",
+        tbi="results/{sm}/{sm}.haplotagged.gvcf.gz.tbi",
+    conda:
+        CONDA
+    threads: 1
+    resources:
+        mem_mb=32 * 1024,
+    params:
+        script=workflow.source_path("../scripts/combine-phased-vcf-and-gvcf.py"),
+    shell:
+        """
+        python {params.script} {input.vcf} {input.gvcf} {output.gvcf}
+        tabix {output.gvcf}
+        """
