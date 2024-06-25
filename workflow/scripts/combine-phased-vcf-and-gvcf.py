@@ -45,7 +45,7 @@ def run(vcf: Path, gvcf: Path, outfile: Path, break_n=None):
     o_gvcf = Writer(outfile, gvcf, mode="wz")
     cmd = " ".join(sys.argv)
     header_line = f"{sys.argv[0]}##Command={cmd}"
-    log.info(f"Adding header line:\n{header_line}")
+    logging.info(f"Adding header line:\n{header_line}")
     o_gvcf.add_to_header(header_line)
     change_count = 0
     for idx, rec in enumerate(tqdm(gvcf)):
