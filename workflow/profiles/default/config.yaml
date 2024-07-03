@@ -9,4 +9,3 @@ printshellcmds: True
 show-failed-logs: True
 cores: 32
 local-cores: 4
-apptainer-prefix: ""
