@@ -55,4 +55,5 @@ pip install snakemake-executor-plugin-slurm
 Additional dependencies are managed automatically by snakemake using mamba. For Stergachis lab members be sure to include the following in your `.bashrc` if you want to use a pre-computed conda env. 
 ```
 export SNAKEMAKE_CONDA_PREFIX=/mmfs1/gscratch/stergachislab/snakemake-conda-envs
+export APPTAINER_CACHEDIR=/mmfs1/gscratch/stergachislab/snakemake-conda-envs/apptainer-cache
 ```

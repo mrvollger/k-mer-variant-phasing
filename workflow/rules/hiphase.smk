@@ -47,14 +47,14 @@ rule clean_vcf:
 # Currently, DeepVariant, pbsv, and TRGT are the three supported input types.
 rule hiphase:
     input:
-        vcf=get_vcf,
-        tbi=get_tbi,
+        gvcf=get_variant_file,
+        tbi=get_variant_tbi,
         bam=get_hifi_bam,
         bai=get_hifi_bai,
         ref=REFERENCE,
         pbsv_vcf=rules.pbsv_index.output.vcf,
     output:
-        vcf="results/{sm}/hiphase/{sm}.vcf.gz",
+        gvcf="results/{sm}/hiphase/{sm}.gvcf.gz",
         pbsv_vcf="results/{sm}/hiphase/{sm}.pbsv.vcf.gz",
         summary="results/{sm}/hiphase/summary.tsv",
         stats="results/{sm}/hiphase/stats.tsv",
@@ -76,8 +76,8 @@ rule hiphase:
             --ignore-read-groups \
             --bam {input.bam} \
             --reference {input.ref} \
-            --vcf {input.vcf} \
-            --output-vcf {output.vcf} \
+            --vcf {input.gvcf} \
+            --output-vcf {output.gvcf} \
             --vcf {input.pbsv_vcf} \
             --output-vcf {output.pbsv_vcf} \
             {params.bam} {output.bam} \
@@ -85,4 +85,26 @@ rule hiphase:
             --summary-file {output.summary} \
             --stats-file {output.stats} \
             --blocks-file {output.blocks} 
+        """
+
+
+rule hiphase_vcf:
+    input:
+        gvcf=rules.hiphase.output.gvcf,
+    output:
+        vcf="results/{sm}/hiphase/{sm}.vcf.gz",
+        index="results/{sm}/hiphase/{sm}.vcf.gz.csi",
+    conda:
+        CONDA
+    resources:
+        mem_mb=8 * 1024,
+    threads: 4
+    shell:
+        """
+        bcftools view \
+            --threads {threads} \
+            -e'FILTER="."' -AA \
+            --write-index \
+            -o {output.vcf} \
+            {input.gvcf}
         """
