@@ -74,6 +74,9 @@ def get_hifi_bam(wc):
 
 
 def get_hifi_bai(wc):
+    csi = f"{get_hifi_bam(wc)}.csi"
+    if os.path.exists(csi):
+        return csi
     return f"{get_hifi_bam(wc)}.bai"
 
 

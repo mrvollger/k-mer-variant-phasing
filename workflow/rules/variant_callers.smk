@@ -1,4 +1,4 @@
-rule run_pbsv:
+rule discover_pbsv:
     input:
         bam=get_hifi_bam,
         bai=get_hifi_bai,
@@ -6,10 +6,10 @@ rule run_pbsv:
         fai=get_fai,
     output:
         svsig="results/{sm}/pbsv/{sm}.pbsv.svsig.gz",
-        vcf=temp("temp/{sm}/pbsv/{sm}.pbsv.vcf"),
     threads: 16
     resources:
         mem_mb=64 * 1024,
+        runtime=16 * 60,
     conda:
         CONDA
     shell:
@@ -19,9 +19,28 @@ rule run_pbsv:
             --sample {wildcards.sm} \
             {input.bam} \
             {output.svsig}
-            
+        """
+
+
+rule run_pbsv:
+    input:
+        bam=get_hifi_bam,
+        bai=get_hifi_bai,
+        ref=get_ref,
+        fai=get_fai,
+        svsig=rules.discover_pbsv.output.svsig,
+    output:
+        vcf=temp("temp/{sm}/pbsv/{sm}.pbsv.vcf"),
+    threads: 16
+    resources:
+        mem_mb=64 * 1024,
+        runtime=16 * 60,
+    conda:
+        CONDA
+    shell:
+        """
         pbsv call {input.ref} \
-            --ccs {output.svsig} {output.vcf}
+            --ccs {input.svsig} {output.vcf}
         """
 
 
