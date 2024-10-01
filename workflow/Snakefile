@@ -15,7 +15,12 @@ MERYL = "/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/b
 shell.prefix(f"export PATH={MERYL}:$PATH; ")
 
 # assert that people use shared conda and apptainer directories
-if not config.get("skip_checks", False):
+if config.get("skip_checks", False):
+    print(
+        "Skipping check for shared conda and apptainer directories. This may cause unnecessary conda/apptainer installations and potentially other issues.",
+        file=sys.stderr,
+    )
+else:
     for key in ["SNAKEMAKE_CONDA_PREFIX", "APPTAINER_CACHEDIR"]:
         val = os.environ.get(key)
         if val is None or val == "":
