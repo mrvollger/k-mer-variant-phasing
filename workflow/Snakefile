@@ -14,6 +14,15 @@ min_version("8.4")
 MERYL = "/mmfs1/gscratch/stergachislab/mvollger/projects/k-mer-variant-phasing/bin/meryl-1.4/bin/"
 shell.prefix(f"export PATH={MERYL}:$PATH; ")
 
+# assert that people use shared conda and apptainer directories
+if not config.get("skip_checks", False):
+    for key in ["SNAKEMAKE_CONDA_PREFIX", "APPTAINER_CACHEDIR"]:
+        val = os.environ.get(key)
+        if val is None or val == "":
+            raise ValueError(
+                f"{key} is not set in the environment which will cause unnecessary conda/apptainer installations and potentially other issues. If you want to skip this check, set skip_checks: True in the config file."
+            )
+
 
 CONDA = "../envs/env.yml"
 # required
