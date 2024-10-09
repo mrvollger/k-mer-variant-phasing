@@ -82,9 +82,59 @@ rule run_sniffles:
         """
 
 
+rule discover_sawfish:
+    input:
+        bam=get_hifi_bam,
+        bai=get_hifi_bai,
+        ref=get_ref,
+        fai=get_fai,
+    output:
+        odir=directory("temp/{sm}/sawfish"),
+    threads: 16
+    resources:
+        mem_mb=8 * 16 * 1024,
+        runtime=16 * 60,
+    conda:
+        CONDA
+    shell:
+        """
+        sawfish discover \
+            {input.ref} \
+            --clobber \
+            --threads 16 {threads} \
+            --bam {input.bam} \
+            --output-dir {output.odir}
+        """
+
+
+rule run_sawfish:
+    input:
+        bam=get_hifi_bam,
+        bai=get_hifi_bai,
+        discover_dir=rules.discover_sawfish.output.odir,
+    output:
+        vcf="results/{sm}/sawfish/genotyped.sv.vcf.gz",
+    threads: 16
+    resources:
+        mem_mb=32 * 1024,
+        runtime=16 * 60,
+    conda:
+        CONDA
+    shell:
+        """
+        ODIR=$(dirname {output.vcf})
+        sawfish joint-call \
+            --clobber \
+            --threads {threads} \
+            --sample {input.discover_dir} \
+            --output-dir $ODIR \
+        """
+
+
 def get_sv_caller_outputs(wc):
     if not SV_CALLERS:
         return []
     rtn = expand(rules.pbsv_index.output, sm=SAMPLE)
     rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
+    rtn += expand(rules.run_sawfish.output, sm=SAMPLE)
     return rtn
