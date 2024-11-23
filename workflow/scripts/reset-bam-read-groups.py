@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Docs here
-"""
+"""Docs here"""
 
 __author__ = "Mitchell R. Vollger"
 __credits__ = ["Mitchell R. Vollger"]
