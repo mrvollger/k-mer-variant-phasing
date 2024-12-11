@@ -29,8 +29,7 @@ rule deepvariant_chunk:
             --regions {params.rgn} \
             --output_vcf={output.vcf} \
             --output_gvcf={output.gvcf} \
-            --num_shards={threads} \
-            --helpshort
+            --num_shards={threads} 
         """
 
 
