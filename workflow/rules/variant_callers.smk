@@ -99,7 +99,7 @@ rule discover_sawfish:
     shell:
         """
         sawfish discover \
-            {input.ref} \
+            --ref {input.ref} \
             --clobber \
             --threads 16 {threads} \
             --bam {input.bam} \
