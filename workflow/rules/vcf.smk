@@ -9,7 +9,8 @@ rule deepvariant_chunk:
         vcf_tbi=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.vcf.gz.tbi"),
         gvcf=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.gvcf.gz"),
         gvcf_tbi=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.gvcf.gz.tbi"),
-        html=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.visual_report.html"),
+        #html=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.visual_report.html"),
+        # no longer in 1.8.0
     threads: 8
     resources:
         mem_mb=32 * 1024,
