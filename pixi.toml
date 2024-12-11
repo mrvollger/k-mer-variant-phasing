@@ -20,7 +20,7 @@ test-data = { cmd = [
   "s3",
   "--no-sign-request",
   "sync",
-  "s3://stergachis-public1/FIRE/test-data",
+  "s3://stergachis-public1/Mitchell/k-mer-test-data",
   "k-mer-test-data/",
 ] }
 test = { cmd = [
@@ -32,8 +32,8 @@ test = { cmd = [
   "$PIXI_PROJECT_ROOT/workflow/Snakefile",
   "--config",
   "sample=test",
-  "reference=test.fa.gz",
-  "hifi_bam=test.cram",
+  "reference=test.fa",
+  "hifi_bam=test.bam",
   "-k",
 ], depends_on = [
   "test-data",
