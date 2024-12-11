@@ -136,5 +136,5 @@ def get_sv_caller_outputs(wc):
         return []
     rtn = expand(rules.pbsv_index.output, sm=SAMPLE)
     rtn += expand(rules.run_sniffles.output, sm=SAMPLE)
-    rtn += expand(rules.run_sawfish.output, sm=SAMPLE)
+    #rtn += expand(rules.run_sawfish.output, sm=SAMPLE)
     return rtn
