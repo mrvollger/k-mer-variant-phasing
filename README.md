@@ -18,6 +18,12 @@ pixi install
 
 `pixi` then handles the execution of the Snakemake workflows.
 
+We then recommend you run a partial test of your installation with:
+
+```bash
+pixi run test
+```
+
 ## Usage
 
 First set up a configuration file. See `config/config.yaml` for a commented example.
