@@ -30,7 +30,7 @@ rule deepvariant_chunk:
             --output_vcf={output.vcf} \
             --output_gvcf={output.gvcf} \
             --num_shards={threads} \
-            --allow-empty-examples
+            --helpshort
         """
 
 
