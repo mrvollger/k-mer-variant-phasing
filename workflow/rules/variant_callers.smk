@@ -101,7 +101,7 @@ rule discover_sawfish:
         sawfish discover \
             --ref {input.ref} \
             --clobber \
-            --threads 16 {threads} \
+            --threads {threads} \
             --bam {input.bam} \
             --output-dir {output.odir}
         """
