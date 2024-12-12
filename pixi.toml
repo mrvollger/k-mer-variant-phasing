@@ -34,6 +34,7 @@ test = { cmd = [
   "sample=test",
   "reference=test.fa",
   "hifi_bam=test.bam",
+  "align=true",
   "-k",
 ], depends_on = [
   "test-data",
