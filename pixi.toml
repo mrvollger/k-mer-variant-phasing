@@ -4,7 +4,7 @@ channels = ["conda-forge", "bioconda"]
 description = "Add a short description here"
 name = "k-mer-variant-phasing"
 platforms = ["osx-64", "linux-64"]
-version = "0.0.2"
+version = "0.1.0"
 
 [tasks]
 fmt = "ruff format . && taplo format pixi.toml && snakefmt workflow/"
