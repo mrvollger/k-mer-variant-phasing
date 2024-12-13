@@ -16,4 +16,4 @@ jobs:
         with:
           pixi-version: v0.37.0
           cache: true
-      - run: pixi run test --config skip_checks=true
+      - run: pixi run test

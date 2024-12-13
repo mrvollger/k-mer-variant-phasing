@@ -34,6 +34,7 @@ test = { cmd = [
   "sample=test",
   "reference=test.fa",
   "hifi_bam=test.bam",
+  "skip_checks=true",
   "align=true",
   "n_chunks=2",
   "-k",
