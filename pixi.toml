@@ -3,7 +3,7 @@ authors = ["Mitchell R. Vollger <mrvollger@gmail.com>"]
 channels = ["conda-forge", "bioconda"]
 description = "Add a short description here"
 name = "k-mer-variant-phasing"
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-64"]
 version = "0.1.0"
 
 [tasks]
@@ -52,4 +52,6 @@ ruff = "*"
 taplo = "*"
 snakemake-executor-plugin-slurm = "*"
 awscli = "2.22"
+
+[target.linux-64.dependencies]
 apptainer = { channel = "conda-forge" }
