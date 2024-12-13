@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/636406459.svg)](https://zenodo.org/doi/10.5281/zenodo.10655504)
 
+[![Actions Status](https://github.com/mrvollger/k-mer-variant-phasing/workflows/CI/badge.svg)](https://github.com/mrvollger/k-mer-variant-phasing/actions)
+
 This is a pipeline designed to phase variants and PacBio Hifi data using a combination of k-mers and variants.
 
 However, by running it in different modes you can also use it to phase using only variants and not k-mers (hiphase), or to just generate variant calls without any phasing of reads or the vcf (DeepVariant).
