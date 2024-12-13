@@ -23,7 +23,7 @@ if config.get("skip_checks", False):
 else:
     for key in ["SNAKEMAKE_CONDA_PREFIX", "APPTAINER_CACHEDIR"]:
         val = os.environ.get(key)
-        if val is None or val == "":
+        if (val is None or val == "") and not config.get("skip_checks", False):
             raise ValueError(
                 f"{key} is not set in the environment which will cause unnecessary conda/apptainer installations and potentially other issues. If you want to skip this check, set skip_checks: True in the config file."
             )
