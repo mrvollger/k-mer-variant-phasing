@@ -5,11 +5,12 @@ rule deepvariant_chunk:
         ref=get_ref,
         fai=get_fai,
     output:
+        # no longer in 1.8.0
+        #html=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.visual_report.html"),
         vcf=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.vcf.gz"),
         vcf_tbi=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.vcf.gz.tbi"),
         gvcf=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.gvcf.gz"),
         gvcf_tbi=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.gvcf.gz.tbi"),
-        html=temp("temp/{sm}/deepvariant/{rgn}/{sm}.deepvariant.visual_report.html"),
     threads: 8
     resources:
         mem_mb=32 * 1024,
@@ -28,7 +29,8 @@ rule deepvariant_chunk:
             --regions {params.rgn} \
             --output_vcf={output.vcf} \
             --output_gvcf={output.gvcf} \
-            --num_shards={threads}
+            --num_shards={threads} \
+            --call_variants_extra_args="allow_empty_examples=true"
         """
 
 

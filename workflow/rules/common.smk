@@ -77,6 +77,9 @@ def get_hifi_bai(wc):
     csi = f"{get_hifi_bam(wc)}.csi"
     if os.path.exists(csi):
         return csi
+    crai = f"{get_hifi_bam(wc)}.crai"
+    if os.path.exists(crai):
+        return crai
     return f"{get_hifi_bam(wc)}.bai"
 
 
@@ -106,5 +109,5 @@ def get_meryl_input(wc):
 
 def custom_scatteritems():
     n_chunks = config.get("n_chunks", 50)
-    scatteritems = [f"{i + 1}-of-{n_chunks}" for i in range(n_chunks)]
+    scatteritems = [f"{i+1}-of-{n_chunks}" for i in range(n_chunks)]
     return scatteritems

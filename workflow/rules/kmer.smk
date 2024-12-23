@@ -24,9 +24,9 @@ rule collect_reads:
     threads: 16
     shell:
         """
-        if [[ {input.reads} =~ .*\.(fofn) ]]; then
+        if [[ {input.reads} =~ .*\\.(fofn) ]]; then
             cat $(cat {input.reads}) | seqtk seq -l 80 -A | bgzip -@ 8 > {output.fasta}
-        elif [[ {input.reads} =~ .*\.(bam|sam|cram) ]]; then
+        elif [[ {input.reads} =~ .*\\.(bam|sam|cram) ]]; then
             samtools fasta -@ {threads} {input.reads} | bgzip -@ {threads} > {output.fasta}
         fi
         """
@@ -76,9 +76,9 @@ rule hapmers:
         """
         # setup 
         RUNDIR=$(dirname {output.done})
-        MAT=$(realpath {input.mat})
-        PAT=$(realpath {input.pat})
-        PRO=$(realpath {input.pro})
+        MAT=$(realpath {input.mat})/
+        PAT=$(realpath {input.pat})/
+        PRO=$(realpath {input.pro})/
 
         # clean
         rm -rf $RUNDIR

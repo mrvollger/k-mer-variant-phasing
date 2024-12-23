@@ -86,6 +86,8 @@ rule pbmm2_merge:
             allow_missing=True,
         ),
     output:
+        #bam="results/{sm}/pbmm2/{sm}.cram",
+        #bai="results/{sm}/pbmm2/{sm}.cram.crai",
         bam="results/{sm}/pbmm2/{sm}.bam",
         bai="results/{sm}/pbmm2/{sm}.bam.bai",
     conda:
@@ -96,8 +98,18 @@ rule pbmm2_merge:
     shell:
         """
         #pbmerge -j {threads} {input.bams} -o {output.bam}
-    samtools merge -@ {threads} -cp --write-index -o {output.bam}##idx##{output.bai} {input.bams}
+        samtools merge -@ {threads} -cp --write-index -o {output.bam}##idx##{output.bai} {input.bams}
         """
+
+
+# unused cram
+"""
+samtools merge \
+    -@ {threads} \
+    -O CRAM --output-fmt-option embed_ref=1 \
+    --reference {input.ref} \
+    -cp --write-index -o {output.bam} {input.bams}
+"""
 
 
 rule pbmm2_index:

@@ -1,6 +1,10 @@
-.vscode/**
-.snakemake/**
-results/**
-logs/**
-.snakemake/**
 **.code-workspace
+.vscode
+.snakemake
+.ruff_cache
+.pixi
+.DS_Store
+results/**
+temp/**
+logs/**
+k-mer-test-data/**
