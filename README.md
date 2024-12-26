@@ -13,7 +13,7 @@ However, by running it in different modes you can also use it to phase using onl
 
 ## Install
 
-Please start by installing [pixi](https://pixi.sh/latest/) which handles the environment of this Snakemake workflow.
+Please start by installing [pixi](https://pixi.sh/latest/) which handles the environment of this Snakemake workflow. You also must have `apptainer` available in your path/system.
 
 You can then install the `pixi` environment by cloning this repository and running:
 
