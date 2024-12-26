@@ -53,5 +53,5 @@ taplo = "*"
 snakemake-executor-plugin-slurm = "*"
 awscli = "2.22"
 
-[target.linux-64.dependencies]
-apptainer = { channel = "conda-forge" }
+#[target.linux-64.dependencies]
+#apptainer = { channel = "conda-forge" }
