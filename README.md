@@ -85,5 +85,4 @@ Additional dependencies are managed automatically by snakemake using mamba. For 
 
 ```
 export SNAKEMAKE_CONDA_PREFIX=/mmfs1/gscratch/stergachislab/snakemake-conda-envs
-export APPTAINER_CACHEDIR=/mmfs1/gscratch/stergachislab/snakemake-conda-envs/apptainer-cache
 ```
