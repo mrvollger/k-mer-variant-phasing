@@ -20,8 +20,10 @@ test-data = { cmd = [
   "s3",
   "--no-sign-request",
   "sync",
-  "s3://stergachis-public1/Mitchell/k-mer-test-data",
+  "s3://stergachis/public/Mitchell/k-mer-test-data/",
   "k-mer-test-data/",
+  "--endpoint-url",
+    "https://s3.kopah.orci.washington.edu"
 ] }
 test = { cmd = [
   "cd",
