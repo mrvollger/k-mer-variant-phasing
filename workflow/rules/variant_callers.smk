@@ -40,6 +40,7 @@ rule run_pbsv:
     shell:
         """
         pbsv call {input.ref} \
+            -j {threads} \
             --ccs {input.svsig} {output.vcf}
         """
 

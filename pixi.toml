@@ -40,7 +40,7 @@ test = { cmd = [
   "align=true",
   "n_chunks=2",
   "-k",
-], depends_on = [
+], depends-on = [
   "test-data",
 ] }
 snakemake = { cmd = "cd $INIT_CWD && snakemake -s $PIXI_PROJECT_ROOT/workflow/Snakefile" }
